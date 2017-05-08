@@ -1,0 +1,277 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>gda_img_regression.sikuli</h2> <a href="gda_img_regression.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> os
+<span class="kw">import</span> sys
+<span class="kw">import</span> traceback
+<span class="kw">import</span> platform
+<span class="kw">from</span> os.path <span class="kw">import</span> expanduser
+<span class="kw">import</span> json
+<span class="kw">import</span> org.sikuli.script.ImagePath
+<span class="kw">import</span> shutil
+<span class="kw">from</span> time <span class="kw">import</span> strftime
+<span class="kw">from</span> types <span class="kw">import</span> *
+
+<span class="kw">from</span> sikuli <span class="kw">import</span> Sikuli
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> __builtin__ <span class="kw">import</span> True, False
+<span class="kw">import</span> org.sikuli.basics.SikulixForJython
+
+<span class="kw">import</span> gda_utils
+<span class="kw">import</span> gda_music_tests
+<span class="kw">import</span> gda_create_tests
+
+<span class="cmt">################################################</span>
+<span class="cmt"># compare baseline /test image set folders</span>
+<span class="cmt"># creates a report of songs and the story moments pass/fail/missing </span>
+<span class="cmt"># of the image files</span>
+<span class="cmt"># gda.sikuli calls this module gda_img_regression.compare_image_sets</span>
+<span class="cmt"># </span>
+<span class="cmt">################################################</span>
+
+<span class="cmt">################################################</span>
+<span class="cmt"># entry point for image compare</span>
+<span class="cmt"># </span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> compare_image_sets(basepath,testpath):
+    rc=False
+    report=[]
+    faillist=[]
+    failstatus=[]
+    failstatus={<span class="str">"IMAGE_COMPARE"</span>:<span class="dig">0</span>,<span class="str">"IMAGE_FILE_NAME"</span>:<span class="dig">0</span>,<span class="str">"IMAGE_FILE_MISSING"</span>:<span class="dig">0</span>,<span class="str">"MISSING_BASELINE_IMAGES"</span>:<span class="dig">0</span>,<span class="str">"MISSING_TEST_IMAGES"</span>:<span class="dig">0</span>}
+    msongs=gda_img_init()
+    filekeys=[<span class="str">'selectedmoments-Video_1-4_15sec_'</span>,
+            <span class="str">'selectedmoments-Video_1-4_30sec_'</span>,
+            <span class="str">'selectedmoments-Video_1-4_60sec_'</span>,
+            <span class="str">'selectedmoments-Video_13-16_15sec_'</span>,
+            <span class="str">'selectedmoments-Video_13-16_30sec_'</span>,
+            <span class="str">'selectedmoments-Video_13-16_60sec_'</span>,
+            <span class="str">'selectedmoments-Video_5-8_15sec_'</span>,
+            <span class="str">'selectedmoments-Video_5-8_30sec_'</span>,
+            <span class="str">'selectedmoments-Video_5-8_60sec_'</span>,
+            <span class="str">'selectedmoments-Video_9-12_15sec_'</span>,
+            <span class="str">'selectedmoments-Video_9-12_30sec_'</span>,
+            <span class="str">'selectedmoments-Video_9-12_60sec_'</span>,
+            <span class="str">'_viewbeats_15.png'</span>,
+            <span class="str">'_viewbeats_30.png'</span>,
+            <span class="str">'_viewbeats_60.png'</span>,
+            <span class="str">'_viewmoments_15.png'</span>,
+            <span class="str">'_viewmoments_30.png'</span>,
+            <span class="str">'_viewmoments_60.png'</span>]
+    testscount=<span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">0</span>,msongs.getGDAsongcount()):
+
+        title, png, t15, t30, t60 = msongs.getsortednextsong()
+        rcbasepath,d_pngbasepaths=gda_create_tests.getregressionfilelists(png,basepath)
+        rctestpath,d_pngtestpaths=gda_create_tests.getregressionfilelists(png,testpath)
+        report.append(<span class="str">"================================="</span>)
+
+        s= <span class="str">"%s | %s t15:%d t30:%d t60:%d"</span> % (title,png,t15,t30,t60)
+        <span class="kw">print</span> <span class="str">"==========================================="</span>
+        <span class="kw">print</span> s
+        t=<span class="str">""</span>
+        report.append(s)
+        <span class="kw">if</span> rcbasepath <span class="kw">and</span> rctestpath:
+            <span class="cmt">#print "BASEPATH: %s" % (str(d_pngbasepaths))</span>
+            <span class="cmt">#print "TESTPATH: %s" % (str(d_pngtestpaths))</span>
+            <span class="kw">for</span> item <span class="kw">in</span> filekeys:
+                testscount+=<span class="dig">1</span>
+
+                bname=None
+                bpath=None
+                tname=None
+                tpath=None
+                <span class="kw">if</span> item <span class="kw">in</span> d_pngbasepaths:
+                    bpath=d_pngbasepaths[item]
+                <span class="kw">if</span> item <span class="kw">in</span> d_pngtestpaths:
+                    tpath=d_pngtestpaths[item]
+                <span class="kw">if</span> bpath:
+                    bname=os.path.basename(bpath)
+                <span class="kw">if</span> tpath:
+                    tname=os.path.basename(tpath)
+                <span class="kw">if</span> tname <span class="kw">and</span> bname:
+                    <span class="kw">if</span> tname==bname:
+                        similarity=<span class="dig">0.97</span>
+                        r,sr = compare(bpath,tpath,similarity)
+                        <span class="kw">if</span> r:
+                            t=<span class="str">"PASSED: %s - %s - %s"</span> % (str(<span class="str">"%04.2f"</span> % similarity),sr,tname)
+                            report.append(t)
+                        <span class="kw">else</span>:
+                            t=<span class="str">"FAILED: IMAGE_COMPARE: similarity=%s - %s"</span> % (str(<span class="str">"%04.2f"</span> % similarity),bname)
+                            report.append(<span class="str">"!!!!!!!!!!!!!!!!!!!!!!"</span>)
+                            report.append(t)
+                            report.append(<span class="str">"!!!!!!!!!!!!!!!!!!!!!!"</span>)
+                            faillist.append(t)
+
+                    <span class="kw">else</span>:
+                        t=<span class="str">"FAILED: IMAGE_FILE_NAME: %s - %s &lt;&gt; %s"</span> % (item,bname,tname)
+                        report.append(<span class="str">"!!!!!!!!!!!!!!!!!!!!!!"</span>)
+                        report.append(t)
+                        report.append(<span class="str">"!!!!!!!!!!!!!!!!!!!!!!"</span>)
+                        faillist.append(t)
+                <span class="kw">else</span>:
+                    t=<span class="str">"FAILED: IMAGE_FILE_MISSING: %s - %s &lt;&gt; %s"</span> % (item,bname,tname)
+
+                    report.append(<span class="str">"!!!!!!!!!!!!!!!!!!!!!!"</span>)
+                    report.append(t)
+                    report.append(<span class="str">"!!!!!!!!!!!!!!!!!!!!!!"</span>)
+                    faillist.append(t)
+
+
+        <span class="kw">else</span>:
+            t=<span class="str">""</span>
+            testscount+=<span class="dig">1</span>
+            report.append(<span class="str">"!!!!!!!!!!!!!!!!!!!!!!"</span>)
+            <span class="kw">if</span> <span class="kw">not</span> rcbasepath:
+                t=<span class="str">"FAILED: MISSING_BASELINE_IMAGES: %s"</span> % s
+                faillist.append(t)
+                report.append(t)
+
+            <span class="kw">if</span> <span class="kw">not</span> rctestpath:
+                t=<span class="str">"FAILED: MISSING_TEST_IMAGES: %s"</span> % s
+                faillist.append(t)
+                report.append(t)
+
+            report.append(<span class="str">"!!!!!!!!!!!!!!!!!!!!!!"</span>)
+
+
+    <span class="kw">if</span> len(faillist)&gt;<span class="dig">0</span>:
+        report.append(<span class="str">"!!!!!!!!!!!!!!!!!!!!!!"</span>)
+        s=<span class="str">"Failed %d of %d"</span> % (len(faillist),testscount)
+        report.append(s)
+        c=<span class="dig">0</span>
+        report.append(<span class="str">"-----------------------------------"</span>)
+        <span class="kw">for</span> item <span class="kw">in</span> faillist:
+            c+=<span class="dig">1</span>
+            s=<span class="str">"%i. %s"</span> % (c,item)
+            report.append(s)
+        report.append(<span class="str">"!!!!!!!!!!!!!!!!!!!!!!"</span>)
+
+    <span class="kw">else</span>:
+        rc=True
+
+    <span class="kw">for</span> item <span class="kw">in</span> report:
+        <span class="kw">print</span> item
+        failstatus=summaryreport(item,failstatus)
+
+    <span class="kw">print</span> str(failstatus)
+    <span class="kw">print</span> <span class="str">"SUMMARY REPORT =================="</span>
+    <span class="kw">for</span> key,data <span class="kw">in</span> failstatus.iteritems():
+        <span class="kw">print</span> <span class="str">"%s=%d"</span> % (key,data)
+    <span class="kw">return</span> rc
+
+<span class="kw">def</span> summaryreport(row,d_counts):
+    <span class="kw">for</span> key,data <span class="kw">in</span> d_counts.iteritems():
+        <span class="kw">if</span> key <span class="kw">in</span> row:
+            data = data+<span class="dig">1</span>
+            d_counts[key] = data
+    <span class="kw">return</span> d_counts
+
+<span class="kw">def</span> compare(base,test,similarity):
+    rc=False
+    bestmatch=None
+    rc,bestmatch = gda_utils.compare_img1path_img2path(base,test,similarity)
+    d=<span class="dig">0</span>
+    <span class="kw">if</span> rc <span class="kw">and</span> bestmatch:
+        simi=bestmatch.getScore()
+        d=str(<span class="str">"%04.2f"</span> % simi)
+    <span class="kw">return</span> rc,d
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> gda_img_init():
+    <span class="kw">print</span> <span class="str">"gda_img_init &gt;&gt;&gt;&gt;&gt;&gt; "</span>
+    msongs=None
+    msongs=gda_music_tests.GDA_music()
+    <span class="kw">if</span> <span class="kw">not</span> msongs <span class="kw">or</span> <span class="kw">not</span> msongs.isready:
+        <span class="kw">print</span> <span class="str">"FAILED gda_img_init: msongs.isready"</span>
+        <span class="kw">print</span> <span class="str">"gda_img_init &lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+        <span class="kw">return</span> None
+
+    <span class="kw">if</span> msongs.getGDAsongcount()&lt;<span class="dig">199</span>:
+        <span class="kw">print</span> <span class="str">"FAILED invalid number of songs=%i of 199"</span> % msongs.getGDAsongcount()
+        <span class="kw">print</span> <span class="str">"gda_img_init &lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+        exit(-<span class="dig">2</span>)
+
+        d_report[<span class="str">"songs"</span>]=msongs.songreport()
+
+    gda_music_tests.testmusic_init(msongs)
+
+    <span class="kw">print</span> <span class="str">"gda_img_init &lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+
+    <span class="kw">return</span> msongs
+</pre>
+</body>
+</html>

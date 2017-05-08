@@ -1,0 +1,101 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color:  #c0f1f5;
+$value-color:       #000;
+
+$title-color:       rgba(0, 0, 0, 0.7);
+$label-color:       rgba(0, 0, 0, 0.7);
+$moreinfo-color:    rgba(0, 0, 0, 0.7);
+
+// ----------------------------------------------------------------------------
+// Widget-list styles
+// ----------------------------------------------------------------------------
+.widget-list {
+
+	background-color: $background-color;
+	vertical-align: top;
+  .gridlabel {
+	color: $label-color;
+	text-align: left;
+	vertical-align: top;
+  }
+  .gridvalue {
+	color: $title-color;
+	text-align: left;
+	vertical-align: top;
+  }
+
+	.title {
+		color: $title-color;
+		text-align: left;
+		vertical-align: top;
+	}
+
+	ol, ul {
+		margin: 0 15px;
+		text-align: left;
+		color: $label-color;
+	}
+
+	ol {
+		list-style-position: inside;
+	}
+
+	li {
+		margin-bottom: 5px;
+	}
+
+	.list-nostyle {
+		list-style: none;
+	}
+
+	.list {
+		color: $label-color;
+		vertical-align: top;
+		text-align: left;
+	}
+	
+	.gp_pass {
+		color: $label-color;
+		vertical-align: top;
+		text-align: left;
+	}
+	.gp_fail {
+		color: $label-color;
+		vertical-align: top;
+		text-align: left;
+	}
+	.gp_gp_nottest {
+		color: $label-color;
+		vertical-align: top;
+		text-align: left;
+	}
+	.gp_camera {
+		color: $label-color;
+		vertical-align: top;
+		text-align: left;
+	}
+	.gp_smarty {
+		color: $label-color;
+		vertical-align: top;
+		text-align: left;
+	}
+	.gp_os {
+		color: $label-color;
+		vertical-align: top;
+		text-align: left;
+	}
+
+
+	.updated-at {
+		color: rgba(0, 0, 0, 0.3);
+	}
+
+	.more-info {
+		color: $moreinfo-color;
+		vertical-align: bottom;
+		text-align: left;
+	}
+
+}

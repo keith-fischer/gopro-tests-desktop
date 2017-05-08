@@ -1,0 +1,1232 @@
+
+https://wiki.videolan.org/Documentation:Command_line/
+
+
+networksetup -setairportnetwork Airport OutsideWorld 68broncos
+
+networksetup -setairportnetwork en0 autobackdoor4851 password1
+
+networksetup -setairportnetwork en0 autobackdoor4851 password1
+networksetup -listnetworkserviceorder
+Hardware Port: Wi-Fi
+Device: en0
+Ethernet Address: 28:cf:e9:1e:f4:ad
+networksetup -setairportnetwork en0 GoProWireless pro2450go!
+
+
+
+
+
+temp conversion
+/private/var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T
+
+
+
+title Capture All Camera Image Modes
+
+loop Create image set
+    note right of Host: Iterate camera modes
+    Host->+Display_CameraMode_Settings: Show expected camera mode
+    Display_CameraMode_Settings->-Host:
+    Host->+CameraWiFi: Set camera mode
+    CameraWiFi->-Host:
+    Host->+CameraWiFi: Record image
+    CameraWiFi->-Host:
+    Host->+CameraWiFi: Download image
+    CameraWiFi->-Host:
+    note right of Host: 
+        1. Extract metadata
+        2. validate metadata
+        3. Move file to shared image repo
+    end note
+    
+end
+
+
+title Studio Importer/Conversion/Uploader Tests
+note right of Host: Studio Importer/Conversion/Uploader Tests
+
+note right of Host: 
+1. Copy image set from image repo to local host
+2. Get list of image files
+3. Invoke Studio tool with local image path
+end note
+
+loop Scan Studio Tool log
+
+note right of Host: 
+1. Refresh log buffer at row index
+2. Find found files
+ 
+end note
+
+alt Wait for found files
+    Host->Buffer: Found: End of File List
+else text2
+    Buffer->Host: Not Found: End of File List
+end
+ 
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/private/var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/gopro-lib-dispatcher-03-17-2015.txt
+
+
+/***********************Dispatcher init***********************/
+Tue Mar 17 15:42:50 2015:Init: Dispatcher version: 5
+Tue Mar 17 15:42:50 2015:Init: exit
+Tue Mar 17 15:42:50 2015:SetTranscodeDirectory: enter
+Tue Mar 17 15:42:50 2015:RegisterCallbacks: enter
+Tue Mar 17 15:42:50 2015:RegisterCallbacks: exit
+Tue Mar 17 15:42:50 2015:SetTranscoderImplementation: enter
+Tue Mar 17 15:42:50 2015:SetTranscoderImplementation: exit
+Tue Mar 17 15:42:50 2015:SetUploadSpeedFraction: enter
+Tue Mar 17 15:42:53 2015:SetAuthenticationSettings: enter
+Tue Mar 17 15:42:53 2015:SetAuthenticationSettings: exit
+Tue Mar 17 15:42:53 2015:Start: enter
+Tue Mar 17 15:42:53 2015:BrainPollThread: enter
+Tue Mar 17 15:42:53 2015:BrainQueryThread: enter
+Tue Mar 17 15:42:53 2015:TranscodeThread: enter
+Tue Mar 17 15:42:53 2015:Start: exit
+Tue Mar 17 15:42:53 2015:MessagingThread: start
+Tue Mar 17 15:42:53 2015:UploadThread: start
+Tue Mar 17 15:42:53 2015:MediaEvent: Upload Manager state working empty queue: 0
+Tue Mar 17 15:42:53 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:42:53 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 15:42:53 2015:TranscodeThread: could not find a media waiting for transcode
+Tue Mar 17 15:42:53 2015:BrainQueryThread: attempting to create batch with 60 items
+Tue Mar 17 15:42:54 2015:BrainQueryThread: batch 3226 created successfully
+Tue Mar 17 15:42:54 2015:BrainPollThread: getting tasks from brain for batch 3226
+Tue Mar 17 15:42:54 2015:BrainPollThread: brain says they're still processing batch 3226
+Tue Mar 17 15:43:04 2015:BrainPollThread: getting tasks from brain for batch 3226
+Tue Mar 17 15:43:05 2015:BrainPollThread: got 51 tasks
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 5 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 0 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 257 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 2 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 514 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 514 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG
+Tue Mar 17 15:43:05 2015:BrainPollThread: received task 514 for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG
+Tue Mar 17 15:43:05 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:43:05 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 15:43:05 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:43:05 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4
+Tue Mar 17 15:43:16 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:43:27 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:43:37 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:43:47 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:43:58 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:44:09 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:44:19 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:44:30 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:44:40 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:44:51 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:45:01 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:45:11 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:45:22 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:45:33 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:45:43 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:45:53 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:46:04 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:46:14 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:46:25 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:46:35 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:46:46 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:46:56 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:47:07 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:47:17 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:47:28 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:47:38 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:47:49 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:47:59 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:48:09 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:48:20 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:48:31 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:48:41 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:48:52 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:49:02 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:49:13 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:49:23 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:49:34 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:49:44 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:49:45 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 15:49:45 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_0.mp4
+Tue Mar 17 15:49:45 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:49:45 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4
+Tue Mar 17 15:49:45 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 15:49:45 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_0.mp4 for upload with ID 1
+Tue Mar 17 15:49:45 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_0.mp4
+Tue Mar 17 15:49:45 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 15:49:48 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 15:49:48 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_257.jpg
+Tue Mar 17 15:49:48 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:49:48 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4
+Tue Mar 17 15:49:48 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 15:49:48 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_257.jpg for upload with ID 2
+Tue Mar 17 15:49:48 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 15:49:49 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 15:49:49 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_2.jpg
+Tue Mar 17 15:49:49 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:49:49 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4
+Tue Mar 17 15:49:49 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 15:49:49 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_2.jpg for upload with ID 3
+Tue Mar 17 15:49:49 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 15:49:54 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 15:49:54 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_0.mp4
+Tue Mar 17 15:49:54 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:49:54 2015:TranscodeThread: awoken but already working
+Tue Mar 17 15:49:54 2015:TranscodeThread: upload files count 4
+Tue Mar 17 15:49:54 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 15:49:54 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_0.mp4 for upload with ID 4
+Tue Mar 17 15:49:54 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 15:49:55 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:50:05 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:50:15 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:50:26 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:50:37 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:50:47 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:50:57 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:51:08 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:51:18 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:51:29 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:51:39 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:51:46 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 15:51:46 2015:CompleteTask: CompleteTask 3139df3b-2a71-46f7-9e61-cefa3e7587cd status 0
+Tue Mar 17 15:51:46 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 15:51:46 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_0.mp4
+Tue Mar 17 15:51:46 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4
+Tue Mar 17 15:51:46 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:51:46 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_257.jpg
+Tue Mar 17 15:51:47 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 15:51:47 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_257.jpg
+Tue Mar 17 15:51:47 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:51:47 2015:TranscodeThread: awoken but already working
+Tue Mar 17 15:51:47 2015:TranscodeThread: upload files count 4
+Tue Mar 17 15:51:47 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 15:51:47 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_257.jpg for upload with ID 5
+Tue Mar 17 15:51:47 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 15:51:48 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 15:51:48 2015:CompleteTask: CompleteTask 2613dac3-9d8a-40a8-b8dd-debbb0127c3a status 0
+Tue Mar 17 15:51:48 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 15:51:48 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_257.jpg
+Tue Mar 17 15:51:48 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4
+Tue Mar 17 15:51:48 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:51:48 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_2.jpg
+Tue Mar 17 15:51:49 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 15:51:49 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_2.jpg
+Tue Mar 17 15:51:49 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:51:49 2015:TranscodeThread: awoken but already working
+Tue Mar 17 15:51:49 2015:TranscodeThread: upload files count 4
+Tue Mar 17 15:51:49 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 15:51:49 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_2.jpg for upload with ID 6
+Tue Mar 17 15:51:49 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 15:51:50 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:51:50 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4, sending complete message
+Tue Mar 17 15:51:50 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4 is done
+Tue Mar 17 15:51:50 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 15:51:50 2015:CompleteTask: CompleteTask 04a54734-9687-47a2-bc66-89310356e296 status 0
+Tue Mar 17 15:51:50 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 15:51:50 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GP010537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/2070417a1099d08d2f4a4b987f2e3712_2.jpg
+Tue Mar 17 15:51:50 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4
+Tue Mar 17 15:51:50 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:51:50 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_0.mp4
+Tue Mar 17 15:51:55 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 15:51:55 2015:CompleteTask: CompleteTask 19b37ebc-14ea-4131-bab7-9e346768e438 status 0
+Tue Mar 17 15:51:55 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 15:51:55 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_0.mp4
+Tue Mar 17 15:51:55 2015:TranscodeThread: awoken but already working
+Tue Mar 17 15:51:55 2015:TranscodeThread: item /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4 is transcoding
+Tue Mar 17 15:51:55 2015:TranscodeThread: upload files count 2
+Tue Mar 17 15:51:55 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:51:55 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_257.jpg
+Tue Mar 17 15:51:58 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 15:51:58 2015:CompleteTask: CompleteTask 56aa0835-633b-4a9a-8094-a8b305bf238f status 0
+Tue Mar 17 15:51:58 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 15:51:58 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_257.jpg
+Tue Mar 17 15:51:58 2015:TranscodeThread: awoken but already working
+Tue Mar 17 15:51:58 2015:TranscodeThread: item /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4 is transcoding
+Tue Mar 17 15:51:58 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:51:58 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_2.jpg
+Tue Mar 17 15:52:00 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4, sending complete message
+Tue Mar 17 15:52:00 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4 is done
+Tue Mar 17 15:52:00 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 15:52:00 2015:CompleteTask: CompleteTask 52793076-a04c-46e9-bd6d-6bf1a88e3dff status 0
+Tue Mar 17 15:52:00 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 15:52:00 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0525.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/8aa619579949b6031b88b02b472305ed_2.jpg
+Tue Mar 17 15:52:00 2015:TranscodeThread: awoken but already working
+Tue Mar 17 15:52:00 2015:TranscodeThread: item /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4 is transcoding
+Tue Mar 17 15:52:00 2015:UploadThread: Upload thread awake
+Tue Mar 17 15:52:00 2015:MediaEvent: Upload Manager state working empty queue: 0
+Tue Mar 17 15:52:01 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:52:13 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:52:24 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:52:34 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:52:44 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:52:55 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:53:05 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:53:16 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:53:26 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:53:37 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:53:47 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:53:57 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:54:08 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:54:18 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:54:29 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:54:40 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:54:50 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:55:00 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:55:11 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:55:21 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:55:32 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:55:42 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:55:52 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:56:03 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:56:13 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:56:23 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:56:34 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:56:45 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:56:56 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:57:06 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:57:16 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:57:27 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:57:38 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:57:48 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:57:59 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:58:09 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:58:19 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:58:30 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:58:41 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:58:52 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:59:02 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:59:12 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:59:23 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:59:34 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:59:44 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 15:59:55 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:00:05 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:00:16 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:00:27 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:00:37 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:00:47 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:00:58 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:01:08 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:01:19 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:01:29 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:01:40 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:01:50 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:02:01 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:02:11 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:02:19 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:02:19 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_0.mp4
+Tue Mar 17 16:02:19 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:02:19 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4
+Tue Mar 17 16:02:19 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:02:19 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_0.mp4 for upload with ID 7
+Tue Mar 17 16:02:19 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_0.mp4
+Tue Mar 17 16:02:19 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:02:22 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:02:22 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:02:22 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_257.jpg
+Tue Mar 17 16:02:22 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:02:22 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4
+Tue Mar 17 16:02:22 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:02:22 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_257.jpg for upload with ID 8
+Tue Mar 17 16:02:22 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:02:23 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:02:23 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_2.jpg
+Tue Mar 17 16:02:23 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:02:23 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4
+Tue Mar 17 16:02:23 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:02:23 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_2.jpg for upload with ID 9
+Tue Mar 17 16:02:23 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:02:24 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:02:24 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_0.mp4
+Tue Mar 17 16:02:24 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:02:24 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:02:24 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:02:24 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:02:24 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_0.mp4 for upload with ID 10
+Tue Mar 17 16:02:24 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:02:32 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:02:43 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:02:53 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:03:03 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:03:14 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:03:25 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:03:35 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:03:45 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:03:56 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:04:07 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:04:07 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:07 2015:CompleteTask: CompleteTask c7b3f2ac-8610-4d4e-ac25-5369752b44ff status 0
+Tue Mar 17 16:04:07 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:07 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_0.mp4
+Tue Mar 17 16:04:07 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4
+Tue Mar 17 16:04:07 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:07 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_257.jpg
+Tue Mar 17 16:04:08 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:08 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_257.jpg
+Tue Mar 17 16:04:08 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:08 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:08 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:08 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:08 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_257.jpg for upload with ID 11
+Tue Mar 17 16:04:08 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:09 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:10 2015:CompleteTask: CompleteTask 7d37de0a-5950-4aaa-a15f-c92b78dc0e78 status 0
+Tue Mar 17 16:04:10 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:10 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_257.jpg
+Tue Mar 17 16:04:10 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4
+Tue Mar 17 16:04:10 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:10 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_2.jpg
+Tue Mar 17 16:04:10 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:10 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_2.jpg
+Tue Mar 17 16:04:10 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:10 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:10 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:10 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:10 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_2.jpg for upload with ID 12
+Tue Mar 17 16:04:10 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:12 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4, sending complete message
+Tue Mar 17 16:04:12 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4 is done
+Tue Mar 17 16:04:12 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:12 2015:CompleteTask: CompleteTask d7352671-ec43-4614-be3d-51a56cf87531 status 0
+Tue Mar 17 16:04:12 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:12 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0537.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/45e9328fa1318ca358ad039addd37da9_2.jpg
+Tue Mar 17 16:04:12 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4
+Tue Mar 17 16:04:12 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:12 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_0.mp4
+Tue Mar 17 16:04:14 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:14 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_5.mp4
+Tue Mar 17 16:04:14 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:14 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:14 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:14 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:14 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_5.mp4 for upload with ID 13
+Tue Mar 17 16:04:14 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:17 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:17 2015:CompleteTask: CompleteTask ea6ed8c6-6f8e-48ed-9591-e42d9a4ee16a status 0
+Tue Mar 17 16:04:17 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:17 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_0.mp4
+Tue Mar 17 16:04:17 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4
+Tue Mar 17 16:04:17 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:17 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_257.jpg
+Tue Mar 17 16:04:17 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:17 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_257.jpg
+Tue Mar 17 16:04:17 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:17 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:17 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:17 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:17 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_257.jpg for upload with ID 14
+Tue Mar 17 16:04:17 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:17 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:04:19 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:19 2015:CompleteTask: CompleteTask 1114fef7-ad1f-4a8a-ba14-2f15bc6bfb53 status 0
+Tue Mar 17 16:04:19 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:19 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_257.jpg
+Tue Mar 17 16:04:19 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4
+Tue Mar 17 16:04:19 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:19 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_2.jpg
+Tue Mar 17 16:04:19 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:19 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_2.jpg
+Tue Mar 17 16:04:19 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:19 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:19 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:19 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:19 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_2.jpg for upload with ID 15
+Tue Mar 17 16:04:19 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:21 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4, sending complete message
+Tue Mar 17 16:04:21 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4 is done
+Tue Mar 17 16:04:21 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:21 2015:CompleteTask: CompleteTask 67a06322-f11a-4048-9ab7-124669673868 status 0
+Tue Mar 17 16:04:21 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:21 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0530.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/bfb3da0841a0cc299597a57519d2e28a_2.jpg
+Tue Mar 17 16:04:21 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4
+Tue Mar 17 16:04:21 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:21 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_5.mp4
+Tue Mar 17 16:04:22 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:22 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_0.mp4
+Tue Mar 17 16:04:22 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:22 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:22 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:22 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:22 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_0.mp4 for upload with ID 16
+Tue Mar 17 16:04:22 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:27 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:27 2015:CompleteTask: CompleteTask 4deefd3c-af1f-4a89-b432-2d67cd2cd971 status 0
+Tue Mar 17 16:04:27 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:27 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_5.mp4
+Tue Mar 17 16:04:27 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4
+Tue Mar 17 16:04:27 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:27 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_257.jpg
+Tue Mar 17 16:04:27 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:27 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_257.jpg
+Tue Mar 17 16:04:27 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:27 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:27 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:27 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:27 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_257.jpg for upload with ID 17
+Tue Mar 17 16:04:27 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:29 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:29 2015:CompleteTask: CompleteTask 064ebd57-c55e-44b6-8b00-5a42433128ba status 0
+Tue Mar 17 16:04:29 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:29 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_257.jpg
+Tue Mar 17 16:04:29 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4
+Tue Mar 17 16:04:29 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:29 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_2.jpg
+Tue Mar 17 16:04:29 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:29 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_2.jpg
+Tue Mar 17 16:04:29 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:29 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:29 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:29 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:29 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_2.jpg for upload with ID 18
+Tue Mar 17 16:04:29 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:30 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:04:32 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4, sending complete message
+Tue Mar 17 16:04:32 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4 is done
+Tue Mar 17 16:04:32 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:32 2015:CompleteTask: CompleteTask 1a4cfddf-77e3-4167-b15c-9f1c6bd707a3 status 0
+Tue Mar 17 16:04:32 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:32 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0533.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/c81f3f2addd589c0610eeb416c480c2d_2.jpg
+Tue Mar 17 16:04:32 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4
+Tue Mar 17 16:04:32 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:32 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_0.mp4
+Tue Mar 17 16:04:32 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:33 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_0.mp4
+Tue Mar 17 16:04:33 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:33 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:33 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:33 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:33 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_0.mp4 for upload with ID 19
+Tue Mar 17 16:04:33 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:35 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:35 2015:CompleteTask: CompleteTask 617e5dd0-0ad4-4236-a601-bfa4e4713499 status 0
+Tue Mar 17 16:04:35 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:35 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_0.mp4
+Tue Mar 17 16:04:35 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4
+Tue Mar 17 16:04:35 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:35 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_257.jpg
+Tue Mar 17 16:04:36 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:36 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_257.jpg
+Tue Mar 17 16:04:36 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:36 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:36 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:36 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:36 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_257.jpg for upload with ID 20
+Tue Mar 17 16:04:36 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:37 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:37 2015:CompleteTask: CompleteTask 21f5dd61-6cd7-43f2-a9ee-5d82f2fd24b9 status 0
+Tue Mar 17 16:04:37 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:37 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_257.jpg
+Tue Mar 17 16:04:37 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4
+Tue Mar 17 16:04:37 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:37 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_2.jpg
+Tue Mar 17 16:04:38 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:38 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_2.jpg
+Tue Mar 17 16:04:38 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:38 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:38 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:38 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:38 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_2.jpg for upload with ID 21
+Tue Mar 17 16:04:38 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:39 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4, sending complete message
+Tue Mar 17 16:04:39 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4 is done
+Tue Mar 17 16:04:39 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:39 2015:CompleteTask: CompleteTask d51464a4-d78a-4346-a7ae-bfdaf7cad262 status 0
+Tue Mar 17 16:04:39 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:39 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0523.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/fa620a12e20d59ee2325f796ee1369a8_2.jpg
+Tue Mar 17 16:04:39 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4
+Tue Mar 17 16:04:39 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:39 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_0.mp4
+Tue Mar 17 16:04:41 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:41 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_0.mp4
+Tue Mar 17 16:04:41 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:41 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:41 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:41 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:41 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_0.mp4 for upload with ID 22
+Tue Mar 17 16:04:41 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:43 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:04:43 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:43 2015:CompleteTask: CompleteTask 7efa1510-b278-4480-9734-4b2b5014e3bc status 0
+Tue Mar 17 16:04:43 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:43 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_0.mp4
+Tue Mar 17 16:04:43 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4
+Tue Mar 17 16:04:43 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:43 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_257.jpg
+Tue Mar 17 16:04:43 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:44 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_257.jpg
+Tue Mar 17 16:04:44 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:44 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:44 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:44 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:44 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_257.jpg for upload with ID 23
+Tue Mar 17 16:04:44 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:46 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:46 2015:CompleteTask: CompleteTask 6395fcc8-d97a-41c2-af18-620a2031928f status 0
+Tue Mar 17 16:04:46 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:46 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_257.jpg
+Tue Mar 17 16:04:46 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4
+Tue Mar 17 16:04:46 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:46 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_2.jpg
+Tue Mar 17 16:04:46 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:46 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_2.jpg
+Tue Mar 17 16:04:46 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:46 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:46 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:46 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:46 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_2.jpg for upload with ID 24
+Tue Mar 17 16:04:46 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:48 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4, sending complete message
+Tue Mar 17 16:04:48 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4 is done
+Tue Mar 17 16:04:48 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:48 2015:CompleteTask: CompleteTask ba5f5287-4d81-4fb6-b753-0a9905a96f9d status 0
+Tue Mar 17 16:04:48 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:48 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0531.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/a07b06759a738979c3a910217bd79945_2.jpg
+Tue Mar 17 16:04:48 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4
+Tue Mar 17 16:04:48 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:48 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_0.mp4
+Tue Mar 17 16:04:50 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:50 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_0.mp4
+Tue Mar 17 16:04:50 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:50 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:50 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:50 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:50 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_0.mp4 for upload with ID 25
+Tue Mar 17 16:04:50 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:52 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:52 2015:CompleteTask: CompleteTask 455dd49f-6b6b-4332-bc42-649461463a7b status 0
+Tue Mar 17 16:04:52 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:52 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_0.mp4
+Tue Mar 17 16:04:52 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4
+Tue Mar 17 16:04:52 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:52 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_257.jpg
+Tue Mar 17 16:04:52 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:52 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_257.jpg
+Tue Mar 17 16:04:52 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:52 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:52 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:52 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:52 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_257.jpg for upload with ID 26
+Tue Mar 17 16:04:52 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:54 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:54 2015:CompleteTask: CompleteTask e7f77ad4-b429-47f0-bb80-006a3d418772 status 0
+Tue Mar 17 16:04:54 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:54 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_257.jpg
+Tue Mar 17 16:04:54 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4
+Tue Mar 17 16:04:54 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:54 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_2.jpg
+Tue Mar 17 16:04:54 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:54 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_2.jpg
+Tue Mar 17 16:04:54 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:54 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:54 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:54 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:54 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_2.jpg for upload with ID 27
+Tue Mar 17 16:04:54 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:04:55 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:04:56 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4, sending complete message
+Tue Mar 17 16:04:56 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4 is done
+Tue Mar 17 16:04:56 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:04:56 2015:CompleteTask: CompleteTask af4e5344-dca4-4c32-9f37-1c4e5daf8582 status 0
+Tue Mar 17 16:04:56 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:04:56 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0527.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/31426edb22fb11d77be08fc0e97b3050_2.jpg
+Tue Mar 17 16:04:56 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4
+Tue Mar 17 16:04:56 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:56 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_0.mp4
+Tue Mar 17 16:04:58 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:04:58 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_0.mp4
+Tue Mar 17 16:04:58 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:04:58 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:04:58 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:04:58 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:04:58 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_0.mp4 for upload with ID 28
+Tue Mar 17 16:04:58 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:00 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:00 2015:CompleteTask: CompleteTask abe54ee5-6b78-4d4f-bd39-97663fab5c94 status 0
+Tue Mar 17 16:05:00 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:00 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_0.mp4
+Tue Mar 17 16:05:00 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4
+Tue Mar 17 16:05:00 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:00 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_257.jpg
+Tue Mar 17 16:05:00 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:00 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_257.jpg
+Tue Mar 17 16:05:00 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:00 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:00 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:00 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:00 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_257.jpg for upload with ID 29
+Tue Mar 17 16:05:00 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:02 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:02 2015:CompleteTask: CompleteTask 100378b8-f428-4cd8-a86b-5549547ad3bd status 0
+Tue Mar 17 16:05:02 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:02 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_257.jpg
+Tue Mar 17 16:05:02 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4
+Tue Mar 17 16:05:02 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:02 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_2.jpg
+Tue Mar 17 16:05:03 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:03 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_2.jpg
+Tue Mar 17 16:05:03 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:03 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:03 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:03 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:03 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_2.jpg for upload with ID 30
+Tue Mar 17 16:05:03 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:05 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4, sending complete message
+Tue Mar 17 16:05:05 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4 is done
+Tue Mar 17 16:05:05 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:05 2015:CompleteTask: CompleteTask 12f04978-b964-40f8-952d-3531a1154430 status 0
+Tue Mar 17 16:05:05 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:05 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0529.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/038175e7de1acd4125474c3338b0db38_2.jpg
+Tue Mar 17 16:05:05 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4
+Tue Mar 17 16:05:05 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:05 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_0.mp4
+Tue Mar 17 16:05:08 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:05:10 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:10 2015:CompleteTask: CompleteTask 7822126c-306e-4b1a-b12e-2af1a9af5761 status 0
+Tue Mar 17 16:05:10 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:10 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_0.mp4
+Tue Mar 17 16:05:10 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:10 2015:TranscodeThread: item /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4 is transcoding
+Tue Mar 17 16:05:10 2015:TranscodeThread: upload files count 2
+Tue Mar 17 16:05:10 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:10 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_257.jpg
+Tue Mar 17 16:05:12 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:12 2015:CompleteTask: CompleteTask f33a6111-c6dd-443a-b3f3-a5669feed1ef status 0
+Tue Mar 17 16:05:12 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:12 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_257.jpg
+Tue Mar 17 16:05:12 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:12 2015:TranscodeThread: item /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4 is transcoding
+Tue Mar 17 16:05:12 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:12 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_2.jpg
+Tue Mar 17 16:05:14 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4, sending complete message
+Tue Mar 17 16:05:14 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4 is done
+Tue Mar 17 16:05:14 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:14 2015:CompleteTask: CompleteTask cbd1d36d-79b9-4f45-858b-28791eec1733 status 0
+Tue Mar 17 16:05:14 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:14 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0544.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5e55e471fa3e97ce758e40e647257f76_2.jpg
+Tue Mar 17 16:05:14 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:14 2015:TranscodeThread: item /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4 is transcoding
+Tue Mar 17 16:05:14 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:14 2015:MediaEvent: Upload Manager state working empty queue: 0
+Tue Mar 17 16:05:20 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:20 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_0.mp4
+Tue Mar 17 16:05:20 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:20 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4
+Tue Mar 17 16:05:20 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:20 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_0.mp4 for upload with ID 31
+Tue Mar 17 16:05:20 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_0.mp4
+Tue Mar 17 16:05:20 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:21 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:05:21 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:21 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_257.jpg
+Tue Mar 17 16:05:21 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:21 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4
+Tue Mar 17 16:05:21 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:21 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_257.jpg for upload with ID 32
+Tue Mar 17 16:05:21 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:21 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:21 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_2.jpg
+Tue Mar 17 16:05:21 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:21 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4
+Tue Mar 17 16:05:21 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:21 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_2.jpg for upload with ID 33
+Tue Mar 17 16:05:21 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:22 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:22 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_0.mp4
+Tue Mar 17 16:05:22 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:22 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:22 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:22 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:22 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_0.mp4 for upload with ID 34
+Tue Mar 17 16:05:22 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:26 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:26 2015:CompleteTask: CompleteTask 8cf4fdd8-5d87-4f2a-bc73-b6ced1671eac status 0
+Tue Mar 17 16:05:26 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:26 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_0.mp4
+Tue Mar 17 16:05:26 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4
+Tue Mar 17 16:05:26 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:26 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_257.jpg
+Tue Mar 17 16:05:26 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:26 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_257.jpg
+Tue Mar 17 16:05:26 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:26 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:26 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:26 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:26 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_257.jpg for upload with ID 35
+Tue Mar 17 16:05:26 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:28 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:28 2015:CompleteTask: CompleteTask d014a7fd-fd3b-46bb-87de-0e8f032dd5a5 status 0
+Tue Mar 17 16:05:28 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:28 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_257.jpg
+Tue Mar 17 16:05:28 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4
+Tue Mar 17 16:05:28 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:28 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_2.jpg
+Tue Mar 17 16:05:28 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:28 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_2.jpg
+Tue Mar 17 16:05:28 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:28 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:28 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:28 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:28 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_2.jpg for upload with ID 36
+Tue Mar 17 16:05:28 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:30 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4, sending complete message
+Tue Mar 17 16:05:30 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4 is done
+Tue Mar 17 16:05:30 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:31 2015:CompleteTask: CompleteTask ff67e6f9-dd8e-4326-8454-f5e70f6a143f status 0
+Tue Mar 17 16:05:31 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:31 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0536.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/af4ed9340dc19412edfb8f1a420575fa_2.jpg
+Tue Mar 17 16:05:31 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4
+Tue Mar 17 16:05:31 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:31 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_0.mp4
+Tue Mar 17 16:05:32 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:05:33 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:33 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_0.mp4
+Tue Mar 17 16:05:33 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:33 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:33 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:33 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:33 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_0.mp4 for upload with ID 37
+Tue Mar 17 16:05:33 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:34 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:34 2015:CompleteTask: CompleteTask 7e07ce6d-feeb-4d7a-8cea-e6e37be96dc4 status 0
+Tue Mar 17 16:05:34 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:34 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_0.mp4
+Tue Mar 17 16:05:34 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4
+Tue Mar 17 16:05:34 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:34 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_257.jpg
+Tue Mar 17 16:05:35 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:35 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_257.jpg
+Tue Mar 17 16:05:35 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:35 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:35 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:35 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:35 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_257.jpg for upload with ID 38
+Tue Mar 17 16:05:35 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:37 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:37 2015:CompleteTask: CompleteTask 4bc32b4e-ede4-4d0d-bd9b-0e1dc1e2c2fc status 0
+Tue Mar 17 16:05:37 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:37 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_257.jpg
+Tue Mar 17 16:05:37 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4
+Tue Mar 17 16:05:37 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:37 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_2.jpg
+Tue Mar 17 16:05:37 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:37 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_2.jpg
+Tue Mar 17 16:05:37 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:37 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:37 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:37 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:37 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_2.jpg for upload with ID 39
+Tue Mar 17 16:05:37 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:39 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4, sending complete message
+Tue Mar 17 16:05:39 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4 is done
+Tue Mar 17 16:05:39 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:39 2015:CompleteTask: CompleteTask e03ae318-1269-4dbb-8929-3d047f73f6f7 status 0
+Tue Mar 17 16:05:39 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:39 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0532.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/5c0a55fc0ebe4a7242e0c6e1399d44de_2.jpg
+Tue Mar 17 16:05:39 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4
+Tue Mar 17 16:05:39 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:39 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_0.mp4
+Tue Mar 17 16:05:43 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:43 2015:CompleteTask: CompleteTask 29b4d0fb-73b5-4768-8deb-4c7bafac3ac2 status 0
+Tue Mar 17 16:05:43 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:43 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_0.mp4
+Tue Mar 17 16:05:43 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:43 2015:TranscodeThread: item /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4 is transcoding
+Tue Mar 17 16:05:43 2015:TranscodeThread: upload files count 2
+Tue Mar 17 16:05:43 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:43 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_257.jpg
+Tue Mar 17 16:05:44 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:44 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_0.mp4
+Tue Mar 17 16:05:44 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:44 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4
+Tue Mar 17 16:05:44 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:44 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_0.mp4 for upload with ID 40
+Tue Mar 17 16:05:44 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:44 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:05:44 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:44 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_257.jpg
+Tue Mar 17 16:05:44 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:44 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:44 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:44 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:44 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_257.jpg for upload with ID 41
+Tue Mar 17 16:05:44 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:46 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:46 2015:CompleteTask: CompleteTask fadcc20b-e4ea-4e4d-8cdc-68e319ed78c7 status 0
+Tue Mar 17 16:05:46 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:46 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_257.jpg
+Tue Mar 17 16:05:46 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4
+Tue Mar 17 16:05:46 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:46 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_2.jpg
+Tue Mar 17 16:05:47 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:47 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_2.jpg
+Tue Mar 17 16:05:47 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:47 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:47 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:47 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:47 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_2.jpg for upload with ID 42
+Tue Mar 17 16:05:47 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:49 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4, sending complete message
+Tue Mar 17 16:05:49 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4 is done
+Tue Mar 17 16:05:49 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:49 2015:CompleteTask: CompleteTask 3bdb8431-3f80-4a2c-9eed-35e7ff440baf status 0
+Tue Mar 17 16:05:49 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:49 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0524.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/aab6ef0612c1419ee205189aa9a40f17_2.jpg
+Tue Mar 17 16:05:49 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4
+Tue Mar 17 16:05:49 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:49 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_0.mp4
+Tue Mar 17 16:05:51 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:51 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_0.mp4
+Tue Mar 17 16:05:51 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:51 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:51 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:51 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:51 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_0.mp4 for upload with ID 43
+Tue Mar 17 16:05:51 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:53 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:53 2015:CompleteTask: CompleteTask 64a6223a-69bc-40d5-9784-48dc82edbfbc status 0
+Tue Mar 17 16:05:53 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:53 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_0.mp4
+Tue Mar 17 16:05:53 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4
+Tue Mar 17 16:05:53 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:53 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_257.jpg
+Tue Mar 17 16:05:53 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:53 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_257.jpg
+Tue Mar 17 16:05:53 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:53 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:53 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:53 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:53 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_257.jpg for upload with ID 44
+Tue Mar 17 16:05:53 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:55 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:55 2015:CompleteTask: CompleteTask 75ea7aec-a227-4bee-8b70-5648a1ee9072 status 0
+Tue Mar 17 16:05:55 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:55 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_257.jpg
+Tue Mar 17 16:05:55 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4
+Tue Mar 17 16:05:55 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:55 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_2.jpg
+Tue Mar 17 16:05:55 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:05:55 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_2.jpg
+Tue Mar 17 16:05:55 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:55 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:05:55 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:05:55 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:05:55 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_2.jpg for upload with ID 45
+Tue Mar 17 16:05:55 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:05:57 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:05:58 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4, sending complete message
+Tue Mar 17 16:05:58 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4 is done
+Tue Mar 17 16:05:58 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:05:58 2015:CompleteTask: CompleteTask 541b0acd-06ed-4398-a39e-796828dfe816 status 0
+Tue Mar 17 16:05:58 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:05:58 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0526.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/1b9cb849a9189c11bf052b84521d9c91_2.jpg
+Tue Mar 17 16:05:58 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4
+Tue Mar 17 16:05:58 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:05:58 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_0.mp4
+Tue Mar 17 16:06:01 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:06:01 2015:CompleteTask: CompleteTask 38909700-d774-413d-8e95-1733469a1743 status 0
+Tue Mar 17 16:06:01 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:06:01 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_0.mp4
+Tue Mar 17 16:06:01 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:01 2015:TranscodeThread: item /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4 is transcoding
+Tue Mar 17 16:06:01 2015:TranscodeThread: upload files count 2
+Tue Mar 17 16:06:01 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:01 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_257.jpg
+Tue Mar 17 16:06:03 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:06:03 2015:CompleteTask: CompleteTask cdc766ef-ede5-4fbd-8208-5d7ac5080271 status 0
+Tue Mar 17 16:06:03 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:06:03 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_257.jpg
+Tue Mar 17 16:06:03 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:03 2015:TranscodeThread: item /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4 is transcoding
+Tue Mar 17 16:06:03 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:03 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_2.jpg
+Tue Mar 17 16:06:06 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4, sending complete message
+Tue Mar 17 16:06:06 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4 is done
+Tue Mar 17 16:06:06 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:06:06 2015:CompleteTask: CompleteTask 7059fd31-d669-4bd8-89b1-92a57f2cf18a status 0
+Tue Mar 17 16:06:06 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:06:06 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0528.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/76e9552228868ec9944292581a8c45b0_2.jpg
+Tue Mar 17 16:06:06 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:06 2015:TranscodeThread: item /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4 is transcoding
+Tue Mar 17 16:06:06 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:06 2015:MediaEvent: Upload Manager state working empty queue: 0
+Tue Mar 17 16:06:10 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:06:22 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:06:22 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:22 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_0.mp4
+Tue Mar 17 16:06:22 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:22 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4
+Tue Mar 17 16:06:22 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:22 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_0.mp4 for upload with ID 46
+Tue Mar 17 16:06:22 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_0.mp4
+Tue Mar 17 16:06:22 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:23 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:23 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_257.jpg
+Tue Mar 17 16:06:23 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:23 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4
+Tue Mar 17 16:06:23 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:23 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_257.jpg for upload with ID 47
+Tue Mar 17 16:06:23 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:24 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:24 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4 finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_2.jpg
+Tue Mar 17 16:06:24 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:24 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG
+Tue Mar 17 16:06:24 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:24 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_2.jpg for upload with ID 48
+Tue Mar 17 16:06:24 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:24 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:24 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_257.jpg
+Tue Mar 17 16:06:24 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:24 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:24 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:06:24 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:24 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_257.jpg for upload with ID 49
+Tue Mar 17 16:06:24 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:28 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:06:28 2015:CompleteTask: CompleteTask a7e4cf5a-f907-4f62-8d1f-9b95e4b8b3b8 status 0
+Tue Mar 17 16:06:28 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:06:28 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_0.mp4
+Tue Mar 17 16:06:28 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG
+Tue Mar 17 16:06:28 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:28 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_257.jpg
+Tue Mar 17 16:06:29 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:29 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_2.jpg
+Tue Mar 17 16:06:29 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:29 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:29 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:06:29 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:29 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_2.jpg for upload with ID 50
+Tue Mar 17 16:06:29 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:31 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:06:31 2015:CompleteTask: CompleteTask 4e726d5c-776a-4a45-a750-d4651a83e0dd status 0
+Tue Mar 17 16:06:31 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:06:31 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_257.jpg
+Tue Mar 17 16:06:31 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG
+Tue Mar 17 16:06:31 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:31 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_2.jpg
+Tue Mar 17 16:06:32 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:32 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_513.mp4
+Tue Mar 17 16:06:32 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:32 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:32 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:06:32 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:32 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_513.mp4 for upload with ID 51
+Tue Mar 17 16:06:32 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:32 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:06:34 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4, sending complete message
+Tue Mar 17 16:06:34 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4 is done
+Tue Mar 17 16:06:34 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:06:34 2015:CompleteTask: CompleteTask d5613ae1-bd90-4a56-b24f-8e9eca63b7fa status 0
+Tue Mar 17 16:06:34 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:06:34 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/GOPR0538.MP4, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/e274369830fb860baa4220a6ae4ad87e_2.jpg
+Tue Mar 17 16:06:34 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG
+Tue Mar 17 16:06:34 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:34 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_257.jpg
+Tue Mar 17 16:06:34 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:34 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_257.jpg
+Tue Mar 17 16:06:34 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:34 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:34 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:06:34 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:34 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_257.jpg for upload with ID 52
+Tue Mar 17 16:06:34 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:37 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:06:37 2015:CompleteTask: CompleteTask  status 0
+Tue Mar 17 16:06:37 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:06:37 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_257.jpg
+Tue Mar 17 16:06:37 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG
+Tue Mar 17 16:06:37 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:37 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_2.jpg
+Tue Mar 17 16:06:37 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:37 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_2.jpg
+Tue Mar 17 16:06:37 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:37 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:37 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:06:37 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:37 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_2.jpg for upload with ID 53
+Tue Mar 17 16:06:37 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:40 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:06:40 2015:CompleteTask: CompleteTask  status 0
+Tue Mar 17 16:06:40 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:06:40 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_2.jpg
+Tue Mar 17 16:06:40 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG
+Tue Mar 17 16:06:40 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:40 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_513.mp4
+Tue Mar 17 16:06:41 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:41 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_512.mp4
+Tue Mar 17 16:06:41 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:41 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:41 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:06:41 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:41 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_512.mp4 for upload with ID 54
+Tue Mar 17 16:06:41 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:42 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG, sending complete message
+Tue Mar 17 16:06:42 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG is done
+Tue Mar 17 16:06:42 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:06:42 2015:CompleteTask: CompleteTask 5d2a5efd-1688-4e43-ad81-60526bc236ef status 0
+Tue Mar 17 16:06:42 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:06:42 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 2/G0020534.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/9b5a5d0fd30ecda766cdc5587c34aca7_513.mp4
+Tue Mar 17 16:06:42 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG
+Tue Mar 17 16:06:42 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:42 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_257.jpg
+Tue Mar 17 16:06:42 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:42 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_257.jpg
+Tue Mar 17 16:06:42 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:42 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:42 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:06:42 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:42 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_257.jpg for upload with ID 55
+Tue Mar 17 16:06:42 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:43 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:06:46 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:06:46 2015:CompleteTask: CompleteTask  status 0
+Tue Mar 17 16:06:46 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:06:46 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_257.jpg
+Tue Mar 17 16:06:46 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG
+Tue Mar 17 16:06:46 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:46 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_2.jpg
+Tue Mar 17 16:06:46 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:46 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_2.jpg
+Tue Mar 17 16:06:46 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:46 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:46 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:06:46 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:46 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_2.jpg for upload with ID 56
+Tue Mar 17 16:06:46 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:48 2015:MediaEvent: notifying the transcode thread after upload complete
+Tue Mar 17 16:06:48 2015:CompleteTask: CompleteTask  status 0
+Tue Mar 17 16:06:48 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 16:06:48 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_2.jpg
+Tue Mar 17 16:06:48 2015:TranscodeThread: starting transcode of /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG
+Tue Mar 17 16:06:48 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:48 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_512.mp4
+Tue Mar 17 16:06:48 2015:TranscodeComplete: Transcode complete callback: 0
+Tue Mar 17 16:06:48 2015:TranscodeThread: file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG finished transcoding to /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_513.mp4
+Tue Mar 17 16:06:48 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:48 2015:TranscodeThread: awoken but already working
+Tue Mar 17 16:06:48 2015:TranscodeThread: upload files count 4
+Tue Mar 17 16:06:48 2015:MediaEvent: upload manager state 2 was called
+Tue Mar 17 16:06:48 2015:UploadThread: Enqueued file /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_513.mp4 for upload with ID 57
+Tue Mar 17 16:06:48 2015:UploadThread: added 1 items to upload manager
+Tue Mar 17 16:06:50 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG, sending complete message
+Tue Mar 17 16:06:50 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG is done
+Tue Mar 17 16:06:50 2015:CompleteTask: CompleteTask fd1ce3df-51a5-4ba3-94ad-930761bf8bbe status 0
+Tue Mar 17 16:06:50 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/BURST_MEDIA 4/G0040539.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/57f5fdffa563de54e63d596ac2c4e4f1_512.mp4
+Tue Mar 17 16:06:50 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:50 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_257.jpg
+Tue Mar 17 16:06:53 2015:CompleteTask: CompleteTask  status 0
+Tue Mar 17 16:06:53 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_257.jpg
+Tue Mar 17 16:06:53 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:53 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_2.jpg
+Tue Mar 17 16:06:55 2015:BrainPollThread: sending heartbeat for batch 3226
+Tue Mar 17 16:06:56 2015:CompleteTask: CompleteTask  status 0
+Tue Mar 17 16:06:56 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_2.jpg
+Tue Mar 17 16:06:56 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:56 2015:MediaEvent: uploading file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_513.mp4
+Tue Mar 17 16:06:58 2015:CheckFileDone: process complete for /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG, sending complete message
+Tue Mar 17 16:06:58 2015:MediaEvent: File /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG is done
+Tue Mar 17 16:06:58 2015:CompleteTask: CompleteTask 1a726fd9-cc5b-4dde-974d-87028cb8e55b status 0
+Tue Mar 17 16:06:58 2015:CompleteTask: Batch 3226 finished
+Tue Mar 17 16:06:58 2015:MediaEvent: upload complete for file /Users/keithfisher/Pictures/GoPro/2015-03-17/HERO4 Silver/PHOTO_SEQUENCE 3/G0030535.JPG, /var/folders/14/qn3h2kp520xc6t5x60_hplgc0000gp/T/32e02eb5ae1a12b6478ad326130df2c4_513.mp4
+Tue Mar 17 16:06:58 2015:UploadThread: Upload thread awake
+Tue Mar 17 16:06:58 2015:MediaEvent: Upload Manager state working empty queue: 0
+Tue Mar 17 18:14:16 2015:Stop: enter
+Tue Mar 17 18:14:16 2015:BrainPollThread: exit
+Tue Mar 17 18:14:16 2015:BrainQueryThread: exit
+Tue Mar 17 18:14:16 2015:TranscodeThread: exit
+Tue Mar 17 18:14:16 2015:MessagingThread: exit
+Tue Mar 17 18:14:16 2015:Stop: exit
+Tue Mar 17 18:17:28 2015:Init: 
+
+Tue Mar 17 18:52:19 2015:Init: 
+
+/***********************Dispatcher init***********************/
+Tue Mar 17 18:52:19 2015:Init: Dispatcher version: 5
+Tue Mar 17 18:52:19 2015:Init: exit
+Tue Mar 17 18:52:19 2015:SetTranscodeDirectory: enter
+Tue Mar 17 18:52:19 2015:RegisterCallbacks: enter
+Tue Mar 17 18:52:19 2015:RegisterCallbacks: exit
+Tue Mar 17 18:52:19 2015:SetTranscoderImplementation: enter
+Tue Mar 17 18:52:19 2015:SetTranscoderImplementation: exit
+Tue Mar 17 18:52:19 2015:SetUploadSpeedFraction: enter
+Tue Mar 17 18:52:22 2015:SetAuthenticationSettings: enter
+Tue Mar 17 18:52:22 2015:SetAuthenticationSettings: exit
+Tue Mar 17 18:52:22 2015:Start: enter
+Tue Mar 17 18:52:22 2015:BrainPollThread: enter
+Tue Mar 17 18:52:22 2015:BrainQueryThread: enter
+Tue Mar 17 18:52:22 2015:Start: exit
+Tue Mar 17 18:52:22 2015:TranscodeThread: enter
+Tue Mar 17 18:52:22 2015:UploadThread: start
+Tue Mar 17 18:52:22 2015:MessagingThread: start
+Tue Mar 17 18:52:22 2015:MediaEvent: Upload Manager state working empty queue: 0
+Tue Mar 17 18:52:22 2015:UploadThread: Upload thread awake
+Tue Mar 17 18:52:22 2015:TranscodeThread: no item done transcoding
+Tue Mar 17 18:52:22 2015:TranscodeThread: could not find a media waiting for transcode
+Tue Mar 17 18:52:57 2015:Stop: enter
+Tue Mar 17 18:52:57 2015:BrainPollThread: exit
+Tue Mar 17 18:52:57 2015:BrainQueryThread: exit
+Tue Mar 17 18:52:57 2015:TranscodeThread: exit
+Tue Mar 17 18:52:57 2015:MessagingThread: exit
+Tue Mar 17 18:52:57 2015:Stop: exit
+

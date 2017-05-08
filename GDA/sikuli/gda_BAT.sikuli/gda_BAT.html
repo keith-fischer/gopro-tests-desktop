@@ -1,0 +1,723 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>gda_BAT.sikuli</h2> <a href="gda_BAT.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> gda_utils
+
+<span class="kw">from</span> sikuli <span class="kw">import</span> Sikuli
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> __builtin__ <span class="kw">import</span> True, False
+<span class="kw">import</span> org.sikuli.basics.SikulixForJython
+<span class="kw">import</span> org.sikuli.script.ImagePath
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> create_your_acct(REGION,willfail=True,fname=<span class="str">"john"</span>,lname=<span class="str">"doe"</span>,email=<span class="str">"jdoe@jdoe.zzz"</span>,pw=<span class="str">"1234567890"</span>):
+    gda_utils.WAIT(REGION,Pattern(<img src="createacct_txt_title.png" />).exact()) <span class="cmt">#createacct_txt_title.png</span>
+
+    gda_utils.FIND(REGION,Pattern(<img src="createacct_txt_subtitle.png" />).similar(<span class="dig">0.90</span>)) <span class="cmt">#createacct_txt_subtitle.png</span>
+
+    gda_utils.TYPE(REGION,Pattern(<img src="createacct_txtbox_email.png" />).exact().targetOffset(-<span class="dig">232</span>,<span class="dig">23</span>),fname) <span class="cmt">#createacct_txtbox_email.png</span>
+    gda_utils.TYPE(REGION,Pattern(<img src="createacct_txtbox_email.png" />).exact().targetOffset(<span class="dig">51</span>,<span class="dig">26</span>),lname) <span class="cmt">#createacct_txtbox_email.png</span>
+    gda_utils.TYPE(REGION,Pattern(<img src="createacct_txtbox_email.png" />).exact().targetOffset(-<span class="dig">245</span>,-<span class="dig">32</span>),email) <span class="cmt">#createacct_txtbox_email.png</span>
+    gda_utils.TYPE(REGION,Pattern(<img src="createacct_txtbox_password.png" />).exact().targetOffset(-<span class="dig">216</span>,-<span class="dig">29</span>),pw) <span class="cmt">#createacct_txtbox_password.png</span>
+    gda_utils.TYPE(REGION,Pattern(<img src="createacct_txtbox_password.png" />).exact().targetOffset(-<span class="dig">247</span>,<span class="dig">28</span>),pw) <span class="cmt">#createacct_txtbox_password.png</span>
+
+    <span class="kw">if</span> gda_utils.d_gda_settings[<span class="str">"isWindows"</span>]==<span class="str">"True"</span>:
+        gda_utils.CLICK(REGION,Pattern(<img src="createacct_unchecked_getnews.png" />).exact().targetOffset(-<span class="dig">240</span>,-<span class="dig">4</span>)) <span class="cmt">#createacct_unchecked_getnews.png</span>
+        gda_utils.FIND(REGION,Pattern(<img src="createacct_checked_getnews.png" />).exact().targetOffset(-<span class="dig">246</span>,-<span class="dig">5</span>)) <span class="cmt">#createacct_checked_getnews.png</span>
+        gda_utils.CLICK(REGION,Pattern(<img src="createacct_unchecked_iacknowledge.png" />).similar(<span class="dig">0.98</span>).targetOffset(-<span class="dig">275</span>,-<span class="dig">7</span>)) <span class="cmt">#createacct_unchecked_iacknowledge.png</span>
+        gda_utils.FIND(REGION,Pattern(<img src="createacct_checked_iacknowledge.png" />).similar(<span class="dig">0.91</span>).targetOffset(-<span class="dig">272</span>,-<span class="dig">2</span>)) <span class="cmt">#createacct_checked_iacknowledge.png</span>
+
+    <span class="kw">if</span> gda_utils.d_gda_settings[<span class="str">"isMac"</span>]==<span class="str">"True"</span>:
+        gda_utils.CLICK(REGION,Pattern(<img src="createacct_unchecked-mac_getnews.png" />).exact().targetOffset(-<span class="dig">249</span>,<span class="dig">7</span>)) <span class="cmt">#createacct_unchecked-mac_getnews.png</span>
+        gda_utils.FIND(REGION,Pattern(<img src="createacct_checked-mac_getnews.png" />).exact().targetOffset(-<span class="dig">248</span>,<span class="dig">2</span>)) <span class="cmt">#createacct_checked-mac_getnews.png</span>
+        gda_utils.CLICK(REGION,Pattern(<img src="createacct_unchecked-mac_iacknowledge.png" />).similar(<span class="dig">0.98</span>).targetOffset(-<span class="dig">270</span>,-<span class="dig">5</span>)) <span class="cmt">#createacct_unchecked-mac_iacknowledge.png</span>
+        gda_utils.FIND(REGION,Pattern(<img src="createacct_checked-mac_iacknowledge.png" />).similar(<span class="dig">0.98</span>).targetOffset(-<span class="dig">271</span>,-<span class="dig">5</span>)) <span class="cmt">#createacct_checked-mac_iacknowledge.png</span>
+
+
+
+    CLICK(REGION, Pattern(<img src="createacct_btn_getacct.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt">#createacct_btn_getacct.png</span>
+    <span class="skw">wait</span>(<span class="dig">15</span>) <span class="cmt"># wait for message</span>
+    <span class="cmt">#invalid acct info</span>
+    <span class="kw">if</span> willfail==True:
+        WAIT(REGION,Pattern(<img src="createacct_txt_invalidemail.png" />).exact(),<span class="dig">30</span>)
+
+        CLICK(REGION,Pattern(<img src="createacct_btn_signin.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#createacct_btn_signin.png</span>
+    <span class="kw">else</span>:
+        CLICK(REGION,Pattern(<img src="createacct_btn_signin.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#createacct_btn_signin.png</span>
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> signin_test(REGION,willfail=True,email=<span class="str">"dog@breath.mut"</span>,pw=<span class="str">"hatecats"</span>):
+    <span class="cmt">#FIND_Similarity(REGION,PATTERN,min = 50):</span>
+    gda_utils.WAIT(REGION,Pattern(<img src="signin_txt_title.png" />).similar(<span class="dig">0.90</span>),<span class="dig">30</span>)
+
+    gda_utils.FIND(REGION,Pattern(<img src="signin_img_logo.png" />).similar(<span class="dig">0.90</span>))
+
+    gda_utils.TYPE(REGION,Pattern(<img src="signin_txtbox_emailpw.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">185</span>,-<span class="dig">38</span>),email)
+    gda_utils.TYPE(REGION,Pattern(<img src="signin_txtbox_emailpw.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">211</span>,<span class="dig">22</span>),pw)
+
+
+    gda_utils.FIND(REGION,Pattern(<img src="signin_btn_forgot.png" />).similar(<span class="dig">0.90</span>))
+
+
+    gda_utils.FIND(REGION,Pattern(<img src="signin_btn_resendemail.png" />).similar(<span class="dig">0.90</span>))
+
+    gda_utils.CLICK(REGION,Pattern(<img src="signin_btn_signin.png" />).similar(<span class="dig">0.90</span>))
+    <span class="cmt">#test invalid acct</span>
+    <span class="kw">if</span> willfail==True:
+
+        gda_utils.WAIT(REGION,Pattern(<img src="signin_txt_invalidemail.png" />).similar(<span class="dig">0.92</span>),<span class="dig">30</span>) <span class="cmt">#signin_txt_invalidemail.png</span>
+
+        gda_utils.FIND(REGION,Pattern(<img src="signin_txtbox_emailpw_blankpw.png" />).similar(<span class="dig">0.91</span>))
+        cleanfld=Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE
+        gda_utils.TYPE(REGION,Pattern(<img src="signin_txtbox_emailpw.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">210</span>,-<span class="dig">38</span>),cleanfld)
+
+        <span class="cmt">#CLICK(REGION,Pattern("signin_btn_needacct.png").similar(0.90).targetOffset(67,9))</span>
+        <span class="cmt">#WAIT(REGION,Pattern("createacct_txt_title-1.png").similar(0.90)) #createacct_txt_title.png</span>
+        <span class="cmt">#CLICK(REGION,Pattern("createacct_btn_signin-1.png").similar(0.91)) #createacct_btn_signin.png</span>
+
+        <span class="cmt">#WAIT(REGION,Pattern("signin_txt_title.png").similar(0.90),30)</span>
+
+
+    <span class="cmt">#else: #is valid acct</span>
+        <span class="cmt">#CLICK(REGION,Pattern("signin_btn_needacct.png").similar(0.90).targetOffset(67,9))</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> media_getstarted_gopro(REGION):
+    gda_utils.WAIT(REGION,Pattern(<img src="media_txt_title.png" />).similar(<span class="dig">0.91</span>),<span class="dig">30</span>) <span class="cmt">#media_txt_title.png</span>
+
+    gda_utils.FIND(REGION,Pattern(<img src="media_btn_choosefolder.png" />).similar(<span class="dig">0.92</span>).targetOffset(<span class="dig">0</span>,<span class="dig">86</span>)) <span class="cmt">#media_btn_choosefolder.png</span>
+    gda_utils.FIND(REGION,Pattern(<img src="media_btn_connectcam.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">2</span>,<span class="dig">85</span>)) <span class="cmt">#media_btn_connectcam.png</span>
+    <span class="cmt">#if gda_utils.d_gda_settings["isMac"]=="True": #no popup in win</span>
+    <span class="cmt">#    CLICK(REGION,Pattern("popup_btn_indexinfo.png").similar(0.91).targetOffset(143,-2)) #popup_btn_indexinfo.png</span>
+
+
+    gda_utils.FIND(REGION,Pattern(<img src="media_selected_media.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#media_selected_media.png</span>
+    gda_utils.FIND(REGION,Pattern(<img src="media_unselected_recentlyadd.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#media_unselected_recentlyadd.png</span>
+
+    gda_utils.FIND(REGION,Pattern(<img src="media_unselected_edits.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#media_unselected_edits.png</span>
+    gda_utils.FIND(REGION,Pattern(<img src="media_img_addmedia.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#media_img_addmedia.png</span>
+
+    gda_utils.FIND(REGION,Pattern(<img src="media_btn_settings.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#media_btn_settings.png</span>
+
+    gda_utils.FIND(REGION,Pattern(<img src="media_txt_autogdasignin.png" />).exact())  <span class="cmt">#media_txt_autogdasignin.png</span>
+
+    gda_utils.CLICK(REGION,Pattern(<img src="media_txt_media-editor.png" />).exact().targetOffset(<span class="dig">46</span>,<span class="dig">1</span>)) <span class="cmt">#media_txt_media-editor</span>
+
+    gda_utils.WAIT(REGION,Pattern(<img src="popup_txt_pleasechoose.png" />).exact(),<span class="dig">10</span>) <span class="cmt">#popup_txt_pleasechoose.png</span>
+    gda_utils.FIND(REGION,Pattern(<img src="popup_txt_pleasevideos.png" />).exact()) <span class="cmt">#popup_txt_pleasevideos.png</span>
+
+    gda_utils.FIND(REGION,Pattern(<img src="popup_txt_theeditorcanonlyopenvideos.png" />).exact()) <span class="cmt">#popup_txt_theeditorcanonlyopenvideos.png</span>
+    gda_utils.FIND(REGION,Pattern(<img src="popup_txt_pleaseselect.png" />).exact()) <span class="cmt">#popup_txt_pleaseselect.png</span>
+    gda_utils.FIND(REGION,Pattern(<img src="popup_txt_andtryagain.png" />).exact()) <span class="cmt">#popup_txt_theeditorcanonlyopenvideos.png</span>
+
+    gda_utils.CLICK(REGION,Pattern(<img src="popup_btn_choosevideos-OK.png" />).exact()) <span class="cmt">#popup_btn_choosevideos-OK</span>
+
+    gda_utils.WAIT(REGION,Pattern(<img src="media_txt_title.png" />).similar(<span class="dig">0.91</span>),<span class="dig">10</span>) <span class="cmt">#media_txt_title.png</span>
+
+    gda_utils.FIND(REGION,Pattern(<img src="media_txt_media-editor.png" />).exact().targetOffset(-<span class="dig">38</span>,-<span class="dig">1</span>)) <span class="cmt">#media_txt_media-editor</span>
+
+
+<span class="kw">def</span> media_settings(REGION):
+    gda_utils.CLICK(REGION,Pattern(<img src="media_btn_settings.png" />).exact().targetOffset(<span class="dig">17</span>,<span class="dig">1</span>)) <span class="cmt">#media_btn_settings.png</span>
+
+    gda_utils.WAIT(REGION,Pattern(<img src="media-settings_txt_settings.png" />).exact(),<span class="dig">20</span>) <span class="cmt">#media-settings_txt_settings.png</span>
+    gda_utils.FIND(REGION,Pattern(<img src="media-settings_btn_generalsettings-enable.png" />).exact()) <span class="cmt">#media-settings_btn_generalsettings-enable.png   </span>
+    gda_utils.FIND(REGION,Pattern(<img src="media-settings_txt_importlocation.png" />).exact()) <span class="cmt">#media-settings_txt_importlocation.png </span>
+    gda_utils.FIND(REGION,Pattern(<img src="media-settings_txt_mediafolders.png" />).exact()) <span class="cmt">#media-settings_txt_mediafolders.png</span>
+    <span class="cmt">#removed</span>
+    <span class="cmt">#FIND(REGION,Pattern("media-settings_btn_camsettings-disable.png").exact()) #media-settings_btn_camsettings-disable.png </span>
+    gda_utils.FIND(REGION,Pattern(<img src="media-settings_btn_cloudsettings-disable.png" />).exact()) <span class="cmt">#media-settings_btn_cloudsettings-disable.png </span>
+    gda_utils.CLICK(REGION, Pattern(<img src="gensettings_checked_autodownload.png" />).exact().targetOffset(-<span class="dig">157</span>,-<span class="dig">1</span>))  <span class="cmt">#gensettings_checked_autodownload.png</span>
+    gda_utils.CLICK(REGION,Pattern(<img src="gensettings_uncheck_autodownload.png" />).exact().targetOffset(-<span class="dig">157</span>,-<span class="dig">1</span>))  <span class="cmt">#gensettings_uncheck_autodownload.png</span>
+
+    gda_utils.CLICK(REGION,Pattern(<img src="gensettings_checked_autolaunchapp.png" />).exact().targetOffset(-<span class="dig">225</span>,-<span class="dig">2</span>))  <span class="cmt">#gensettings_checked_autolaunchapp.png</span>
+    gda_utils.CLICK(REGION,Pattern(<img src="gensettings_uncheck_autolaunchapp.png" />).exact().targetOffset(-<span class="dig">232</span>,-<span class="dig">2</span>))  <span class="cmt">#gensettings_uncheck_autolaunchapp.png</span>
+
+    gda_utils.CLICK(REGION,Pattern(<img src="gensettings_uncheck_autoplay.png" />).exact().targetOffset(-<span class="dig">225</span>,-<span class="dig">2</span>))  <span class="cmt">#gensettings_uncheck_autoplay.png</span>
+    gda_utils.CLICK(REGION,Pattern(<img src="gensettings_checked_autoplay.png" />).exact().targetOffset(-<span class="dig">224</span>,-<span class="dig">4</span>))  <span class="cmt">#gensettings_checked_autoplay.png</span>
+
+    gda_utils.CLICK(REGION,Pattern(<img src="gensettings_checked_autosync.png" />).exact().targetOffset(-<span class="dig">202</span>,-<span class="dig">1</span>))  <span class="cmt">#gensettings_checked_autosync.png</span>
+    gda_utils.CLICK(REGION,Pattern(<img src="gensettings_uncheck_autosync.png" />).exact().targetOffset(-<span class="dig">209</span>,-<span class="dig">2</span>))  <span class="cmt">#gensettings_uncheck_autosync.png</span>
+
+    <span class="kw">if</span> gda_utils.d_gda_settings[<span class="str">"isWindows"</span>]==<span class="str">"True"</span>:
+        gda_utils.CLICK(REGION,Pattern(<img src="media-settings_btn_selectfolder.png" />).exact()) <span class="cmt">#media-settings_btn_selectfolder.png</span>
+        <span class="skw">wait</span>(<span class="dig">3</span>)
+        gda_utils.CLICK(REGION,Pattern(<img src="popup_btn_selectfolder-select-cancel.png" />).exact().targetOffset(<span class="dig">57</span>,-<span class="dig">2</span>)) <span class="cmt">#popup_btn_selectfolder-select-cancel.png</span>
+        gda_utils.WAIT(REGION,Pattern(<img src="media-settings_txt_settings.png" />).exact(),<span class="dig">20</span>) <span class="cmt">#media-settings_txt_settings.png    </span>
+        gda_utils.CLICK(REGION,Pattern(<img src="media-settings_btn_addnew.png" />).exact()) <span class="cmt">#media-settings_btn_selectfolder.png</span>
+        <span class="skw">wait</span>(<span class="dig">3</span>)
+        gda_utils.CLICK(REGION,Pattern(<img src="popup_btn_selectfolder-select-cancel.png" />).exact().targetOffset(<span class="dig">57</span>,-<span class="dig">2</span>)) <span class="cmt">#popup_btn_selectfolder-select-cancel.png</span>
+
+    gda_utils.WAIT(REGION,Pattern(<img src="media-settings_txt_settings.png" />).exact(),<span class="dig">20</span>) <span class="cmt">#media-settings_txt_settings.png</span>
+
+    <span class="cmt">#CLICK(REGION, Pattern("media-settings_btn_camsettings-disable.png").exact())  #media-settings_btn_camsettings-disable.png</span>
+    <span class="cmt">#FIND(REGION,Pattern("media-settings_btn_camsettings-enable.png").exact())  #media-settings_btn_camsettings-enable.png</span>
+    gda_utils.FIND(REGION,Pattern(<img src="media-settings_btn_generalsettings-disable.png" />).exact())  <span class="cmt">#media-settings_btn_generalsettings-disable.png</span>
+    gda_utils.CLICK(REGION,Pattern(<img src="media-settings_btn_cloudsettings-disable.png" />).exact())  <span class="cmt">#media-settings_btn_cloudsettings-disable.png</span>
+    gda_utils.FIND(REGION,Pattern(<img src="media-settings_btn_cloudsettings-enable.png" />).exact())  <span class="cmt">#media-settings_btn_cloudsettings-enable.png</span>
+    gda_utils.CLICK(REGION,Pattern(<img src="media-settings_btn_generalsettings-disable.png" />).exact())  <span class="cmt">#media-settings_btn_generalsettings-disable.png</span>
+    gda_utils.CLICK(REGION, Pattern(<img src="media-settings_btn_backtomedia.png" />).exact())  <span class="cmt">#media-settings_btn_backtomedia.png</span>
+    gda_utils.WAIT(REGION, Pattern(<img src="media_selected_media.png" />).exact(),<span class="dig">10</span>)  <span class="cmt">#media_selected_media.png</span>
+
+
+<span class="kw">def</span> test_getGDAVersion(REGION):
+
+    gda_utils.FIND(REGION, Pattern(<img src="popup_txt_version200.png" />).exact()) <span class="cmt">#popup_txt_version200</span>
+
+    gda_utils.FIND(REGION, Pattern(<img src="popup_txt_versiongdainfo.png" />).exact()) <span class="cmt">#popup_txt_versiongdainfo</span>
+    m=gda_utils.FIND(REGION, Pattern(<img src="popup_txt_version_ocr.png" />).exact()) <span class="cmt">#popup_txt_version_ocr</span>
+    <span class="kw">if</span> m:
+        <span class="kw">print</span> m.text()
+
+<span class="kw">def</span> startup(region):
+
+    <span class="cmt">#######################################</span>
+    <span class="cmt">###  firststartup    </span>
+    <span class="cmt">#</span>
+    gda_utils.WAIT(region,Pattern(<img src="startup_txt_title.png" />).exact(),<span class="dig">10</span>)
+
+    gda_utils.FIND(region,Pattern(<img src="startup_img_logo.png" />).similar(<span class="dig">0.91</span>))
+
+    gda_utils.CLICK(region,Pattern(<img src="startup_checked_autolaunchcam.png" />).similar(<span class="dig">0.91</span>).targetOffset(-<span class="dig">190</span>,<span class="dig">0</span>))
+
+    gda_utils.CLICK(region,Pattern(<img src="startup_unchecked_autolaunchcam.png" />).similar(<span class="dig">0.91</span>).targetOffset(-<span class="dig">190</span>,<span class="dig">0</span>))
+
+    gda_utils.FIND(region,Pattern(<img src="startup_img_camhappy.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#startup_img_camhappy.png</span>
+
+    gda_utils.FIND(region,Pattern(<img src="startup_img_findmoments.png" />).similar(<span class="dig">0.92</span>)) <span class="cmt">#startup_img_findmoments.png</span>
+
+    gda_utils.FIND(region,Pattern(<img src="startup_img_importmedia.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#startup_img_importmedia.png</span>
+
+    gda_utils.CLICK(region,Pattern(<img src="startup_btn_continue.png" />).similar(<span class="dig">0.90</span>)) <span class="cmt">#startup_btn_continue.png</span>
+
+    <span class="cmt">#CLICK(region,Pattern("startup_autoLaunchCamOnGP.png").similar(0.90))</span>
+
+    <span class="cmt">#CLICK(region,Pattern("startup_unslectedAutoLaunchGP.png").similar(0.91))</span>
+
+
+    <span class="cmt">#CLICK(region,Pattern("startup_continue.png").similar(0.90))</span>
+
+
+<span class="kw">def</span> startup_newAcct(region):
+    gda_utils.WAIT(region,Pattern(<img src="startupCreateAcct_title.png" />).similar(<span class="dig">0.91</span>))
+
+    gda_utils.FIND(region,Pattern(<img src="startupCreateAcct_form1.png" />).similar(<span class="dig">0.90</span>))
+
+    gda_utils.FIND(region,Pattern(<img src="startupCreateAcct_form2.png" />).similar(<span class="dig">0.91</span>))
+
+    gda_utils.FIND(region,Pattern(<img src="startupCreateAcct_form3.png" />).similar(<span class="dig">0.90</span>))
+
+    gda_utils.CLICK(region,Pattern(<img src="startupCreateAcct.png" />).similar(<span class="dig">0.90</span>))
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> signout(region):
+
+    <span class="kw">try</span>:
+        gda_utils.CLICK(region,Pattern(<img src="signout_tool.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">14</span>,<span class="dig">2</span>))
+        gda_utils.CLICK(region,Pattern(<img src="signout_signout.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">24</span>,-<span class="dig">8</span>))
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"Sign Out not found"</span>
+
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> signin_validate(region):
+    <span class="kw">try</span>:
+        gda_utils.WAIT(region,Pattern(<img src="signin_logo.png" />).similar(<span class="dig">0.90</span>),<span class="dig">10</span>)
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"sign in not found"</span>
+        signout(region)
+
+    gda_utils.WAIT(region,Pattern(<img src="signin_logo.png" />).similar(<span class="dig">0.90</span>),<span class="dig">30</span>)
+
+    gda_utils.FIND(region,Pattern(<img src="signin_form.png" />).similar(<span class="dig">0.90</span>))
+
+    gda_utils.FIND(region,Pattern(<img src="signin_email.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">169</span>,<span class="dig">29</span>))
+
+    gda_utils.FIND(region,Pattern(<img src="signin_pw.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">199</span>,-<span class="dig">39</span>))
+
+    gda_utils.FIND(region,Pattern(<img src="signin_needAccountJoinNow.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">63</span>,<span class="dig">2</span>))
+
+    gda_utils.FIND(region,Pattern(<img src="signin_forgotpw.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">1</span>,<span class="dig">19</span>))
+
+    gda_utils.FIND(region,Pattern(<img src="signin_resendConfirmation.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">3</span>,<span class="dig">14</span>))
+
+    gda_utils.FIND(region,Pattern(<img src="signin_signin.png" />).similar(<span class="dig">0.90</span>))
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> signin_Login(region,login,pw):
+
+    gda_utils.TYPE(region,Pattern(<img src="signin_email.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">169</span>,<span class="dig">29</span>),login)
+
+    gda_utils.TYPE(region,Pattern(<img src="signin_pw.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">199</span>,-<span class="dig">39</span>),pw)
+
+    gda_utils.CLICK(region,Pattern(<img src="signin_signin.png" />).similar(<span class="dig">0.90</span>))
+
+    gda_utils.WAIT(region,Pattern(<img src="getstarted_getstartedWithGP.png" />).similar(<span class="dig">0.90</span>),<span class="dig">15</span>)
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> Test_Welcome(r0):
+    <span class="cmt">#wait("GoProDesktopApp_GPLogo.png").find("Welcome_GDA_Title.png")</span>
+    r1 = r0.<span class="skw">find</span>(<img src="Welcome_getstarted.png" />)
+    r1.<span class="skw">find</span>(<img src="GoproLogo.png" />)
+
+    r1.<span class="skw">find</span>(<img src="Welcome GDA.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Manage.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Edit.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Share.png" />)
+
+    r2 = r1.<span class="skw">find</span>(Pattern(<img src="Welcome_AutoLaunch.png" />).similar(<span class="dig">0.80</span>))
+    <span class="cmt"># enable</span>
+    r2.<span class="skw">find</span>(Pattern(<img src="Welcome_UnChecked_AutoLaunch.png" />).similar(<span class="dig">0.90</span>)).<span class="skw">click</span>(<img src="Welcome_Unchecked_btn.png" />)
+
+    <span class="cmt"># disable</span>
+    r2.<span class="skw">find</span>(Pattern(<img src="Welcome_UnChecked_AutoLaunch.png" />).similar(<span class="dig">0.90</span>)).<span class="skw">click</span>(<img src="Welcome_Checked_btn.png" />)
+
+    r1.<span class="skw">click</span>(<img src="Welcome_GetStarted_btn.png" />)
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> addmedia_validate(region):
+    gda_utils.CLICK(region,Pattern(<img src="getstarted_choosefolder.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">0</span>,<span class="dig">96</span>))
+
+    gda_utils.WAIT(region,Pattern(<img src="dialogFindGPMedia_Title.png" />).similar(<span class="dig">0.90</span>),<span class="dig">10</span>)
+
+    gda_utils.FIND(region,Pattern(<img src="dialogFindGPMedia_ChooseFolders.png" />).similar(<span class="dig">0.90</span>))
+
+    gda_utils.CLICK(region,Pattern(<img src="dialogFindGPMedia_Addfolder.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">6</span>,-<span class="dig">19</span>))
+
+    <span class="cmt">#assume the dialog pops up over the GoPro region</span>
+    <span class="cmt">#WAIT(region,Pattern("osxdialog_filedialog.png").similar(0.90).targetOffset(40,2))</span>
+    <span class="cmt">#wait(1)    </span>
+    <span class="cmt">#region.waitVanish(Pattern("osxdialog_filedialog.png").similar(0.90).targetOffset(40,2),5)</span>
+    <span class="skw">type</span>(Key.ENTER)
+
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+
+    gda_utils.CLICK(region,Pattern(<img src="dialogFindGPMedia_Addfolder.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">0</span>,<span class="dig">37</span>))
+
+
+    gda_utils.CLICK(region,Pattern(<img src="GPSettings_seconditem.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">43</span>,<span class="dig">17</span>))
+
+    gda_utils.CLICK(region,Pattern(<img src="dialogYsure_Remove.png" />).similar(<span class="dig">0.90</span>))
+
+
+    gda_utils.CLICK(region,Pattern(<img src="GPSettings_BackToMedia.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">29</span>,-<span class="dig">30</span>))
+
+    <span class="cmt"># region.click(Pattern("dialogFindGPMedia_Cancel.png").similar(0.90).targetOffset(-15,7))</span>
+
+
+<span class="kw">def</span> startup(region):
+
+    <span class="cmt">#######################################</span>
+    <span class="cmt">###  firststartup    </span>
+    <span class="cmt">#</span>
+    gda_utils.WAIT(region,Pattern(<img src="startup_txt_title.png" />).exact(),<span class="dig">10</span>)
+
+    gda_utils.FIND(region,Pattern(<img src="startup_img_logo.png" />).similar(<span class="dig">0.91</span>))
+
+    gda_utils.CLICK(region,Pattern(<img src="startup_checked_autolaunchcam-1.png" />).similar(<span class="dig">0.91</span>).targetOffset(-<span class="dig">190</span>,<span class="dig">0</span>))
+
+    gda_utils.CLICK(region,Pattern(<img src="startup_unchecked_autolaunchcam-1.png" />).similar(<span class="dig">0.91</span>).targetOffset(-<span class="dig">190</span>,<span class="dig">0</span>))
+
+    gda_utils.FIND(region,Pattern(<img src="startup_img_camhappy-1.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#startup_img_camhappy.png</span>
+
+    gda_utils.FIND(region,Pattern(<img src="startup_img_findmoments-1.png" />).similar(<span class="dig">0.92</span>)) <span class="cmt">#startup_img_findmoments.png</span>
+
+    gda_utils.FIND(region,Pattern(<img src="startup_img_importmedia-1.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#startup_img_importmedia.png</span>
+
+    gda_utils.CLICK(region,Pattern(<img src="startup_btn_continue-1.png" />).similar(<span class="dig">0.90</span>)) <span class="cmt">#startup_btn_continue.png</span>
+
+    <span class="cmt">#CLICK(region,Pattern("startup_autoLaunchCamOnGP.png").similar(0.90))</span>
+
+    <span class="cmt">#CLICK(region,Pattern("startup_unslectedAutoLaunchGP.png").similar(0.91))</span>
+
+
+    <span class="cmt">#CLICK(region,Pattern("startup_continue.png").similar(0.90))</span>
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> Test_Welcome(r0):
+    <span class="cmt">#wait("GoProDesktopApp_GPLogo.png").find("Welcome_GDA_Title.png")</span>
+    r1 = r0.<span class="skw">find</span>(<img src="Welcome_getstarted.png" />)
+    r1.<span class="skw">find</span>(<img src="GoproLogo.png" />)
+
+    r1.<span class="skw">find</span>(<img src="Welcome GDA.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Manage.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Edit.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Share.png" />)
+
+    r2 = r1.<span class="skw">find</span>(Pattern(<img src="Welcome_AutoLaunch.png" />).similar(<span class="dig">0.80</span>))
+    <span class="cmt"># enable</span>
+    r2.<span class="skw">find</span>(Pattern(<img src="Welcome_UnChecked_AutoLaunch.png" />).similar(<span class="dig">0.90</span>)).<span class="skw">click</span>(<img src="Welcome_Unchecked_btn.png" />)
+
+    <span class="cmt"># disable</span>
+    r2.<span class="skw">find</span>(Pattern(<img src="Welcome_UnChecked_AutoLaunch.png" />).similar(<span class="dig">0.90</span>)).<span class="skw">click</span>(<img src="Welcome_Checked_btn.png" />)
+
+    r1.<span class="skw">click</span>(<img src="Welcome_GetStarted_btn.png" />)
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> signout(region):
+
+    <span class="kw">try</span>:
+        gda_utils.CLICK(region,Pattern(<img src="signout_tool.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">14</span>,<span class="dig">2</span>))
+        gda_utils.CLICK(region,Pattern(<img src="signout_signout.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">24</span>,-<span class="dig">8</span>))
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"Sign Out not found"</span>
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> imagerepo():
+    <span class="cmt">#sorted png name order below   </span>
+    <span class="skw">find</span>(<img src="camsettings_btn_h4blacksettings.png" />)  <span class="cmt">#camsettings_btn_h4blacksettings.png</span>
+    <span class="skw">find</span>(<img src="camsettings_btn_h4sessionsettings.png" />)  <span class="cmt">#camsettings_btn_h4sessionsettings.png</span>
+    <span class="skw">find</span>(<img src="camsettings_btn_h4silversettings.png" />)  <span class="cmt">#camsettings_btn_h4silversettings.png</span>
+    <span class="skw">find</span>(<img src="camsettings_img_h4black.png" />)  <span class="cmt">#camsettings_img_h4black.png</span>
+    <span class="skw">find</span>(<img src="camsettings_img_h4session.png" />)  <span class="cmt">#camsettings_img_h4session.png</span>
+    <span class="skw">find</span>(<img src="camsettings_img_h4silver.png" />)  <span class="cmt">#camsettings_img_h4silver.png</span>
+    <span class="skw">find</span>(<img src="camsettings_txt_title.png" />)  <span class="cmt">#camsettings_txt_title.png</span>
+    <span class="skw">find</span>(<img src="conncam_btn_getsupport.png" />)  <span class="cmt">#conncam_btn_getsupport.png</span>
+    <span class="skw">find</span>(<img src="conncam_btn_gotit.png" />)  <span class="cmt">#conncam_btn_gotit.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_camon.png" />)  <span class="cmt">#conncam_txt_camon.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_plugcam.png" />)  <span class="cmt">#conncam_txt_plugcam.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_selectimport.png" />)  <span class="cmt">#conncam_txt_selectimport.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_title.png" />)  <span class="cmt">#conncam_txt_title.png</span>
+    <span class="skw">find</span>(<img src="createacct_btn_getacct.png" />)  <span class="cmt">#createacct_btn_getacct.png</span>
+    <span class="skw">find</span>(<img src="createacct_btn_signin.png" />)  <span class="cmt">#createacct_btn_signin.png</span>
+    <span class="skw">find</span>(<img src="createacct_checked_getnews.png" />)  <span class="cmt">#createacct_checked_getnews.png</span>
+    <span class="skw">find</span>(<img src="createacct_checked_iacknowledge.png" />)  <span class="cmt">#createacct_checked_iacknowledge.png</span>
+    <span class="skw">find</span>(<img src="createacct_txt_invalidemail.png" />)  <span class="cmt">#createacct_txt_invalidemail.png</span>
+    <span class="skw">find</span>(<img src="createacct_txt_subtitle.png" />)  <span class="cmt">#createacct_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="createacct_txt_title.png" />)  <span class="cmt">#createacct_txt_title.png</span>
+    <span class="skw">find</span>(<img src="createacct_txtbox_email.png" />)  <span class="cmt">#createacct_txtbox_email.png</span>
+    <span class="skw">find</span>(<img src="createacct_txtbox_password.png" />)  <span class="cmt">#createacct_txtbox_password.png</span>
+    <span class="skw">find</span>(<img src="createacct_unchecked_getnews.png" />)  <span class="cmt">#createacct_unchecked_getnews.png</span>
+    <span class="skw">find</span>(<img src="createacct_unchecked_iacknowledge.png" />)  <span class="cmt">#createacct_unchecked_iacknowledge.png</span>
+    <span class="skw">find</span>(<img src="edits_btn_createedit.png" />)  <span class="cmt">#edits_btn_createedit.png</span>
+    <span class="skw">find</span>(<img src="edits_img_edits.png" />)  <span class="cmt">#edits_img_edits.png</span>
+    <span class="skw">find</span>(<img src="edits_txt_info.png" />)  <span class="cmt">#edits_txt_info.png</span>
+    <span class="skw">find</span>(<img src="edits_txt_noedits.png" />)  <span class="cmt">#edits_txt_noedits.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_addfolder.png" />)  <span class="cmt">#findmedia_btn_addfolder.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_cancel.png" />)  <span class="cmt">#findmedia_btn_cancel.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_close.png" />)  <span class="cmt">#findmedia_btn_close.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_managefoldersettings.png" />)  <span class="cmt">#findmedia_btn_managefoldersettings.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_save.png" />)  <span class="cmt">#findmedia_btn_save.png</span>
+    <span class="skw">find</span>(<img src="findmedia_txt_subtitle.png" />)  <span class="cmt">#findmedia_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="findmedia_txt_title.png" />)  <span class="cmt">#findmedia_txt_title.png</span>
+    <span class="skw">find</span>(<img src="gensettings_btn_addnew.png" />)  <span class="cmt">#gensettings_btn_addnew.png</span>
+    <span class="skw">find</span>(<img src="gensettings_btn_importlocation.png" />)  <span class="cmt">#gensettings_btn_importlocation.png</span>
+    <span class="skw">find</span>(<img src="gensettings_btn_mediafoldersscan.png" />)  <span class="cmt">#gensettings_btn_mediafoldersscan.png</span>
+    <span class="skw">find</span>(<img src="gensettings_checked_autodownload.png" />)  <span class="cmt">#gensettings_checked_autodownload.png</span>
+    <span class="skw">find</span>(<img src="gensettings_checked_autolaunchapp.png" />)  <span class="cmt">#gensettings_checked_autolaunchapp.png</span>
+    <span class="skw">find</span>(<img src="gensettings_checked_autoplay.png" />)  <span class="cmt">#gensettings_checked_autoplay.png</span>
+    <span class="skw">find</span>(<img src="gensettings_checked_autosync.png" />)  <span class="cmt">#gensettings_checked_autosync.png</span>
+    <span class="skw">find</span>(<img src="gensettings_txt_importlocation.png" />)  <span class="cmt">#gensettings_txt_importlocation.png</span>
+    <span class="skw">find</span>(<img src="gensettings_txt_mediafolders.png" />)  <span class="cmt">#gensettings_txt_mediafolders.png</span>
+    <span class="skw">find</span>(<img src="gensettings_txt_title.png" />)  <span class="cmt">#gensettings_txt_title.png</span>
+    <span class="skw">find</span>(<img src="gensettings_uncheck_autodownload.png" />)  <span class="cmt">#gensettings_uncheck_autodownload.png</span>
+    <span class="skw">find</span>(<img src="gensettings_uncheck_autolaunchapp.png" />)  <span class="cmt">#gensettings_uncheck_autolaunchapp.png</span>
+    <span class="skw">find</span>(<img src="gensettings_uncheck_autoplay.png" />)  <span class="cmt">#gensettings_uncheck_autoplay.png</span>
+    <span class="skw">find</span>(<img src="gensettings_uncheck_autosync.png" />)  <span class="cmt">#gensettings_uncheck_autosync.png</span>
+    <span class="skw">find</span>(<img src="media_btn_choosefolder.png" />)  <span class="cmt">#media_btn_choosefolder.png</span>
+    <span class="skw">find</span>(<img src="media_btn_connectcam.png" />)  <span class="cmt">#media_btn_connectcam.png</span>
+    <span class="skw">find</span>(<img src="media_btn_settings.png" />)  <span class="cmt">#media_btn_settings.png</span>
+    <span class="skw">find</span>(<img src="media_img_addmedia.png" />)  <span class="cmt">#media_img_addmedia.png</span>
+    <span class="skw">find</span>(<img src="media_img_alerts.png" />)  <span class="cmt">#media_img_alerts.png</span>
+    <span class="skw">find</span>(<img src="media_selected_edits.png" />)  <span class="cmt">#media_selected_edits.png</span>
+    <span class="skw">find</span>(<img src="media_selected_hero4black.png" />)  <span class="cmt">#media_selected_hero4black.png</span>
+    <span class="skw">find</span>(<img src="media_selected_hero4session.png" />)  <span class="cmt">#media_selected_hero4session.png</span>
+    <span class="skw">find</span>(<img src="media_selected_hero4silver.png" />)  <span class="cmt">#media_selected_hero4silver.png</span>
+    <span class="skw">find</span>(<img src="media_selected_media.png" />)  <span class="cmt">#media_selected_media.png</span>
+    <span class="skw">find</span>(<img src="media_selected_recentlyadd.png" />)  <span class="cmt">#media_selected_recentlyadd.png</span>
+    <span class="skw">find</span>(<img src="media_txt_autogdasignin.png" />)  <span class="cmt">#media_txt_autogdasignin.png</span>
+    <span class="skw">find</span>(<img src="media_txt_media-editor.png" />)  <span class="cmt">#media_txt_media-editor.png</span>
+    <span class="skw">find</span>(<img src="media_txt_title.png" />)  <span class="cmt">#media_txt_title.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_edits.png" />)  <span class="cmt">#media_unselected_edits.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_hero4black.png" />)  <span class="cmt">#media_unselected_hero4black.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_hero4session.png" />)  <span class="cmt">#media_unselected_hero4session.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_hero4silver.png" />)  <span class="cmt">#media_unselected_hero4silver.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_media.png" />)  <span class="cmt">#media_unselected_media.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_recentlyadd.png" />)  <span class="cmt">#media_unselected_recentlyadd.png</span>
+    <span class="skw">find</span>(<img src="media-settings_btn_addnew.png" />)  <span class="cmt">#media-settings_btn_addnew.png</span>
+    <span class="skw">find</span>(<img src="media-settings_btn_backtomedia.png" />)  <span class="cmt">#media-settings_btn_backtomedia.png</span>
+    <span class="skw">find</span>(<img src="media-settings_btn_camsettings-disable.png" />)  <span class="cmt">#media-settings_btn_camsettings-disable.png</span>
+    <span class="skw">find</span>(<img src="media-settings_btn_camsettings-enable.png" />)  <span class="cmt">#media-settings_btn_camsettings-enable.png</span>
+    <span class="skw">find</span>(<img src="media-settings_btn_cloudsettings-disable.png" />)  <span class="cmt">#media-settings_btn_cloudsettings-disable.png</span>
+    <span class="skw">find</span>(<img src="media-settings_btn_cloudsettings-enable.png" />)  <span class="cmt">#media-settings_btn_cloudsettings-enable.png</span>
+    <span class="skw">find</span>(<img src="media-settings_btn_generalsettings-disable.png" />)  <span class="cmt">#media-settings_btn_generalsettings-disable.png</span>
+    <span class="skw">find</span>(<img src="media-settings_btn_onlinesupport.png" />)  <span class="cmt">#media-settings_btn_onlinesupport.png</span>
+    <span class="skw">find</span>(<img src="media-settings_btn_sendfeedback.png" />)  <span class="cmt">#media-settings_btn_sendfeedback.png</span>
+    <span class="skw">find</span>(<img src="media-settings_checked_autoplay.png" />)  <span class="cmt">#media-settings_checked_autoplay.png</span>
+    <span class="skw">find</span>(<img src="media-settings_checked_autosynch.png" />)  <span class="cmt">#media-settings_checked_autosynch.png</span>
+    <span class="skw">find</span>(<img src="media-settings_img_scanning.png" />)  <span class="cmt">#media-settings_img_scanning.png</span>
+    <span class="skw">find</span>(<img src="media-settings_img_scan.png" />)  <span class="cmt">#media-settings_img_scan.png</span>
+    <span class="skw">find</span>(<img src="media-settings_btn_selectfolder.png" />) <span class="cmt">#media-settings_btn_selectfolder.png</span>
+    <span class="skw">find</span>(<img src="media-settings_txt_importlocation.png" />)  <span class="cmt">#media-settings_txt_importlocation.png</span>
+    <span class="skw">find</span>(<img src="media-settings_txt_mediafolders.png" />)  <span class="cmt">#media-settings_txt_mediafolders.png</span>
+    <span class="skw">find</span>(<img src="media-settings_txt_settings.png" />)  <span class="cmt">#media-settings_txt_settings.png</span>
+    <span class="skw">find</span>(<img src="media-settings_unchecked_autoplay.png" />)  <span class="cmt">#media-settings_unchecked_autoplay.png</span>
+    <span class="skw">find</span>(<img src="media-settings_unchecked_autosynch.png" />)  <span class="cmt">#media-settings_unchecked_autosynch.png</span>
+    <span class="skw">find</span>(<img src="mediacam_btn_importfiles.png" />)  <span class="cmt">#mediacam_btn_importfiles.png</span>
+    <span class="skw">find</span>(<img src="mediacam_txt_spaceused.png" />)  <span class="cmt">#mediacam_txt_spaceused.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_btn_cancel.png" />)  <span class="cmt">#mediacamsettings_btn_cancel.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_btn_close.png" />)  <span class="cmt">#mediacamsettings_btn_close.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_btn_save.png" />)  <span class="cmt">#mediacamsettings_btn_save.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_checked_autodelete.png" />)  <span class="cmt">#mediacamsettings_checked_autodelete.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_checked_autoimport.png" />)  <span class="cmt">#mediacamsettings_checked_autoimport.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_unchecked_autodelete.png" />)  <span class="cmt">#mediacamsettings_unchecked_autodelete.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_unchecked_autoimport.png" />)  <span class="cmt">#mediacamsettings_unchecked_autoimport.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_img_logo.png" />)  <span class="cmt">#mediah4black_img_logo.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_available.png" />)  <span class="cmt">#mediah4black_txt_available.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_capacity.png" />)  <span class="cmt">#mediah4black_txt_capacity.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_subtitle.png" />)  <span class="cmt">#mediah4black_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_title.png" />)  <span class="cmt">#mediah4black_txt_title.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_used.png" />)  <span class="cmt">#mediah4black_txt_used.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_img_logo.png" />)  <span class="cmt">#mediah4session_img_logo.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_available.png" />)  <span class="cmt">#mediah4session_txt_available.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_capacity.png" />)  <span class="cmt">#mediah4session_txt_capacity.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_subtitle.png" />)  <span class="cmt">#mediah4session_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_title.png" />)  <span class="cmt">#mediah4session_txt_title.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_used.png" />)  <span class="cmt">#mediah4session_txt_used.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_img_logo.png" />)  <span class="cmt">#mediah4silver_img_logo.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_available.png" />)  <span class="cmt">#mediah4silver_txt_available.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_capacity.png" />)  <span class="cmt">#mediah4silver_txt_capacity.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_subtitle.png" />)  <span class="cmt">#mediah4silver_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_title.png" />)  <span class="cmt">#mediah4silver_txt_title.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_used.png" />)  <span class="cmt">#mediah4silver_txt_used.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4black_txt_cammodel.png" />)  <span class="cmt">#mediasettingsh4black_txt_cammodel.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4black_txtbox_camfolder.png" />)  <span class="cmt">#mediasettingsh4black_txtbox_camfolder.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4session_txt_cammodel.png" />)  <span class="cmt">#mediasettingsh4session_txt_cammodel.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4session_txtbox_camfolder.png" />)  <span class="cmt">#mediasettingsh4session_txtbox_camfolder.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4silver_txt_cammodel.png" />)  <span class="cmt">#mediasettingsh4silver_txt_cammodel.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4silver_txtbox_camfolder.png" />)  <span class="cmt">#mediasettingsh4silver_txtbox_camfolder.png</span>
+    <span class="skw">find</span>(<img src="popup_btn_choosevideos-OK.png" />)  <span class="cmt">#popup_btn_choosevideos-OK.png</span>
+    <span class="skw">find</span>(<img src="popup_btn_indexinfo.png" />)  <span class="cmt">#popup_btn_indexinfo.png</span>
+    <span class="skw">find</span>(<img src="popup_txt_pleasechoosevideos.png" />)  <span class="cmt">#popup_txt_pleasechoosevideos.png</span>
+    <span class="skw">find</span>(<img src="popup_txt_theeditorcanonlyopenvideos.png" />)  <span class="cmt">#popup_txt_theeditorcanonlyopenvideos.png</span>
+    <span class="skw">find</span>(<img src="popup_txt_version_ocr.png" />)  <span class="cmt">#popup_txt_version_ocr.png</span>
+    <span class="skw">find</span>(<img src="popup_txt_version200.png" />)  <span class="cmt">#popup_txt_version200.png</span>
+    <span class="skw">find</span>(<img src="popup_txt_versiongdainfo.png" />)  <span class="cmt">#popup_txt_versiongdainfo.png</span>
+    <span class="skw">find</span>(<img src="recentlyadd_btn_addmedia.png" />)  <span class="cmt">#recentlyadd_btn_addmedia.png</span>
+    <span class="skw">find</span>(<img src="recentlyadd_btn_connectcam.png" />)  <span class="cmt">#recentlyadd_btn_connectcam.png</span>
+    <span class="skw">find</span>(<img src="recentlyadd_txt_title.png" />)  <span class="cmt">#recentlyadd_txt_title.png</span>
+    <span class="skw">find</span>(<img src="settings_btn_backtomedia.png" />)  <span class="cmt">#settings_btn_backtomedia.png</span>
+    <span class="skw">find</span>(<img src="settings_selected_camsettings.png" />)  <span class="cmt">#settings_selected_camsettings.png</span>
+    <span class="skw">find</span>(<img src="settings_selected_gensettings.png" />)  <span class="cmt">#settings_selected_gensettings.png</span>
+    <span class="skw">find</span>(<img src="settings_unselected_camsettings.png" />)  <span class="cmt">#settings_unselected_camsettings.png</span>
+    <span class="skw">find</span>(<img src="settings_unselected_gensettings.png" />)  <span class="cmt">#settings_unselected_gensettings.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_forgot.png" />)  <span class="cmt">#signin_btn_forgot.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_needacct.png" />)  <span class="cmt">#signin_btn_needacct.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_resendemail.png" />)  <span class="cmt">#signin_btn_resendemail.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_signin.png" />)  <span class="cmt">#signin_btn_signin.png</span>
+    <span class="skw">find</span>(<img src="signin_img_logo.png" />)  <span class="cmt">#signin_img_logo.png</span>
+    <span class="skw">find</span>(<img src="signin_txt_invalidemail.png" />)  <span class="cmt">#signin_txt_invalidemail.png</span>
+    <span class="skw">find</span>(<img src="signin_txt_title.png" />)  <span class="cmt">#signin_txt_title.png</span>
+    <span class="skw">find</span>(<img src="signin_txtbox_emailpw_blankpw.png" />)  <span class="cmt">#signin_txtbox_emailpw_blankpw.png</span>
+    <span class="skw">find</span>(<img src="signin_txtbox_emailpw.png" />)  <span class="cmt">#signin_txtbox_emailpw.png</span>
+    <span class="skw">find</span>(<img src="startup_btn_continue.png" />)  <span class="cmt">#startup_btn_continue.png</span>
+    <span class="skw">find</span>(<img src="startup_checked_autolaunchcam.png" />)  <span class="cmt">#startup_checked_autolaunchcam.png</span>
+    <span class="skw">find</span>(<img src="startup_img_camhappy.png" />)  <span class="cmt">#startup_img_camhappy.png</span>
+    <span class="skw">find</span>(<img src="startup_img_findmoments.png" />)  <span class="cmt">#startup_img_findmoments.png</span>
+    <span class="skw">find</span>(<img src="startup_img_importmedia.png" />)  <span class="cmt">#startup_img_importmedia.png</span>
+    <span class="skw">find</span>(<img src="startup_img_logo.png" />)  <span class="cmt">#startup_img_logo.png</span>
+    <span class="skw">find</span>(<img src="startup_txt_title.png" />)  <span class="cmt">#startup_txt_title.png</span>
+    <span class="skw">find</span>(<img src="startup_unchecked_autolaunchcam.png" />)  <span class="cmt">#startup_unchecked_autolaunchcam.png</span>
+    <span class="skw">find</span>(<img src="user_btn_select.png" />)  <span class="cmt">#user_btn_select.png</span>
+    <span class="skw">find</span>(<img src="user_btn_signoff.png" />)  <span class="cmt">#user_btn_signoff.png</span>
+    <span class="skw">find</span>(<img src="popup_btn_selectfolder-select-cancel.png" />) <span class="cmt">#popup_btn_selectfolder-select-cancel.png</span>
+
+    <span class="skw">find</span>(<img src="media-settings-cam_img_camera.png" />)  <span class="cmt">#media-settings-cam_img_camera.png</span>
+
+    <span class="skw">find</span>(<img src="media-settings-cam_txt_pleaseconnectyourgopro.png" />) <span class="cmt">#media-settings-cam_txt_pleaseconnectyourgopro.png</span>
+    <span class="skw">find</span>(<img src="media-settings-cam_txt_settings-title.png" />) <span class="cmt">#media-settings-cam_txt_settings-title.png</span>
+
+    <span class="skw">find</span>(<img src="media-settings-cam_txt_plugcamintocomputer.png" />)  <span class="cmt">#media-settings-cam_txt_plugcamintocomputer.png</span>
+
+    <span class="skw">find</span>(<img src="media-settings-cloud_txt_goproupsell.png" />) <span class="cmt">#media-settings-cloud_txt_goproupsell.png</span>
+
+    <span class="skw">find</span>(<img src="media-popup_txt_letsfindgopromedia.png" />)  <span class="cmt">#media-popup_txt_letsfindgopromedia.png</span>
+
+    <span class="skw">find</span>(<img src="media-popup_txt_choosefolderstoadd.png" />) <span class="cmt">#media-popup_txt_choosefolderstoadd.png</span>
+
+    <span class="skw">find</span>(<img src="media-popup_btn_addfolder.png" />)  <span class="cmt">#media-popup_btn_addfolder</span>
+
+    <span class="skw">find</span>(<img src="media-popup_btn_managefoldersinsettings.png" />)  <span class="cmt">#media-popup_btn_managefoldersinsettings.png</span>
+
+    <span class="skw">find</span>(<img src="media-popup_btn_save.png" />) <span class="cmt">#media-popup_btn_save.png</span>
+
+    <span class="skw">find</span>(<img src="media-popup_btn_cancel.png" />)  <span class="cmt">#media-popup_btn_cancel.png</span>
+
+    <span class="skw">find</span>(<img src="media-popup_txt_connectyourcamera.png" />)  <span class="cmt">#media-popup_txt_connectyourcamera.png</span>
+
+    <span class="skw">find</span>(<img src="media-popup_txt_cameraconnectsteps.png" />)  <span class="cmt">#media-popup_txt_cameraconnectsteps.png</span>
+
+    <span class="skw">find</span>(<img src="media-popup_btn_gotit.png" />)  <span class="cmt">#media-popup_btn_gotit</span>
+
+    <span class="skw">find</span>(<img src="media-popup_btn_getsupport.png" />)  <span class="cmt">#media-popup_btn_getsupport.png</span>
+
+    <span class="skw">find</span>(<img src="media-edits_img_noeditsyet.png" />)  <span class="cmt">#media-edits_img_noeditsyet.png</span>
+
+    <span class="skw">find</span>(<img src="media-edits_btn_createanedit.png" />)  <span class="cmt">#media-edits_btn_createanedit.png</span>
+
+    <span class="skw">find</span>(<img src="media-edits_txt_seeallyoursharableedits.png" />)  <span class="cmt">#media-edits_txt_seeallyoursharableedits.png</span>
+
+<span class="cmt">##########################################</span>
+
+
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> BAT(gpa, gpr):
+    <span class="cmt">#global startupcnt</span>
+    <span class="cmt">#global d_similarity</span>
+
+    gpr=refreshregion(gpa)
+    startup(gpr)
+    <span class="kw">if</span> <span class="kw">not</span> putDictToFile(gda_utils.d_similarity):
+        exit(<span class="dig">1</span>)
+
+    gpr=refreshregion(gpa)
+    create_your_acct(gpr) <span class="cmt">#fail</span>
+    <span class="kw">if</span> <span class="kw">not</span> putDictToFile(gda_utils.d_similarity):
+        exit(<span class="dig">1</span>)
+
+    gpr=refreshregion(gpa)
+    signin_test(gpr) <span class="cmt">#fail</span>
+    <span class="kw">if</span> <span class="kw">not</span> putDictToFile(gda_utils.d_similarity):
+        exit(<span class="dig">1</span>)
+
+    gpr=refreshregion(gpa)
+    signin_test(gpr,False,<span class="str">"autogda00@gmail.com"</span>,<span class="str">"access4auto"</span>) <span class="cmt">#prod login, staging = "autogda00@gmail.com","Access4auto"</span>
+    <span class="kw">if</span> <span class="kw">not</span> putDictToFile(gda_utils.d_similarity):
+        exit(<span class="dig">1</span>)
+
+    gpr=refreshregion(gpa)
+    media_getstarted_gopro(gpr) <span class="cmt">#media screen</span>
+    putDictToFile(gda_utils.d_similarity)
+
+
+    gpr=refreshregion(gpa)
+    media_settings(gpr) <span class="cmt">#media settings</span>
+    putDictToFile(gda_utils.d_similarity)
+
+
+    <span class="cmt">#gpr=refreshregion(gp)</span>
+    <span class="cmt">#signin_test(gpr)                </span>
+    <span class="cmt">#if startupcnt == 0:</span>
+    <span class="cmt">#startup(gpr)</span>
+    <span class="cmt">#gpr=refreshregion(gp)</span>
+    <span class="cmt">#startup_newAcct(gpr)</span>
+    <span class="cmt">#startup=1</span>
+    <span class="cmt">#gpr=refreshregion(gp)    </span>
+    <span class="cmt">#signin_validate(gpr)    </span>
+    <span class="cmt">#gpr=refreshregion(gp)</span>
+    <span class="cmt">#signin_Login(gpr,"autogda00@gmail.com","autogda00")</span>
+    <span class="cmt">#gpr=refreshregion(gp)</span>
+    <span class="cmt">#startup=1</span>
+    <span class="cmt">#getstarted_validate(gpr)</span>
+    <span class="cmt">#gpr=refreshregion(gp)</span>
+    <span class="cmt">#addmedia_validate(gpr)</span>
+    <span class="cmt">#signout(gpr)</span>
+
+</pre>
+</body>
+</html>

@@ -1,0 +1,619 @@
+.widget-list {
+  background-color: #c0f1f5;
+  vertical-align: top; }
+.widget-list .gridlabel {
+    color: rgba(0, 0, 0, 0.7);
+    text-align: left;
+    vertical-align: top; }
+.widget-list .gridvalue {
+    color: rgba(0, 0, 0, 0.7);
+    text-align: left;
+    vertical-align: top; }
+
+  .widget-list .title {
+    color: rgba(0, 0, 0, 0.7);
+    text-align: left;
+    vertical-align: top; }
+
+  .widget-list ol, .widget-list ul {
+    margin: 0 15px;
+    text-align: left;
+    color: rgba(0, 0, 0, 0.7); }
+  .widget-list ol {
+    list-style-position: inside; }
+  .widget-list li {
+    margin-bottom: 5px; }
+  .widget-list .list-nostyle {
+    list-style: none; }
+  .widget-list .list {
+    color: rgba(0, 0, 0, 0.7);
+    vertical-align: top;
+    text-align: left; }
+  .widget-list .gp_pass {
+    color: rgba(0, 0, 0, 0.7);
+    vertical-align: top;
+    text-align: left; }
+  .widget-list .gp_fail {
+    color: rgba(0, 0, 0, 0.7);
+    vertical-align: top;
+    text-align: left; }
+  .widget-list .gp_gp_nottest {
+    color: rgba(0, 0, 0, 0.7);
+    vertical-align: top;
+    text-align: left; }
+  .widget-list .gp_camera {
+    color: rgba(0, 0, 0, 0.7);
+    vertical-align: top;
+    text-align: left; }
+  .widget-list .gp_smarty {
+    color: rgba(0, 0, 0, 0.7);
+    vertical-align: top;
+    text-align: left; }
+  .widget-list .gp_os {
+    color: rgba(0, 0, 0, 0.7);
+    vertical-align: top;
+    text-align: left; }
+  .widget-list .updated-at {
+    color: rgba(0, 0, 0, 0.3); }
+  .widget-list .more-info {
+    color: rgba(0, 0, 0, 0.7);
+    vertical-align: bottom;
+    text-align: left; }
+
+
+  body {
+    background-color: #b0c4de;
+}
+.gridlabel {
+    font-size: 24px;
+    background-color: lavender;
+    color: maroon;
+    text-align: left;
+    vertical-align: top;
+
+}
+.gridvalue {
+    font-size: 24px;
+    background-color: lavender;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+
+}
+  .runstatusrun {
+    font-size: 24px;
+    background-color: lavender;
+    color: green;
+    text-align: left;
+    vertical-align: top;
+
+  }
+   .runstatusstop {
+    font-size: 24px;
+    background-color: red;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+  }
+   .runstatusdone {
+    font-size: 24px;
+    background-color: lavender;
+    color: black;
+    text-align: left;
+  }  
+  .passed {
+    font-size: 12px;
+    background-color: lavender;
+    color: green;
+    text-align: left;
+  }
+  .failed {
+    font-size: 12px;
+    background-color: lavender;
+    color: red;
+    text-align: left;
+  }
+  .failed0 {
+    font-size: 12px;
+    background-color: lavender;
+    color: green;
+    text-align: left;
+  }
+  .errors {
+    font-size: 12px;
+    background-color: red;
+    color: black;
+    text-align: left;
+  }
+  .errors0 {
+    font-size: 12px;
+    background-color: lavender;
+    color: green;
+    text-align: left;
+  }
+  .untested {
+    font-size: 12px;
+    background-color: lavender;
+    color: grey;
+    text-align: left;
+  }
+  .pdone {
+    font-size: 12px;
+    background-color: lavender;
+    color: black;
+    text-align: left;
+  }
+  .featuref {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+  }
+  .datetimestart {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+  }
+  .elapse {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+  }
+  .host {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+  }
+  .runinfo {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+  }
+.pass1 {
+    font-size: 12px;
+    background-color: inherit;
+    color: green;
+    text-align: left;
+    vertical-align: top;
+}
+.fail1 {
+    font-size: 12px;
+    background-color: inherit;
+    color: red;
+    text-align: left;
+    vertical-align: top;
+}
+.error1 {
+    font-size: 12px;
+    background-color: red;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.datetime1 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.scenario1 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.resultinfo1 {
+    font-size: 9px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+    text-indent: 100px;
+    
+}
+
+.pass2 {
+    font-size: 12px;
+    background-color: inherit;
+    color: green;
+    text-align: left;
+    vertical-align: top;
+}
+.fail2 {
+    font-size: 12px;
+    background-color: inherit;
+    color: red;
+    text-align: left;
+    vertical-align: top;
+}
+.error2 {
+    font-size: 12px;
+    background-color: red;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.datetime2 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.scenario2 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.resultinfo2 {
+    font-size: 9px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+    text-indent: 100px
+}
+
+.pass3 {
+    font-size: 12px;
+    background-color: inherit;
+    color: green;
+    text-align: left;
+    vertical-align: top;
+}
+.fail3 {
+    font-size: 12px;
+    background-color: inherit;
+    color: red;
+    text-align: left;
+    vertical-align: top;
+}
+.error3 {
+    font-size: 12px;
+    background-color: red;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.datetime3 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.scenario3 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.resultinfo3 {
+    font-size: 9px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+    text-indent: 100px;
+}
+
+
+.pass4 {
+    font-size: 12px;
+    background-color: inherit;
+    color: green;
+    text-align: left;
+    vertical-align: top;
+}
+.fail4 {
+    font-size: 12px;
+    background-color: inherit;
+    color: red;
+    text-align: left;
+    vertical-align: top;
+}
+.error4 {
+    font-size: 12px;
+    background-color: red;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.datetime4 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.scenario4 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.resultinfo4 {
+    font-size: 9px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+    text-indent: 100px;
+}
+
+
+.pass5 {
+    font-size: 12px;
+    background-color: inherit;
+    color: green;
+    text-align: left;
+    vertical-align: top;
+}
+.fail5 {
+    font-size: 12px;
+    background-color: inherit;
+    color: red;
+    text-align: left;
+    vertical-align: top;
+}
+.error5 {
+    font-size: 12px;
+    background-color: red;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.datetime5 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.scenario5 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.resultinfo5 {
+    font-size: 9px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+    text-indent: 100px;
+}
+
+
+.pass6 {
+    font-size: 12px;
+    background-color: inherit;
+    color: green;
+    text-align: left;
+    vertical-align: top;
+}
+.fail6 {
+    font-size: 12px;
+    background-color: inherit;
+    color: red;
+    text-align: left;
+    vertical-align: top;
+}
+.error6 {
+    font-size: 12px;
+    background-color: red;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.datetime6 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.scenario6 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.resultinfo6 {
+    font-size: 9px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+    text-indent: 100px;
+}
+
+
+.pass7 {
+    font-size: 12px;
+    background-color: inherit;
+    color: green;
+    text-align: left;
+    vertical-align: top;
+}
+.fail7 {
+    font-size: 12px;
+    background-color: inherit;
+    color: red;
+    text-align: left;
+    vertical-align: top;
+}
+.error7 {
+    font-size: 12px;
+    background-color: red;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.datetime7 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.scenario7 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.resultinfo7 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+
+
+.pass8 {
+    font-size: 12px;
+    background-color: inherit;
+    color: green;
+    text-align: left;
+    vertical-align: top;
+}
+.fail8 {
+    font-size: 12px;
+    background-color: inherit;
+    color: red;
+    text-align: left;
+    vertical-align: top;
+}
+.error8 {
+    font-size: 12px;
+    background-color: red;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.datetime8 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.scenario8 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.resultinfo8 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+
+
+.pass9 {
+    font-size: 12px;
+    background-color: inherit;
+    color: green;
+    text-align: left;
+    vertical-align: top;
+}
+.fail9 {
+    font-size: 12px;
+    background-color: inherit;
+    color: red;
+    text-align: left;
+    vertical-align: top;
+}
+.error9 {
+    font-size: 12px;
+    background-color: red;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.datetime9 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.scenario9 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.resultinfo9 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+
+
+.pass10 {
+    font-size: 12px;
+    background-color: inherit;
+    color: green;
+    text-align: left;
+    vertical-align: top;
+}
+.fail10 {
+    font-size: 12px;
+    background-color: inherit;
+    color: red;
+    text-align: left;
+    vertical-align: top;
+}
+.error10 {
+    font-size: 12px;
+    background-color: red;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.datetime10 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.scenario10 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+.resultinfo10 {
+    font-size: 12px;
+    background-color: inherit;
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+

@@ -1,0 +1,811 @@
+
+
+
+/// <reference path="MEIDMgrHandlers.js" />
+//var MEIDMgr = require("./MEIDMgrHandlers");
+var GoProMgr = require("./goproAppHandlers");
+//gopromgr=new GoProMgr();
+//var GPhttpClient = require("./httpclient");
+var request = require('request');
+var async = require('async');
+var http_Client = require("./httpclient");
+var counter = 0;
+//var meid = new MEID_AutomationMgr();
+var utils = require('./Utils');
+
+console.log(utils.UtilFN.UtilFN_WhatPlatformMacOrWin());
+//Dev debug
+//var nodejstestApp="C:\\SVN\\SQA\\Automation\\Tools\\NodeJSTest\\NodeJSTest\\bin\\Debug\\NodeJSTest";
+//var costGuardApp = "C:\\SVN\\SQA\\Automation\\Tools\\CostGuardUtil\\bin\\NodeJSTest\\CostGuardUtil";
+//var costGuardApp2 = "C:\\SVN\\SQA\\Automation\\Tools\\OnlineActivation\\Libraries\\CostGuardUtil\\bin\\Debug\\CostGuardUtil";
+//var phoneProvApp="C:\\SVN\\SQA\\Automation\\Tools\\PhoneProvisioningPortalTest\\PhoneProvisioningUtil\\PhoneProvisioningPortalTestCmd";
+//var TestReportApp = "C:\\SVN\\SQA\\Automation\\Tools\\EmailExchangeClientTest\\TestStatsReaderCmd\\bin\\Debug\\TestStatsReaderCmd";
+var ETATestDriverAppPath = "/Automation/projects/MTP_TestDriver/ETAAutoApp.app/Contents/MacOS/ETAAutoApp";
+var MTPTestDriverAppPath = "C:\\Automation\\projects\\MTP_TestDriver\\MTPAutoApp";
+var httpVARS= [];
+
+
+//Automation server
+nodejstestApp = "Z:\\Documents\\SQA_Automation\\NodeJSAutomation\\NodeJSTest";
+costGuardApp="C:\\Documents and Settings\\All Users\\Desktop\\SQA_Automation\\CostGuardUtil\\CostGuardUtil";
+phoneProvApp="C:\\Documents and Settings\\All Users\\Desktop\\SQA_Automation\\PhoneProvisioningUtil\\PhoneProvisioningPortalTestCmd";
+costGuardApp2="C:\\Documents and Settings\\All Users\\Desktop\\SQA_Automation\\CostGuardUtil2\\CostGuardUtil";
+
+function onResponse(sessionResponse,data) {
+    //parsebody(r1)
+    console.log(data);
+
+    sessionResponse.write(JSON.stringify(data));
+    sessionResponse.end();
+}
+
+function SetVARS(){
+    httpVARS["get_run"] = "/index.php?/api/v2/get_run/[[RUN_ID]]";
+    httpVARS["TestRailURL"] = "https://gopro.testrail.com";
+    httpVARS["get_test"] = "/index.php?/api/v2/get_tests/[[RUN_ID]]";
+}
+
+function EvalPostData(postData){
+    var dataitems = postData.split("&");
+    SetVARS();
+
+    var rc = "";
+    var url;
+    try {
+        switch(dataitems[0]) {
+            case "get_run":
+                if (dataitems.length > 1) {
+
+                    url=SetURL(dataitems[0],dataitems[1]);
+                }
+                break;
+            case "get_test":
+                if (dataitems.length > 1) {
+                    url=SetURL(dataitems[0],dataitems[1]);
+                }
+                break;
+            default:
+                url="HTTPRequest:Invalid " + postData;
+                console.log(url);
+                break;
+        }
+    }
+    catch (err) {
+        console.log("ERROR:HTTPRequest=" + err);
+        url=err;
+    }
+    return url;
+}
+
+function SetURL(testrailcmd,runid){
+    console.log("Found HTTPRequest:"+testrailcmd + " - " +runid);
+    var url=httpVARS["TestRailURL"];
+    url+=httpVARS[testrailcmd];
+    return url.replace("[[RUN_ID]]",runid);
+}
+
+/********************************************
+ *
+ * @return {string}
+ * @return {string}
+ * used by HTTPClient
+ */
+function HTTPRequest(response, postData, callback) {
+
+    //console.log("HTTPRequest Session:" + session);
+    console.log("HTTPRequest postData:" + postData);
+    SetVARS();
+
+    var dataitems = postData.split("&");
+
+    var result;
+    var rc = "";
+    var url;
+    try {
+        switch(dataitems[0]) {
+            case "get_run":
+                console.log("FOUND: HTTPRequest:get_run " + postData);
+                if (dataitems.length > 1) {
+                    console.log("HTTPRequest:get_run " + postData);
+                    url=SetURL(dataitems[0],dataitems[1]);
+                    console.log("HTTPRequest: " + url);
+                    testRequest(url,response,callback);
+
+                }
+                break;
+            case "get_test":
+                console.log("FOUND: HTTPRequest:get_test " + postData);
+                if (dataitems.length > 1) {
+                    console.log("HTTPRequest:get_test " + postData);
+                    url=SetURL(dataitems[0],dataitems[1]);
+
+                    console.log("HTTPRequest: " + url);
+                    this.ReturnData = null;
+                    testRequest(url,response,callback);
+                }
+                break;
+            default:
+                result="HTTPRequest:Invalid " + postData;
+                console.log(result);
+                response.write(result);
+                response.end();
+                break;
+        }
+    }
+    catch (err) {
+        console.log("ERROR:HTTPRequest=" + err);
+        response.write("ERROR:HTTPRequest=" + err);
+        response.end();
+    }
+
+    //return result;
+}
+
+
+function gettestrun(response, postData, session){
+    console.log("gettestrun Session:" + session);
+    console.log("gettestrun postData:" + postData);
+    var cmds = postData.split("&");
+    response.writeHead(200, {
+            "Content-Type": "application/json"}
+    );
+
+    if (cmds.length>0){
+
+    }
+    else{
+        response.write("{}");
+    }
+    response.end();
+}
+
+
+
+/*********
+ *
+ * @param url
+ * @param response
+ * @param callback
+ * used by HTTPRequest
+ *
+ */
+function testRequest(url,response,callback){
+    var Step    = require('step');
+    var username =  "qaauto1@gopro.com";
+    var password = "sdauto1";
+
+// request returns body as 3rd argument
+// we have to move it so it works with Step :(
+    request.getBody = function(o, cb){
+        request(o, function(err, resp, body){
+            cb(err, body)
+        })
+    }
+    Step(
+        function getData(){
+            request.getBody(           {
+                headers: {'Content-Type': 'application/json'},
+                url : url,
+                'auth' : {
+                    'username' : username,
+                    'password' : password
+                }
+            }, this.parallel())
+        },
+
+        function doStuff(err, r1,r2,r3){
+            if(err) {
+                console.log("ERROR:" + err);
+                response.write("<p>ERROR:" + err + "<br>");
+            }
+            else if(r1){
+                console.log("RESPONSE:" + r1);
+                response.write("<p>Response:" + r1 + "<br>");
+
+            }
+            else{
+                response.write("<br>NO Response DATA <br>");
+            }
+
+            response.write("<br>DONE End Session <br>");
+            response.end();
+            //callback(r1);
+        }
+    )
+}
+/***********
+ * HTTPClient
+ * @param response
+ * @param postData
+ * @param session
+ * @constructor
+ * unit test for verify the httpclient module works from the browser client
+ * reguest handler:
+ * HTTPClient
+ * + HTTPRequest
+ * ++ testRequest
+ * +++ callback onResponse
+ *
+ * http_Client.HTTPTestRailRequest
+ * + http_Client.HTTPRequest
+ */
+function HTTPClient(response, postData, session) {
+    counter++;
+
+    console.log("handler: HTTPClient Session:" + session);
+    console.log("handler: HTTPClient postData:" + postData);
+
+    //build response page
+/*    response.writeHead(200, {
+        "Content-Type": "text/html"}
+    );*/
+    response.writeHead(200, {
+        "Content-Type": "application/json"}
+    );
+
+    try {
+//    response.write("<p>GoProApp</p>");
+        //response.write("<p>POST - " +session+ postData + "</p>");
+        console.log("handler: HTTPClient.HTTPRequest:" + postData);
+
+        //HTTPRequest(response, postData, onResponse);
+       http_Client.HTTPTestRailRequest(response, postData, onResponse);
+    }
+    catch(err){
+        response.write(err);
+        console.log("handler: ERROR HTTPClient:" + err);
+        //response.write("<br>Response:Error - " +err+"<br>");
+        //response.write("<br>DONE End Session <br>");
+        response.end();
+
+    }
+    console.log("DONE Session");
+}
+//***************************************************************
+//***************************************************************
+
+
+/***********
+ * GoProTestMgr
+ * @param sessionresponse
+ * @param postData
+ * @param session
+ * @constructor
+ * Main entry point for handling UI automation testcase fetching & reporting
+ *
+ */
+/*function GoProTestMgr(sessionresponse, postData, session) {
+    console.log("GoProTestMgr Session:" + session);
+    console.log("GoProTestMgr postData:" + postData);
+    //build response page
+    //"Content-Type": "application/json"
+    sessionresponse.writeHead(200, {"Content-Type": "text/plain"});
+    try {
+        //sessionresponse.write("GoProTestMgr:Request="+postData+"");
+        GoProMgr.GoProTestMgr(sessionresponse, postData);
+
+    }
+    catch(err){
+        console.log("GoProTestMgr response:" + err);
+        sessionresponse.write("[{'GoProTestMgr_Error': '" +err+"'}]");
+        sessionresponse.end();
+    }
+}*/
+/*
+
+function TestRailMgr(response, postData, session) {
+    counter++;
+
+
+    console.log("TestrailMgr Session:" + session);
+    console.log("TestrailMgr postData:" + postData);
+    console.log("TestrailMgr response:" + response);
+
+
+    //build response page
+    response.writeHead(200, {
+        "Content-Type": "text/html"
+    });
+    try {
+//    response.write("<p>TestRailMgr</p>");
+//    response.write("<p>POST - " + postData + "</p>");
+        var res;
+        res = TestrailMgr.TestRail.Test_Testrail(response, postData, session);
+        console.log("TestrailMgr response:" + res);
+        response.write("<p>Response:" + res + "<br>");
+        response.write(session + postData);
+        response.end();
+    }
+    catch(err){
+        console.log("TestrailMgr response:" + err);
+        response.write("<br>Response:Error - " +err+"<br>");
+        response.end();
+    }
+}
+*/
+
+/*
+
+function ETATestDriver(response, postData, session) {
+    counter++;
+    console.log("ETATestDriver Session:" + session);
+    console.log("ETATestDriver postData:" + postData);
+    //var arg = new Array();
+    var arg = postData.split("?");
+    response.writeHead(200, {
+        "Content-Type" : "text/html"
+    });
+    response.write("<p>Session=" + session + ":ETATestDriver</p>");
+    response.write("<p>"+ETATestDriverAppPath+"<p>");
+    response.write("<p>"+arg+"<p>");
+    var util = require('util'),
+        spawn = require('child_process').spawn,
+        ls = spawn(ETATestDriverAppPath, arg);
+    console.log('ETATestDriver Session=' + session +' - Spawned child pid: ' + ls.pid);
+
+    var responseOut="";
+
+
+    ls.stdout.on('data', function (data) {
+        console.log('stdout: ' + data);
+        responseOut+=data;
+        response.write("<p>stdout:"+data+"<p>");
+    });
+
+    ls.stderr.on('data', function (data) {
+        console.log('stderr: ' + data);
+*/
+/*        response.writeHead(200, {
+            "Content-Type" : "text/html"
+        });*//*
+
+        responseOut+=data;
+        response.write("<p>stderr: "+data+"<p>");
+        //response.write("<p>stderr:" + "ETATestDriver</p>child process exited with code " );
+        //response.end();
+        //ls.stdin.end();
+    });
+
+    ls.on('exit', function (code) {
+        console.log('Session:' + session + '- child process exited with code ' );
+        response.write("<p>"+responseOut+"<p>");
+        response.write("<p>Session:" + session + " - ETATestDriver</p>child process exited with code " );
+        response.end();
+        //ls.stdin.end();
+    });
+    //return response;
+}
+
+
+function CameraTTY(response, postData, session) {
+    counter++;
+    console.log("ETATestDriver Session:" + session);
+    console.log("ETATestDriver postData:" + postData);
+    //var arg = new Array();
+    var arg = postData.split("?");
+    response.writeHead(200, {
+        "Content-Type" : "text/html"
+    });
+    response.write("<p>Session=" + session + ":ETATestDriver</p>");
+    response.write("<p>"+ETATestDriverAppPath+"<p>");
+    response.write("<p>"+arg+"<p>");
+    var util = require('util'),
+        spawn = require('child_process').spawn,
+        ls = spawn(ETATestDriverAppPath, arg);
+    console.log('ETATestDriver Session=' + session +' - Spawned child pid: ' + ls.pid);
+
+    var responseOut="";
+
+
+    ls.stdout.on('data', function (data) {
+        console.log('stdout: ' + data);
+        responseOut+=data;
+        response.write("<p>stdout:"+data+"<p>");
+    });
+
+    ls.stderr.on('data', function (data) {
+        console.log('stderr: ' + data);
+        */
+/*        response.writeHead(200, {
+         "Content-Type" : "text/html"
+         });*//*
+
+        responseOut+=data;
+        response.write("<p>stderr: "+data+"<p>");
+        //response.write("<p>stderr:" + "ETATestDriver</p>child process exited with code " );
+        //response.end();
+        //ls.stdin.end();
+    });
+
+    ls.on('exit', function (code) {
+        console.log('Session:' + session + '- child process exited with code ' );
+        response.write("<p>"+responseOut+"<p>");
+        response.write("<p>Session:" + session + " - ETATestDriver</p>child process exited with code " );
+        response.end();
+        //ls.stdin.end();
+    });
+    //return response;
+}
+*/
+
+/*
+function MTPTestDriver(response, postData, session) {
+    counter++;
+    console.log("MTPTestDriver Session:" + session);
+    console.log("MTPTestDriver postData:" + postData);
+    //var arg = new Array();
+    var arg = postData.split("?");
+    response.writeHead(200, {
+        "Content-Type" : "text/html"
+    });
+    response.write("<p>Session=" + session + ":MTPTestDriver</p>");
+    response.write("<p>"+ETATestDriverAppPath+"<p>");
+    response.write("<p>"+arg+"<p>");
+    var util = require('util'),
+        spawn = require('child_process').spawn,
+        ls = spawn(MTPTestDriverAppPath, arg);
+    console.log('Session:' + session + ' - Spawned child pid: ' + ls.pid);
+
+    var responseOut="";
+
+
+    ls.stdout.on('data', function (data) {
+        console.log('MTPTestDriver Session=' + session ); //+ data);
+
+        response.write("<p>"+data+"<p>");
+    });
+
+    ls.stderr.on('data', function (data) {
+        console.log('stderr MTPTestDriver Session:' + session + '. stderr: ' + data);
+        *//*        response.writeHead(200, {
+         "Content-Type" : "text/html"
+         });*//*
+        responseOut+=data;
+        //response.write("<p>"+data+"<p>");
+        //response.write("<p>stderr:" + "MTPTestDriver</p>child process exited with code " );
+        //response.end();
+        //ls.stdin.end();
+    });
+
+    ls.on('exit', function (code) {
+        console.log('Session:' + session + '- child process exited with code ' );
+        response.write("<p>"+responseOut+"<p>");
+        response.write("<p>Session:" + session + " - MTPTestDriver</p>child process exited with code " );
+        response.end();
+        ls.stdin.end();
+    });
+    //return response;
+}*/
+/*
+
+function start(response, postData, session) {
+	console.log("Request handler 'start' was called.");
+	
+	var body = '<html>' +
+		'<head>' +
+		'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
+		'</head>' +
+		*/
+/*    '<body>'+
+		'<form action="/upload" method="post">'+
+		'<textarea name="ordernum" rows="10" cols="10"></textarea>'+
+		'<textarea name="acctnum" rows="10" cols="10"></textarea>'+
+		'<input type="submit" value="Submit ordernum" />'+
+		'</form>'+
+		'</body>'+
+		'</html>';
+		 *//*
+
+		'<body>' +
+		'<form action="/upload" method="post">' +
+		'<p>Order Number</p>' +
+		'<p> <input name="ordernum" type="text" /></p>' +
+		'<p>Account Number</p>' +
+		'<p> <input name="acctnum" type="text" /></p>' +
+		'<p></p>' +
+		'<p> ' +
+		'<input type="submit" value="Submit" /></p>' +
+		'</form>' +
+		'</body>';
+	response.writeHead(200, {
+		"Content-Type" : "text/html"
+	});
+	response.write(body);
+	response.end();
+}
+*/
+/*
+
+function upload(response, postData, session) {
+	console.log("Request handler 'upload' was called.");
+	console.log("postData=" + postData + "  response=" + response);
+	response.writeHead(200, {
+		"Content-Type" : "text/html"
+	});
+	response.write("Order Number: " + querystring.parse(postData)['ordernum']);
+	response.write("<p></p>");
+	response.write("Account Number: " + querystring.parse(postData)['acctnum']);
+	response.write("<p></p>");
+	response.write("<p>Logged</p>");
+	response.end();
+}
+*/
+/*
+function RunApp(response, postData, session) {
+	counter++;
+	console.log("Session:" + session + ": Request handler 'RunApp' was called.");
+	//var util = require('util'),
+	spawn = require('child_process').spawn,
+	ls = spawn(nodejstestApp, [session]);
+	response.writeHead(200, {
+		"Content-Type" : "text/html"
+	});
+	
+	ls.stdout.on('data', function (data) {
+		console.log('Session=' + session + ' stdout: '); //+ data);
+		response.write("<p>Session=" + session + ":RunApp</p>");
+		response.write(data);
+	});
+	
+	ls.stderr.on('data', function (data) {
+		console.log('Session:' + session + '. stderr: ' + data);
+		response.writeHead(200, {
+			"Content-Type" : "text/html"
+		});
+		response.write("<p>stderr:" + counter + "RunApp</p>child process exited with code " + code);
+		response.end();
+	});
+	
+	ls.on('exit', function (code) {
+		console.log('Session:' + session + '- child process exited with code ' + code);
+		response.write("<p>Session:" + session + " - RunApp</p>child process exited with code " + code);
+		response.end();
+	});
+	
+	console.log('Session:' + session + ' - Spawned child pid: ' + ls.pid);
+	ls.stdin.end();
+	//return response;
+	
+}*/
+/*
+function Transaction(response, postData, session) {
+	console.log(counter + "." + session + ": Request handler 'Transaction' was called.");
+}
+
+function Report(response, postData, session) {
+	console.log(counter + "." + session + " - " + postData + " : Request handler 'Report' was called.");
+}
+
+function Api(response, postData, session) {
+	console.log(counter + "." + session + ": Request handler 'Api' was called.");
+}*/
+/*
+function CostGuard(response, postData, session) {
+	counter++;
+	console.log("CostGuard Session:" + session);
+	console.log("CostGuard postData:" + postData);
+	var arg = new Array();
+	arg = postData.split("%20");
+	
+	
+	//var arg=["-order", "7032773"];//, "-output", "C:\\temp"];
+	
+	var util = require('util'),
+	spawn = require('child_process').spawn,
+	ls = spawn(costGuardApp2, arg);
+	response.writeHead(200, {
+		"Content-Type" : "text/html"
+	});
+	
+	ls.stdout.on('data', function (data) {
+		console.log('Session=' + session ); //+ data);
+		//response.write("<p>Session=" + session + ":CostGuard</p>");
+		response.write(data);
+	});
+	
+	ls.stderr.on('data', function (data) {
+		console.log('Session:' + session + '. stderr: ' + data);
+		response.writeHead(200, {
+			"Content-Type" : "text/html"
+		});
+		response.write("<p>stderr:" + counter + "CostGuard</p>child process exited with code " + code);
+		response.end();
+	});
+	
+	ls.on('exit', function (code) {
+		console.log('Session:' + session + '- child process exited with code ' + code);
+		response.write("<p>Session:" + session + " - CostGuard</p>child process exited with code " + code);
+		response.end();
+	});
+	
+	console.log('Session:' + session + ' - Spawned child pid: ' + ls.pid);
+	ls.stdin.end()
+	//return response;
+	
+}*/
+/*
+
+function PhoneProv(response, postData, session) {
+	counter++;
+	console.log("PhoneProv Session:" + session);
+	console.log("PhoneProv postData:" + postData);
+	var arg = new Array();
+	arg = postData.split("%20");
+	//var arg=["-order", "7032773"];//, "-output", "C:\\temp"];
+
+
+	var util = require('util'),
+	spawn = require('child_process').spawn,
+	ls = spawn(phoneProvApp, arg);
+	response.writeHead(200, {
+		"Content-Type" : "text/html"
+	});
+
+	ls.stdout.on('data', function (data) {
+		console.log('Session=' + session + ' stdout: '); //+ data);
+		//response.write("<p>Session=" + session + ":PhoneProvision</p>");
+		response.write(data);
+	});
+
+	ls.stderr.on('data', function (data) {
+		console.log('Session:' + session + '. stderr: ' + data);
+		response.writeHead(200, {
+			"Content-Type" : "text/html"
+		});
+		response.write("<p>stderr:" + counter + "PhoneProvision</p>child process exited with code " + code);
+		response.end();
+	});
+
+	ls.on('exit', function (code) {
+		console.log('Session:' + session + '- child process exited with code ' + code);
+		response.write("<p>Session:" + session + " - PhoneProvision</p>child process exited with code " + code);
+		response.end();
+	});
+
+	console.log('Session:' + session + ' - Spawned child pid: ' + ls.pid);
+	ls.stdin.end();
+	//return response;
+
+}
+*/
+/*
+
+function MEIDManager(response, postData, session) {
+	counter++;
+    
+	console.log("MEIDManager Session:" + session);
+	console.log("MEIDManager postData:" + postData);
+	//console.log("MEIDManager response:" + response);
+
+
+	var meidstatus = []; //"not found";
+	meidstatus.err = "not found";
+	try {
+	    
+	    meidstatus =  MEIDMgr.MEIDProvisionMgr(response, postData, session);
+	}
+	catch (err) {
+	    console.log("ERR:MEIDManager=" + err); 
+	}
+	
+    //build response page
+	response.writeHead(200, {
+	    "Content-Type": "text/html"
+	});
+	response.write("<p>MEIDManager Response</p>");
+	response.write("<p>POST - " + postData + "</p>");
+	response.write("Error:" + meidstatus.Error + "<br>");
+	response.write("Status:" + meidstatus.Status + "<br>");
+	response.write("sku:" + meidstatus.sku + "<br>");
+	response.write("meid:" + meidstatus.meid + "<br>");
+//	response.write("<p>orderid:" + meidstatus.ordernum + "</p>");
+//	response.write("<p>meidstatus:" + meidstatus.toString() + "</p>");
+	response.end();
+
+}
+*/
+/*
+
+function TestReport(response, postData, session) {
+    counter++;
+    console.log("TestReport Session:" + session);
+    console.log("TestReport postData:" + postData);
+    var arg = new Array();
+    arg = postData.split("%20");
+    //var arg=["-order", "7032773"];//, "-output", "C:\\temp"];
+    //    -browser firefox -environ Stage -logpath "C:\temp\testcasefail.log" -outpath "C:\temp\ "
+//    http: //localhost:8888/TestReport/-browser%20firefox%20-environ%20Stage%20-logpath%20C:%5Ctemp%5Ctestcasefail.log%20putclipboard
+
+    var util = require('util'),
+	spawn = require('child_process').spawn,
+	ls = spawn(TestReportApp, arg);
+    response.writeHead(200, {
+        "Content-Type": "text/html"
+    });
+
+    ls.stdout.on('data', function (data) {
+        console.log('Session=' + session + ' stdout: '); //+ data);
+        //response.write("<p>Session=" + session + ":PhoneProvision</p>");
+        response.write(data);
+    });
+
+    ls.stderr.on('data', function (data) {
+        console.log('Session:' + session + '. stderr: ' + data);
+        response.writeHead(200, {
+            "Content-Type": "text/html"
+        });
+        response.write("<p>stderr:" + counter + "TestReport</p>child process exited with code " + code);
+        response.end();
+    });
+
+    ls.on('exit', function (code) {
+        console.log('Session:' + session + '- child process exited with code ' + code);
+        response.write("<p>Session:" + session + " - TestReport</p>child process exited with code " + code);
+        response.end();
+    });
+
+    console.log('Session:' + session + ' - Spawned child pid: ' + ls.pid);
+    ls.stdin.end();
+    //return response;
+
+}
+*/
+/*
+
+function TargetVersion(response, postData, session) {
+    counter++;
+
+    console.log("MEIDManager Session:" + session);
+    console.log("MEIDManager postData:" + postData);
+    //console.log("MEIDManager response:" + response);
+
+
+    var meidstatus = []; //"not found";
+    meidstatus.err = "not found";
+    try {
+
+        meidstatus = MEIDMgr.MEIDProvisionMgr(response, postData, session);
+    }
+    catch (err) {
+        console.log("ERR:MEIDManager=" + err);
+    }
+
+    //build response page
+    response.writeHead(200, {
+        "Content-Type": "text/html"
+    });
+    response.write("<p>MEIDManager Response</p>");
+    response.write("<p>POST - " + postData + "</p>");
+    response.write("Error:" + meidstatus.Error + "<br>");
+    response.write("Status:" + meidstatus.Status + "<br>");
+    response.write("sku:" + meidstatus.sku + "<br>");
+    response.write("meid:" + meidstatus.meid + "<br>");
+    //	response.write("<p>orderid:" + meidstatus.ordernum + "</p>");
+    //	response.write("<p>meidstatus:" + meidstatus.toString() + "</p>");
+    response.end();
+
+}
+*/
+
+//function sleep(milliSeconds) {
+//    var startTime = new Date().getTime(); // get the current time
+//    while (new Date().getTime() < startTime + milliSeconds); // hog cpu
+//}
+
+//exports.start = start;
+//exports.upload = upload;
+//exports.RunApp = RunApp;
+//exports.CostGuard = CostGuard;
+//exports.PhoneProv = PhoneProv;
+//exports.Transaction = Transaction;
+//exports.Report = Report;
+//exports.Api = Api;
+//exports.MEIDManager = MEIDManager;
+//exports.TestReport = TestReport;
+//exports.GoProTestMgr = GoProTestMgr;
+//exports.TestRailMgr=TestRailMgr;
+exports.HTTPClient=HTTPClient;
+//exports.ETATestDriver=ETATestDriver;
+//exports.MTPTestDriver=MTPTestDriver;
+
+//exports.CameraTTY=CameraTTY;

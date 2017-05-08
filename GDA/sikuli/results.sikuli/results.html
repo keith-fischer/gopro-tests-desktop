@@ -1,0 +1,291 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>results.sikuli</h2> <a href="results.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> sys
+<span class="kw">import</span> os
+<span class="kw">import</span> shutil
+<span class="cmt">#import math</span>
+<span class="cmt">#import ast</span>
+<span class="kw">import</span> json
+<span class="kw">import</span> codecs
+<span class="kw">from</span> time <span class="kw">import</span> strftime
+<span class="kw">import</span> datetime
+<span class="kw">from</span> sikuli <span class="kw">import</span> Sikuli
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> __builtin__ <span class="kw">import</span> True, False
+<span class="kw">import</span> org.sikuli.basics.SikulixForJython
+
+
+<span class="cmt">###########################################</span>
+<span class="cmt"># Tracks screenshots to show historical </span>
+<span class="cmt"># events to the failed testcase</span>
+<span class="cmt"># add() returns the list pop item used for screenshot cleanup</span>
+<span class="cmt">#</span>
+<span class="cmt">###########################################</span>
+<span class="kw">class</span> fifo:
+    <span class="kw">class</span> fifoitem:
+        <span class="kw">def</span> __init__(self,testname, region=(<span class="dig">0</span>, <span class="dig">0</span>, <span class="dig">0</span>, <span class="dig">0</span>), passfail=<span class="dig">0</span>, testdetails=<span class="str">""</span>, info=<span class="str">""</span>):
+            self.name = testname
+            self.region = region
+            self.passfail = passfail
+            self.details = testdetails
+            self.info = info
+
+
+    <span class="kw">def</span> __init__(self, rootpath, fifolength=<span class="dig">5</span>):
+        self.fifo = []
+        self.fifolen = fifolength
+        self.fifoid = -<span class="dig">1</span>
+        self.imgrootpath = rootpath
+
+
+    <span class="kw">def</span> add(self, fifoitem):
+        self.fifo.insert(<span class="dig">0</span>, fifoitem)
+        _pop = None
+        <span class="kw">if</span> len(self.fifo) &gt; self.fifolen:
+            _fifoitem = self.fifoitem(self.fifo.pop(self.fifolen))
+            <span class="kw">if</span> _fifoitem:
+                _pop = self.imgrootpath + str(_fifoitem.name)
+        <span class="kw">return</span> _pop
+
+
+    <span class="kw">def</span> getfifo(self):
+        <span class="kw">if</span> <span class="kw">not</span> self.fifo <span class="kw">or</span> len(self.fifo) == <span class="dig">0</span>:
+            <span class="kw">return</span> None
+        <span class="kw">return</span> self.fifo
+
+
+<span class="cmt">#&lt;failure message="fail"&gt;[[html failure message]]&lt;/failure&gt;</span>
+<span class="kw">class</span> xmlreport:
+    <span class="kw">def</span> __init__(self, archivepath, testsuite, starttime = None):
+        self.xmlstart = <span class="str">"&lt;testsuites&gt;&lt;testsuite name=\"[[TESTSUITE]]\" tests=\"[[TESTS]]\" failures=\"[[FAILS]]\" errors=\"[[ERRORS]]\" skipped=\"[[SKIPPED]]\" time=\"[[TIME]]\" timestamp=\"[[TIMESTAMP]]\"&gt;"</span>
+        self.properties = <span class="str">"&lt;properties&gt;[[PROPERTY]]&lt;/properties&gt;"</span>
+        self.property = <span class="str">"&lt;property name=\"[[NAME]]\" value=\"[[VALUE]]\"/&gt;"</span>
+        self.xmlproperty = []
+        self.test = <span class="str">"&lt;testcase classname=\"[[CLASSNAME]]\" name=\"[[NAME]]\" time=\"[[TIME]]\"&gt;[[TESTINFO]]&lt;/testcase&gt;"</span>
+        self.xmlend = <span class="str">"&lt;/testsuite&gt;&lt;/testsuites&gt;"</span>
+        self.sysout = <span class="str">"&lt;system-out&gt;&lt;![CDATA[[[SYSOUT]]]]&gt;&lt;/system-out&gt;"</span>
+        self.syserr = <span class="str">"&lt;system-err&gt;&lt;![CDATA[[[SYSERR]]]]&gt;&lt;/system-err&gt;"</span>
+        self.xmlcdata = <span class="str">"&lt;![CDATA[[[CDATA]]]]&gt;"</span>
+        self.failure = <span class="str">"&lt;failure message=\"fail\"&gt;[[HTMLFAILURE]]&lt;/failure&gt;"</span>
+        self.testrun = []
+        self.testid = -<span class="dig">1</span>
+        self.testsuite = testsuite
+        self.archivepath = archivepath
+        self.countpass = <span class="dig">0</span>
+        self.countfail = <span class="dig">0</span>
+        self.countskip = <span class="dig">0</span>
+        self.durationsecs = <span class="dig">0</span>
+        self.starttime = starttime <span class="cmt">#"2016-04-13T10:02:52"</span>
+
+    <span class="kw">class</span> xmlitem:
+        <span class="kw">def</span> __init__(self, testname, testid, classname, seconds, failmsg=None, sysout=None  ,syserr=None):
+            self.test=testname
+            self.classname = classname
+            self.duration = seconds
+            self.failed = failmsg
+            self.sysout = sysout
+            self.syserr = syserr
+            self.testid = testid
+            self.filename = <span class="str">"GDAResults.xml"</span>
+
+    <span class="kw">def</span> addtest_items(self, testname, testid, classname, seconds, failmsg=None, sysout=None  ,syserr=None):
+        item=self.xmlitem(testname, testid, classname, seconds, failmsg, sysout ,syserr)
+        <span class="kw">return</span> self.addtest(item)
+
+    <span class="kw">def</span> addtest(self, testcaseitem):
+        <span class="kw">if</span> <span class="kw">not</span> testcaseitem:
+            <span class="kw">return</span> len(self.testrun)
+        self.testrun.append(testcaseitem)
+        <span class="kw">return</span> len(self.testrun)
+
+    <span class="kw">def</span> addproperty(self,name, value):
+        <span class="kw">if</span> name <span class="kw">and</span> value:
+            self.xmlproperty.append(self.property.replace(<span class="str">"[[NAME]]"</span>,name).replace(<span class="str">"[[VALUE]]"</span>,str(value)))
+        <span class="kw">return</span> len(self.xmlproperty)
+
+    <span class="kw">def</span> save(self,filename):
+        <span class="kw">if</span> filename: self.filename=filename
+        properties = <span class="str">""</span>
+        <span class="kw">if</span> self.xmlproperty <span class="kw">and</span> len(self.xmlproperty)&gt;<span class="dig">0</span>:
+            <span class="kw">for</span> propitem <span class="kw">in</span> self.xmlproperty:
+                properties+=propitem
+        self.properties = self.properties.replace(<span class="str">"[[PROPERTY]]"</span>,properties)
+        <span class="cmt">#print self.properties</span>
+        testrun = <span class="str">""</span>
+        testcount = <span class="dig">0</span>
+        testfail = <span class="dig">0</span>
+        skip = <span class="dig">0</span>
+        duration = <span class="dig">0</span>
+        <span class="cmt">#construct testcase results portion of the xml</span>
+        <span class="kw">if</span> self.testrun <span class="kw">and</span> len(self.testrun)&gt;<span class="dig">0</span>:
+
+            <span class="kw">for</span> testitem <span class="kw">in</span> self.testrun:
+                <span class="kw">if</span> <span class="kw">not</span> testitem: <span class="kw">continue</span>
+                test = None
+                fail = None
+                sysout = None
+                syserr = None
+                testinfo = <span class="str">""</span>
+                test = self.test.replace(<span class="str">"[[CLASSNAME]]"</span>,testitem.classname)
+                test = test.replace(<span class="str">"[[NAME]]"</span>,testitem.test)
+                test = test.replace(<span class="str">"[[TIME]]"</span>,str(testitem.duration))
+                <span class="kw">if</span> testitem.failed <span class="kw">and</span> len(testitem.failed)&gt;<span class="dig">0</span>:
+                    fail = self.failure.replace(<span class="str">"[[HTMLFAILURE]]"</span>,self.xmlcdata.replace(<span class="str">"[[CDATA]]"</span>,testitem.failed))
+                <span class="kw">if</span> testitem.sysout <span class="kw">and</span> len(testitem.sysout)&gt;<span class="dig">0</span>:
+                    sysout = self.sysout.replace(<span class="str">"[[SYSOUT]]"</span>,testitem.sysout)
+                <span class="kw">if</span> testitem.syserr <span class="kw">and</span> len(testitem.syserr)&gt;<span class="dig">0</span>:
+                    syserr = self.syserr.replace(<span class="str">"[[SYSERR]]"</span>,testitem.syserr)
+                <span class="kw">if</span> fail:
+                    testfail += <span class="dig">1</span>
+                    testinfo += fail
+                <span class="kw">if</span> sysout:
+                    testinfo += sysout
+                <span class="kw">if</span> syserr:
+                    testinfo += syserr
+                test = test.replace(<span class="str">"[[TESTINFO]]"</span>,testinfo)
+                testrun += test
+                duration+=float(testitem.duration)
+
+        suite = self.xmlstart.replace(<span class="str">"[[TESTS]]"</span>,str(testcount))
+        suite = suite.replace(<span class="str">"[[FAILS]]"</span>,str(testfail))
+        suite = suite.replace(<span class="str">"[[ERRORS]]"</span>,str(testfail))
+        suite = suite.replace(<span class="str">"[[TESTSUITE]]"</span>,self.testsuite)
+        suite = suite.replace(<span class="str">"[[SKIPPED]]"</span>,str(skip))
+        suite = suite.replace(<span class="str">"[[TIME]]"</span>,str(duration))
+        suite = suite.replace(<span class="str">"[[TESTSUITE]]"</span>,self.testsuite)
+        suite = suite.replace(<span class="str">"[[TIMESTAMP]]"</span>,str(self.starttime))
+        testfile = suite + self.properties + testrun + self.xmlend
+        writefile(filename,testfile)
+        <span class="kw">return</span> testfile  <span class="cmt">#.replace(chr(10),"")</span>
+
+<span class="kw">def</span> mac_to_cwin_path(mpath):
+    <span class="kw">if</span> <span class="kw">not</span> <span class="str">"/"</span> <span class="kw">in</span> mpath:
+        <span class="kw">return</span> mpath
+    wpath=<span class="str">"C:"</span>
+
+    items = mpath.split(<span class="str">"/"</span>)
+    <span class="kw">print</span> items
+    <span class="kw">if</span> len(items)&gt;<span class="dig">0</span>:
+        <span class="kw">for</span> item <span class="kw">in</span> items:
+            wpath+=<span class="str">'\\'</span>+item
+        <span class="kw">return</span> wpath
+    <span class="kw">return</span> mpath
+
+<span class="kw">def</span> testxmlreport(testcount):
+    x = xmlreport(<span class="str">"/path"</span>, <span class="str">"mytestsuite"</span>, datetime.datetime.now())
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1</span>,testcount):
+        m=i%<span class="dig">2</span>
+        t=x.xmlitem(<span class="str">"test"</span> + str(i), i, <span class="str">"class"</span> + str(i), <span class="dig">1.1</span>)
+        <span class="kw">if</span> m==<span class="dig">0</span>:
+            <span class="cmt">#testname, testid, classname, seconds, failmsg=None, sysout=None  ,syserr=None</span>
+            t=x.xmlitem(<span class="str">"test"</span> + str(i),i,<span class="str">"class"</span> + str(i),<span class="dig">1.0</span>,<span class="str">"failed"</span> + str(i),<span class="str">"syslog"</span> + str(i),<span class="str">"syserr"</span> + str(i))
+            p=x.addproperty(<span class="str">"p"</span> + str(i),<span class="str">"v"</span> + str(i))
+        n=x.addtest(t)
+    winpath = mac_to_cwin_path(<span class="str">"/automation/myreportfile.xml"</span>)
+    <span class="kw">print</span> winpath
+    xmlfile = x.save(winpath)
+    <span class="kw">print</span> <span class="str">"============================================"</span>
+    <span class="kw">print</span> xmlfile <span class="cmt">#.replace(chr(10),"").replace(chr(13),"")</span>
+    <span class="kw">print</span> <span class="str">"============================================"</span>
+
+<span class="kw">def</span> writefile(filepath,data):
+    target = None
+    <span class="kw">try</span>:
+        target = open(filepath, <span class="str">'w'</span>)
+        target.truncate()
+        target.write(data)
+        target.close()
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"FAILED:writefile "</span>+str(sys.exc_info())
+    <span class="kw">finally</span>:
+        <span class="kw">if</span> target:
+            target.close()
+
+<span class="kw">def</span> stringtest(filename):
+    t = <span class="str">"!!!!!!!!!#"</span>
+    o=<span class="str">""</span> <span class="cmt">#MutableString()</span>
+<span class="cmt">#    for i in range(1,1000):</span>
+<span class="cmt">#        o+=t</span>
+    o=<span class="str">''</span>.join([t.replace(<span class="str">'\n'</span>,<span class="str">''</span>) <span class="kw">for</span> i <span class="kw">in</span> xrange(<span class="dig">1000</span>)]).replace(<span class="str">'\n'</span>,<span class="str">''</span>)
+    target = open(filename, <span class="str">'w'</span>)
+    target.truncate()
+    target.write(o)
+    target.close()
+    <span class="kw">print</span> o
+
+
+<span class="cmt">#stringtest("/Automation/results.xml")</span>
+testxmlreport(<span class="dig">50</span>)
+</pre>
+</body>
+</html>

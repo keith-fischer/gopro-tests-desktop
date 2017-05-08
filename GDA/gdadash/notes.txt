@@ -1,0 +1,143 @@
+    run_template: function(){
+        newrun=new Object();
+        newrun={"runid":"feature:BAWA_P1_CameraRegression_android_AllModes|host:macmini01|app:smarty|appver:2.91|camera:bawa|camera_ver:v3.01|mobile:samsung 3|mobile_os:Android4.14|scenario_count:1000",
+        "app":"smarty",
+        "appver":"2.91",
+        "camera": "bawa",
+        "camera_ver": "v3.01",
+        "datetime_start": "2015-10-13T17:25:45Z",//"2011-11-14T17:25:45Z"
+        "duration": "1 Day hh:mm",
+        "errors": 1,
+        "failed": 15,
+        "featurefile": "BAWA_P1_CameraRegression_android_AllModes.feature",
+        "host": "macmini01",
+        "lastupdate": "2015-10-14T17:25:45Z",//"2011-11-14T17:25:45Z"
+        "mobile": "samsung 3",
+        "mobile_os": "Android4.14",
+        "passed": 35,
+        "reset_count": 12,
+        "runstatus": "RUNNING",
+        "scenario_count": 1000,
+        "scenarios": [],
+        "untested": 49}
+        return newrun;
+    },
+
+    scenario_template: function(){
+        newscenario=new Object();
+        newscenario = {"status":null, //pass fail
+        "datetime":null,//10/13/15 1:28PM //2015-10-14T17:25:45Z
+        "scenario":null,//P1:|pipe|video-1080-pt|ntsc|fps-48|fov-med|ptwhtbal-3000k|p
+        "failstep":null};//And In Settings, "Video Settings" set "White Balance" to "Auto"
+        return newscenario;
+    },
+    
+    
+    
+
+
+#	<span class="runstatusrun" data-bind="item.runstatus"></span>
+#	<span class="runstatusstop" data-bind="item.runstatus"></span>
+#	<span class="runstatusdone" data-bind="item.runstatus"></span>
+#	<span class="passed" data-bind="item.passed" ></span>
+#	<span class="failed" data-bind="item.failed" ></span>
+#	<span class="untested" data-bind="item.untested"></span>
+#	<span class="pdone" data-bind="item.pdone" ></span>
+#	<span class="featuref" data-bind="item.featuref" ></span>
+#	<span class="datetimestart" data-bind="item.datetimestart"  ><br></span>
+#	<span class="elapse" data-bind="item.elapse" ></span>
+#	<span class="host" data-bind="item.host" ></span>
+#	<span class="runinfo" data-bind="item.runinfo" ><br><br></span>
+#
+#
+#	<span class="pass1" data-bind="item.pass1" ></span>
+#	<span class="fail1" data-bind="item.fail1" ></span>
+#	<span class="error1" data-bind="item.error1" ></span>
+#	<span class="datetime1" data-bind="item.datetime1" style="color:black"></span>
+#	<span class="scenario1" data-bind="item.scenario1" style="color:black"></span>
+#	<span class="resultinfo1" data-bind="item.resultinfo1" style="color:black"><br><br></span>
+
+
+json -->            html mapping
+runstatus           runstatusrun, runstatusstop, runstatusdone
+app                 runinfo
+appver              runinfo
+camera              runinfo
+camera_ver          runinfo
+mobile              runinfo
+mobile_os           runinfo
+scenario_count      runinfo
+reset_count         runinfo
+host                host
+datetime_start      datetimestart
+duration            elapse
+passed              passed
+failed              failed
+errors              errors
+untested            untested
+                    pdone
+featurefile         featuref
+
+
+scenarios[10] e.g. pass1,pass2...pass10
+status              pass1,fail1,error1
+datetime            datetime1
+scenario            scenario1
+failstep            resultinfo1
+
+
+	<span class="runstatusrun" data-bind="item.runstatus"></span>
+	<span class="runstatusstop" data-bind="item.runstatus"></span>
+	<span class="runstatusdone" data-bind="item.runstatus"></span>
+	<span class="passed" data-bind="item.passed" ></span>
+	<span class="failed" data-bind="item.failed" ></span>
+	<span class="errors" data-bind="item.errors"></span>
+	<span class="untested" data-bind="item.untested"></span>
+	<span class="pdone" data-bind="item.pdone" ></span>
+	<span class="featuref" data-bind="item.featuref" ></span>
+	<span class="datetimestart" data-bind="item.datetimestart"  ><br></span>
+	<span class="elapse" data-bind="item.elapse" ></span>
+	<span class="host" data-bind="item.host" ></span>
+	<span class="runinfo" data-bind="item.runinfo" ><br><br></span>
+
+
+	<span class="pass1" data-bind="item.pass1" ></span>
+	<span class="fail1" data-bind="item.fail1" ></span>
+	<span class="error1" data-bind="item.error1" ></span>
+	<span class="datetime1" data-bind="item.datetime1" ></span>
+	<span class="scenario1" data-bind="item.scenario1" ></span>
+	<span class="resultinfo1" data-bind="item.resultinfo1" ><br><br></span>
+
+
+
+#        newrun=new Object();
+#        newrun={"runid":"feature:BAWA_P1_CameraRegression_android_AllModes|host:macmini01|app:smarty|appver:2.91|camera:bawa|camera_ver:v3.01|mobile:samsung 3|mobile_os:Android4.14|scenario_count:1000",
+#        "app":"smarty",
+#        "appver":"2.91",
+#        "camera": "bawa",
+#        "camera_ver": "v3.01",
+#        "datetime_start": "2015-10-13T17:25:45Z",//"2011-11-14T17:25:45Z"
+#        "duration": "1 Day hh:mm",
+#        "errors": 1,
+#        "failed": 15,
+#        "featurefile": "BAWA_P1_CameraRegression_android_AllModes.feature",
+#        "host": "macmini01",
+#        "lastupdate": "2015-10-14T17:25:45Z",//"2011-11-14T17:25:45Z"
+#        "mobile": "samsung 3",
+#        "mobile_os": "Android4.14",
+#        "passed": 35,
+#        "reset_count": 12,
+#        "runstatus": "RUNNING",
+#        "scenario_count": 1000,
+#        "scenarios": [],
+#        "untested": 49}
+#        return newrun;
+#    },
+#
+#    scenario_template: function(){
+#        newscenario=new Object();
+#        newscenario = {"status":null, //pass fail
+#        "datetime":null,//10/13/15 1:28PM //2015-10-14T17:25:45Z
+#        "scenario":null,//P1:|pipe|video-1080-pt|ntsc|fps-48|fov-med|ptwhtbal-3000k|p
+#        "failstep":null};//And In Settings, "Video Settings" set "White Balance" to "Auto"
+

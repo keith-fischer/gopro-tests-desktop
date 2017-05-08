@@ -1,0 +1,415 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>testrail.sikuli</h2> <a href="testrail.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt"># F O R  S I K U L I</span>
+<span class="cmt"># This file should always be in synch to </span>
+<span class="cmt"># "gopro-tests-desktop/GDA/python/testrail/client_testrail_test.py"</span>
+<span class="cmt"># "gopro-tests-desktop/GDA/sikuli/testrail.sikuli"</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+
+<span class="kw">import</span> sys
+<span class="kw">import</span> os
+<span class="kw">import</span> json
+<span class="kw">import</span> httplib
+<span class="kw">import</span> urllib
+<span class="kw">import</span> urllib2
+<span class="kw">from</span> __builtin__ <span class="kw">import</span> True, False
+<span class="cmt">#from java.net import URL</span>
+
+
+<span class="cmt">############################################################################</span>
+<span class="cmt"># TestRailClient: simple testrail class manager for easy straightforward impleamentation of test case status</span>
+<span class="cmt"># find testrun and create if not exists from derived testsuite name</span>
+<span class="cmt"># All is referenced by first found name when fetching data from testrail</span>
+<span class="cmt"># params:</span>
+<span class="cmt"># run_name: the test run to fetch the testcase list</span>
+<span class="cmt"># suite_name: The testsuite to derive creating the testruns</span>
+<span class="cmt"># run_mode: when iterrating the testrun list, determinds if passed tests are skipped</span>
+<span class="cmt"># [run_non-passed,run_all,run_retest,run_failed,None] testrail supports: Passed=1,Failed=5,Blocked=,Retest=</span>
+<span class="cmt"># baseuri: the middleware webservice restservertestrail.py normally run local: http://127.0.0.1:8081/testrail</span>
+<span class="cmt">############################################################################</span>
+<span class="kw">class</span> TestRailClient():
+    <span class="cmt">###################################</span>
+    <span class="cmt"># default loads appropriate testrun or create new testrun if run_mode is NOT None</span>
+    <span class="cmt"># run_mode="run_non-passed"</span>
+    <span class="cmt">######################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt">######################################    </span>
+    <span class="kw">def</span> __init__(self,
+                 run_name=<span class="str">"Testrun_Quik_Music_Story_Output_Regression"</span>,
+                 suite_name=<span class="str">"Quik_Music_Story_Output_Regression"</span>,
+                 run_description=<span class="str">""</span>,
+                 run_mode=<span class="str">"run_non-passed"</span>,
+                 baseuri=<span class="str">"http://127.0.0.1:8081/testrail"</span>,
+                 proj_id=<span class="dig">86</span>):
+
+        self.ok = False
+        self.run_name = run_name
+        self.run_description=run_description
+        self.suite_name = suite_name
+        self.run_mode = run_mode
+        self.baseuri = baseuri
+        self.projid = proj_id
+        self.suitelist=[]
+        self.suite=None
+        self.suite_id=None
+        self.testrun = None
+        self.testrunlist = []
+        self.testcases = []
+        <span class="kw">if</span> self.run_mode:
+            self.ok=self.testrun_init()
+        <span class="kw">else</span>:
+            self.ok = True
+
+    <span class="cmt">###################################</span>
+    <span class="cmt"># default loads appropriate testrun or create new testrun if run_mode is NOT None</span>
+    <span class="cmt">######################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt">######################################    </span>
+    <span class="kw">def</span> testrun_init(self):
+        rc = False
+        <span class="cmt"># load test run if found or create new testrun with run_name from suite_name</span>
+        truns = self.getruns()
+        <span class="kw">if</span> <span class="kw">not</span> truns:
+            <span class="kw">print</span> <span class="str">"ERROR: TestRailClient.testrun_init"</span>
+            <span class="kw">return</span> rc
+        self.testrun = None
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">0</span>, len(truns[<span class="str">"response"</span>][<span class="str">"response"</span>])):
+            tname = truns[<span class="str">"response"</span>][<span class="str">"response"</span>][i][<span class="str">"name"</span>]
+            <span class="kw">if</span> self.run_name == tname:
+                self.testrun = truns[<span class="str">"response"</span>][<span class="str">"response"</span>][i]
+                <span class="kw">break</span>
+        <span class="kw">if</span> <span class="kw">not</span> self.testrun:
+            <span class="kw">print</span> <span class="str">"Test run not found: %s"</span> % self.run_name
+            <span class="cmt"># to do create new testrun</span>
+            <span class="kw">if</span> <span class="kw">not</span> self.gettestsuite(self.suite_name):
+                <span class="kw">return</span> rc
+            tr=self.addrun()
+            <span class="kw">if</span> <span class="str">"response"</span> <span class="kw">in</span> tr <span class="kw">and</span> <span class="str">"response"</span> <span class="kw">in</span> tr[<span class="str">"response"</span>]:
+                self.testrun=tr[<span class="str">"response"</span>][<span class="str">"response"</span>]
+        self.testcases = None
+
+        <span class="kw">if</span> self.testrun <span class="kw">and</span> <span class="str">"id"</span> <span class="kw">in</span> self.testrun:
+            tests = self.gettests(int(self.testrun[<span class="str">"id"</span>]))
+            <span class="kw">if</span> tests <span class="kw">and</span> <span class="str">"response"</span> <span class="kw">in</span> tests:
+                self.testcases = tests[<span class="str">"response"</span>]
+            <span class="kw">if</span> self.testcases <span class="kw">and</span> len(self.testcases) &gt; <span class="dig">0</span>:
+                <span class="kw">return</span> True
+        <span class="kw">return</span> rc
+    <span class="cmt">######################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt">######################################</span>
+    <span class="kw">def</span> find_test_name(self,testname):
+        <span class="kw">if</span> self.testcases <span class="kw">and</span> len(self.testcases)&gt;<span class="dig">0</span>:
+            <span class="kw">for</span> test <span class="kw">in</span> self.testcases:
+                <span class="kw">if</span> test[<span class="str">"title"</span>]==testname:
+                    <span class="kw">return</span> test
+        <span class="kw">return</span> None
+
+
+
+    <span class="cmt">####################################################</span>
+    <span class="cmt"># gettestrun(self,run_name)</span>
+    <span class="cmt"># get the test run list from the project and returns the</span>
+    <span class="cmt"># matching testrun name of the testrun item in list</span>
+    <span class="cmt"># rreturn None not found</span>
+    <span class="cmt">####################################################</span>
+    <span class="kw">def</span> gettestrun(self,run_name):
+        runs = self.getruns()
+        <span class="kw">if</span> <span class="str">"response"</span> <span class="kw">in</span> runs:
+            <span class="kw">if</span> <span class="str">"response"</span> <span class="kw">in</span> runs <span class="kw">and</span> <span class="str">"response"</span> <span class="kw">in</span> runs[<span class="str">"response"</span>]:
+                <span class="kw">for</span> run_item <span class="kw">in</span> runs[<span class="str">"response"</span>][<span class="str">"response"</span>]:
+                    <span class="kw">if</span> run_item[<span class="str">'name'</span>] == run_name:
+                        <span class="kw">return</span> run_item
+        <span class="kw">return</span> None
+    <span class="cmt">######################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt">######################################</span>
+    <span class="kw">def</span> gettestsuite(self,suite_name):
+        msuites=self.getsuites()
+        <span class="kw">if</span> msuites <span class="kw">and</span> <span class="str">"response"</span> <span class="kw">in</span> msuites <span class="kw">and</span> <span class="str">"response"</span> <span class="kw">in</span> msuites[<span class="str">"response"</span>]:
+            <span class="kw">for</span> suiteitem <span class="kw">in</span> msuites[<span class="str">"response"</span>][<span class="str">"response"</span>]:
+                <span class="kw">print</span> str(suiteitem)
+                <span class="kw">if</span> suiteitem[<span class="str">"name"</span>] == suite_name:
+                    self.suite=suiteitem
+                    self.suite_id=suiteitem[<span class="str">"suite_id"</span>]
+                    <span class="kw">return</span> True
+        <span class="kw">return</span> False
+
+    <span class="cmt">######################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt">######################################</span>
+    <span class="kw">def</span> request(self,data,):
+        req = urllib2.Request(self.baseuri)
+        req.add_header(<span class="str">'Content-Type'</span>, <span class="str">'application/json'</span>)
+        <span class="kw">try</span>:
+            response = urllib2.urlopen(req, json.dumps(data))
+            <span class="kw">if</span> response:
+                <span class="kw">return</span> json.loads(response.read())
+        <span class="kw">except</span> Exception <span class="kw">as</span> e:
+            <span class="kw">print</span> str(e)
+
+        <span class="kw">return</span> None
+    <span class="cmt">######################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt">######################################</span>
+    <span class="kw">def</span> getruns(self):
+        data={}
+        data[<span class="str">"testrail"</span>]=<span class="str">"testrail"</span>
+        data[<span class="str">"api"</span>]=<span class="str">"get_runs"</span>
+        data[<span class="str">"projid"</span>]=self.projid
+        <span class="kw">return</span> self.request(data)
+    <span class="cmt">######################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt">######################################</span>
+    <span class="kw">def</span> getsuites(self):
+        data={}
+        data[<span class="str">"testrail"</span>]=<span class="str">"testrail"</span>
+        data[<span class="str">"api"</span>]=<span class="str">"get_suites"</span>
+        data[<span class="str">"projid"</span>]=self.projid
+        <span class="kw">return</span> self.request(data)
+    <span class="cmt">######################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt">######################################</span>
+    <span class="kw">def</span> get_tests(self):
+        <span class="kw">if</span> self.testrun <span class="kw">and</span> <span class="str">"id"</span> <span class="kw">in</span> self.testrun:
+            tc=self.gettests(self.testrun)
+            <span class="kw">if</span> tc <span class="kw">and</span> <span class="str">"response"</span> <span class="kw">in</span> tc <span class="kw">and</span> <span class="str">"response"</span> <span class="kw">in</span> tc[<span class="str">"response"</span>]:
+                self.testcases=tc[<span class="str">"response"</span>][<span class="str">"response"</span>]
+                <span class="kw">return</span> True
+        <span class="kw">return</span> False
+    <span class="cmt">######################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt">######################################    </span>
+    <span class="kw">def</span> gettests(self,testrunid):
+        data={}
+        data[<span class="str">"testrail"</span>]=<span class="str">"testrail"</span>
+        data[<span class="str">"api"</span>]=<span class="str">"get_tests"</span>
+        data[<span class="str">"projid"</span>]=self.projid
+        data[<span class="str">"testrunid"</span>] = testrunid
+        <span class="kw">return</span> self.request(data)
+    <span class="cmt">######################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt">######################################</span>
+    <span class="kw">def</span> addrun(self):
+        data={}
+        data[<span class="str">"testrail"</span>]=<span class="str">"testrail"</span>
+        data[<span class="str">"api"</span>]=<span class="str">"add_run"</span>
+        data[<span class="str">"projid"</span>]=self.projid
+        data[<span class="str">"suite_id"</span>]=self.suite_id
+        data[<span class="str">"run_name"</span>]=self.run_name
+        data[<span class="str">"description"</span>]=self.run_description
+        <span class="kw">return</span> self.request(data)
+    <span class="cmt">######################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt"># </span>
+    <span class="cmt">######################################</span>
+    <span class="kw">def</span> setteststatus(self,passfail, testitem, run_id, elapsed=None, comment=None, version=None, defects=None, assignedto_id=None):
+        <span class="kw">if</span> <span class="kw">not</span> passfail <span class="kw">or</span> <span class="kw">not</span> testitem <span class="kw">or</span> <span class="kw">not</span> run_id:
+            <span class="kw">print</span> <span class="str">"Error in setstatus:Invalid parameters passfail or testitem or run_id is None"</span>
+        status_id=-<span class="dig">1</span>
+        <span class="kw">if</span> passfail==<span class="str">"passed"</span>:
+            status_id=<span class="dig">1</span>
+        <span class="kw">elif</span> passfail==<span class="str">"failed"</span>:
+            status_id=<span class="dig">5</span>
+        <span class="kw">elif</span> passfail==<span class="str">"blocked"</span>:
+            status_id=<span class="dig">2</span>
+        <span class="kw">elif</span> passfail==<span class="str">"retest"</span>:
+            status_id=<span class="dig">4</span>
+        <span class="kw">elif</span> passfail==<span class="str">"untested "</span>:
+            status_id=<span class="dig">3</span>
+        <span class="kw">if</span> status_id&lt;<span class="dig">1</span>:
+            <span class="kw">print</span> <span class="str">"Error in setstatus: Invalid Status_id: %s"</span> % passfail
+            <span class="kw">return</span> None
+        data={}
+        data[<span class="str">"api"</span>]=<span class="str">"add_result"</span>
+        data[<span class="str">"testrail"</span>]=<span class="str">"testrail"</span>
+        data[<span class="str">"projid"</span>] = self.projid
+        data[<span class="str">"status_id"</span>]=status_id
+        <span class="kw">if</span> testitem:
+            data[<span class="str">"testid"</span>]=testitem
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"Error in setstatus: missing test id field: %s"</span> % str(testitem)
+            <span class="kw">return</span> None
+        <span class="kw">if</span> run_id:
+            data[<span class="str">"runid"</span>] = run_id
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"Error in setstatus: missing run id field: %s"</span> % str(run_id)
+            <span class="kw">return</span> None
+
+        <span class="kw">if</span> elapsed:
+            data[<span class="str">"elapsed"</span>] = elapsed
+
+        <span class="kw">if</span> comment:
+            data[<span class="str">"comment"</span>] = comment
+
+        <span class="kw">if</span> version:
+            data[<span class="str">"version"</span>] = version
+
+        <span class="kw">if</span> defects: <span class="cmt"># must comma seperated list</span>
+            data[<span class="str">"defects"</span>] = defects
+
+        <span class="kw">if</span> assignedto_id:
+            data[<span class="str">"assignedto_id"</span>] = assignedto_id
+
+        <span class="kw">return</span> self.request(data)
+
+
+
+
+<span class="cmt">#this works</span>
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> test_testclient2():
+    projid = <span class="dig">86</span>
+    login = <span class="str">""</span>
+    pw = <span class="str">""</span>
+    baseuri = <span class="str">"http://127.0.0.1:8081/testrail"</span>
+    testrail = TestRailClient(baseuri,projid,login,pw)
+    jruns = testrail.getruns()
+    <span class="kw">if</span> jruns:
+        <span class="kw">print</span> str(jruns)
+        <span class="cmt">#jruns=json.loads(runs)</span>
+        <span class="kw">if</span> <span class="str">"response"</span> <span class="kw">in</span> jruns <span class="kw">and</span> <span class="str">"response"</span> <span class="kw">in</span> jruns[<span class="str">"response"</span>]:
+
+            <span class="kw">for</span> r <span class="kw">in</span> jruns[<span class="str">"response"</span>][<span class="str">"response"</span>]:
+                <span class="kw">print</span> r[<span class="str">'name'</span>]+str(r)
+                id=int(r[<span class="str">'id'</span>])
+                <span class="kw">print</span> id
+                resp=testrail.gettests(id)
+                <span class="cmt">#print str(resp)</span>
+                <span class="kw">if</span> <span class="str">"response"</span> <span class="kw">in</span> resp:
+                    <span class="kw">for</span> test <span class="kw">in</span> resp[<span class="str">"response"</span>]:
+                        <span class="kw">print</span> test[<span class="str">"title"</span>]
+        <span class="kw">elif</span> <span class="str">"response"</span> <span class="kw">in</span> jruns <span class="kw">and</span> <span class="str">"error"</span> <span class="kw">in</span> jruns[<span class="str">"response"</span>]:
+            <span class="kw">print</span> <span class="str">"Response with error: %s"</span> % jruns[<span class="str">"response"</span>][<span class="str">"error"</span>]
+        <span class="kw">elif</span> <span class="str">"error"</span> <span class="kw">in</span> jruns:
+            <span class="kw">print</span> <span class="str">"Error:%s"</span> % str(jruns)
+        <span class="kw">else</span>:
+            <span class="kw">print</span> str(jruns)
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> test_testclient():
+    run_name = <span class="str">"Testrun_Quik_Music_Story_Output_Regression2"</span>
+    suite_name = <span class="str">"Quik_Music_Story_Output_Regression"</span>
+    run_description=<span class="str">"QA test iteration 2"</span>
+    run_mode = <span class="str">"run_non-passed"</span>
+    baseuri = <span class="str">"http://127.0.0.1:8081/testrail"</span>
+    proj_id = <span class="dig">86</span>
+
+    tr = TestRailClient(run_name,suite_name,run_description,run_mode,baseuri,proj_id)
+    <span class="kw">if</span> tr <span class="kw">and</span> tr.ok:
+        <span class="kw">print</span> <span class="str">"Tests Found=%d"</span> % (len(tr.testcases))
+        <span class="kw">for</span> test <span class="kw">in</span> tr.testcases:
+            <span class="kw">print</span> test[<span class="str">"title"</span>]
+            teststatus=tr.setteststatus(<span class="str">"passed"</span>,test[<span class="str">"id"</span>],test[<span class="str">"run_id"</span>],<span class="str">"2s"</span>,<span class="str">"debug test"</span>)
+            <span class="kw">print</span> str(teststatus)
+
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"Failed testrail init"</span>
+
+<span class="cmt">#test_testclient()</span>
+
+</pre>
+</body>
+</html>

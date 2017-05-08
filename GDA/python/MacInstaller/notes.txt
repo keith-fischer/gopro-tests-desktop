@@ -1,0 +1,95 @@
+
+todo:
+Some buttons have non ascii chars
+py script does not support the chars
+#'Print…'
+#'Save…'
+
+todo
+menus recurse forever
+need to detect parent/ancestor node and skip recursion
+
+
+
+from atomac.AXKeyCodeConstants import *
+#print atomac.__version__
+#os.system("some_command &")
+#atomac.launchAppByBundleId('com.apple.installer')
+#print atomac.Clipboard
+#atomac.launchAppByBundlePath('/System/Library/CoreServices/Installer.app')
+#ap = atomac.getAppRefByPid(38167)
+
+
+#ap = atomac.getAppRefByBundleId('com.apple.Terminal')
+#window=ap.windows()[0]
+#frontmost=atomac.getFrontmostApp()
+#ap=atomac.getAppRefByLocalizedName('Installer')
+#window = automator.windows()
+
+
+
+
+############################################
+# scrapes the window UI
+# Looks fo matching title text in ui widget
+# does mouse click on found match
+# return true has found match and clicked
+############################################
+def windowView(ap, action=None):
+    dopress=None
+    for w in range(len(ap.AXChildren)):
+        print "%d ##########################################" % w
+        win=ap.AXChildren[w]
+        print win.AXChildren
+        #print ap.AXChildren[1].AXChildren
+        #print window
+        print win.AXChildren
+        for i in range(len(win.AXChildren)):
+            print "%d----------------" % i
+            #print ap.AXChildren[0].AXChildren[i]
+            print "Action=%s" % win.AXChildren[i].getActions()
+            att= win.AXChildren[i].getAttributes()
+            #print ap.AXChildren[0].AXChildren[i].AXPosition
+            for ii in range(len(att)):
+                try:
+                    func = getattr(win.AXChildren[i], att[ii])
+                    z = func
+                    itemtitle=""
+                    if func=="AXTitle":
+                        itemtitle=win.AXChildren[i].AXTitle
+                    if att[ii]=="AXChildren":
+                        if len(z)>0:
+                            for iii in range(len(z)):
+                                print "%d.%s=%s" % (iii, att[ii], win.AXChildren[i].AXChildren[iii])
+                                try: # hunt for sub child ui for title name button press
+                                    attr=win.AXChildren[i].AXChildren[iii].getAttributes()
+                                    if "AXTitle" in attr:
+                                        tlt=win.AXChildren[i].AXChildren[iii].AXTitle
+                                        if (tlt==action):
+                                            print ">>>>%s" % tlt
+                                            dopress = win.AXChildren[i].AXChildren[iii]
+                                except:
+                                    pass
+                    else:
+                        print "%s=%s" % (att[ii],z)
+                        if z==action: #hunt for child ui for title name button press
+                            dopress=win.AXChildren[i]
+                except:
+                    print "error:%s=%s" % (att[ii], "No Data")
+    if dopress:
+        print "PRESS BUTTON==================="
+        button_pos = dopress.AXPosition
+        button_sz = dopress.AXSize
+        x = button_pos[0]+(button_sz[0]/2)
+        y = button_pos[1]+(button_sz[1]/2)
+
+        print button_pos
+        center=()
+        center=center+(x,)
+        center = center + (y,)
+        print  center
+        dopress.clickMouseButtonLeft(center)
+        print "=============================="
+        return True
+    else:
+        return False

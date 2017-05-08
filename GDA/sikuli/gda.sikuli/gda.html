@@ -1,0 +1,244 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>gda.sikuli</h2> <a href="gda.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> Sikuli
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> __builtin__ <span class="kw">import</span> True, False
+<span class="kw">import</span> org.sikuli.basics.SikulixForJython
+<span class="kw">import</span> org.sikuli.script.ImagePath
+
+<span class="kw">import</span> gda_utils
+<span class="kw">import</span> gda_create_tests
+<span class="kw">import</span> gda_music_tests
+<span class="kw">import</span> gda_BAT
+<span class="kw">import</span> gda_img_regression
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> DEBUG(gpa, gpr):
+    <span class="cmt">#gda_create_tests(gpa,gpr)</span>
+    gda_music_tests.testsongs(gpa,gpr,<span class="dig">15</span>)
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># main script</span>
+<span class="cmt">##########################################</span>
+
+gda_utils.GetEnvInfo()
+<span class="cmt">#gda_utils.d_gda_settings['runtest']='gda_img_regression'</span>
+<span class="cmt">#gda_utils.d_gda_settings['testpath']="/Users/keithfisher/gda_music_images-Mac4790"</span>
+<span class="cmt">#gda_utils.d_gda_settings['baselinepath']="/Users/keithfisher/gda_music_images-Mac4781"</span>
+
+<span class="cmt"># Non GUI GDA TESTS</span>
+<span class="kw">if</span> gda_utils.d_gda_settings[<span class="str">'runtest'</span>]==<span class="str">'gda_img_regression'</span>:
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: GDA IMAGE REGRESSION TESTS"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    bpath=gda_utils.d_gda_settings[<span class="str">'baselinepath'</span>]
+    tpath=gda_utils.d_gda_settings[<span class="str">'testpath'</span>]
+    rc=gda_img_regression.compare_image_sets(bpath,tpath)
+    <span class="kw">if</span> rc:
+        <span class="kw">print</span> <span class="str">"PASSED: gda_img_regression"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"FAILED: gda_img_regression"</span>
+        exit(-<span class="dig">1</span>)
+    exit(<span class="dig">0</span>)
+<span class="cmt">#gp,gpr=AppStartRetry("GoPro",3)</span>
+gpa,gpr=gda_utils.AppStart(<span class="str">"Quik"</span>)
+
+<span class="kw">if</span> <span class="kw">not</span> gpa:
+    <span class="kw">print</span> <span class="str">"ERROR: App not found"</span>
+    exit(<span class="dig">1</span>)
+<span class="kw">if</span> <span class="kw">not</span> gpr:
+    <span class="kw">print</span> <span class="str">"ERROR: App Window Region not found"</span>
+    <span class="kw">if</span> gpa:
+        gpa.close()
+    exit(<span class="dig">1</span>)
+
+<span class="kw">print</span> <span class="str">"%d X %d"</span> % (gpr.w,gpr.h)
+
+gda_utils.d_similarity=gda_utils.getDictFromFile()
+<span class="kw">if</span> gda_utils.d_similarity:
+    <span class="kw">print</span> <span class="str">"JSON ====================="</span>
+    <span class="kw">print</span> gda_utils.printjson(gda_utils.d_similarity)
+    <span class="kw">print</span> <span class="str">"=========================="</span>
+<span class="kw">else</span>:
+    <span class="kw">print</span> <span class="str">"JSON ====================="</span>
+    <span class="kw">print</span> <span class="str">"FAILED TO Load JSON: d_similarity file NOT found"</span>
+    <span class="kw">print</span> <span class="str">"Test run will run VERY slow"</span>
+    <span class="kw">print</span> <span class="str">"Assumed automation has never run on this machine."</span>
+    <span class="kw">print</span> <span class="str">"A new d_similarity file will be created"</span>
+    <span class="kw">print</span> <span class="str">"You should not see this message when you rerun the automation on this machine."</span>
+    <span class="kw">print</span> <span class="str">"=========================="</span>
+
+gda_utils.ScreenShot(gpr,<span class="str">"startup"</span>)
+<span class="cmt">#for i in range(1,6,1):</span>
+<span class="cmt">#    story(gpr)</span>
+<span class="kw">if</span> gda_utils.d_gda_settings[<span class="str">'runtest'</span>]==<span class="str">'default'</span>:
+    <span class="cmt">#exit(0)</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: DEFAULT"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    exit(<span class="dig">1</span>)
+    <span class="cmt">#ocr(gpr,"")</span>
+    <span class="cmt">#gda_BAT.BAT(gpa,gpr)</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1</span>,<span class="dig">9999</span>):
+        <span class="kw">print</span> <span class="str">"================================================="</span>
+        <span class="kw">print</span> <span class="str">"%d &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span> % i
+        <span class="kw">print</span> <span class="str">"================================================="</span>
+        tryexcept=False
+        <span class="kw">try</span>:
+            gda_create_tests.record_momentsbeats(gpr)
+        <span class="kw">except</span> Exception, err:
+            <span class="kw">print</span> <span class="str">"FAILED: ###################################"</span>
+            <span class="kw">print</span> str(err)
+            gda_utils.failcount+=<span class="dig">1</span>
+            tryexcept=True
+        gda_utils.putDictToFile(gda_utils.d_similarity)
+        gda_utils.printreport(<span class="str">"GDA_MOMENTS TEST"</span>)
+        gda_utils.resetglobals()
+        <span class="kw">if</span> tryexcept:
+            exit(<span class="dig">1</span>)
+
+<span class="kw">elif</span> gda_utils.d_gda_settings[<span class="str">'runtest'</span>]==<span class="str">'gda_view_tests'</span>:
+    gda_create_tests.gda_create_tests(gpa,gpr,<span class="dig">60</span>,<span class="dig">16</span>)
+    gda_utils.putDictToFile(gda_utils.d_similarity)
+    gda_utils.printreport(<span class="str">"GDA_MOMENTS TEST"</span>)
+    gda_utils.resetglobals()
+
+<span class="kw">elif</span> gda_utils.d_gda_settings[<span class="str">'runtest'</span>]==<span class="str">'gda_music_tests-capture'</span>:
+
+    gda_music_tests.test_music_60(gpa,gpr)
+
+<span class="kw">elif</span> gda_utils.d_gda_settings[<span class="str">'runtest'</span>]==<span class="str">"gda_create_tests-record"</span>:
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: RECORD GDA_CREATE_TESTS MOMENTS_MUSIC"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    gda_create_tests.record_moments_beats(gpa,gpr)
+<span class="kw">elif</span> gda_utils.d_gda_settings[<span class="str">'runtest'</span>]==<span class="str">"gda_create_tests-regression"</span>:
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: REGRESSION GDA_CREATE_TESTS MOMENTS_MUSIC"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    gda_create_tests.regression_momentsbeats(gpr)
+<span class="kw">elif</span> gda_utils.d_gda_settings[<span class="str">'runtest'</span>]==<span class="str">"gda_analytics-regression"</span>:
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: REGRESSION GDA_CREATE_TESTS MOMENTS_MUSIC"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    gda_music_tests.test_analytics(<img src="song_ARECKONING.png" />)
+
+<span class="kw">elif</span> gda_utils.d_gda_settings[<span class="str">'runtest'</span>]==<span class="str">'gda_music_tests-regression'</span>:
+    <span class="cmt">#DEBUG(gpa, gpr)</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: REGRESSION GDA_MUSIC_TESTS 15"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    gda_music_tests.testsongs(gpa,gpr,<span class="dig">15</span>)
+    gda_utils.putDictToFile(gda_utils.d_similarity)
+    gda_utils.printreport(<span class="str">"REGRESSION GDA_MUSIC_TESTS"</span>)
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: REGRESSION GDA_MUSIC_TESTS 30"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    gda_music_tests.testsongs(gpa,gpr,<span class="dig">30</span>)
+    gda_utils.putDictToFile(gda_utils.d_similarity)
+    gda_utils.printreport(<span class="str">"REGRESSION GDA_MUSIC_TESTS"</span>)
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: REGRESSION GDA_MUSIC_TESTS 60"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    gda_music_tests.testsongs(gpa,gpr,<span class="dig">60</span>)
+    gda_utils.putDictToFile(gda_utils.d_similarity)
+    gda_utils.printreport(<span class="str">"REGRESSION GDA_MUSIC_TESTS"</span>)
+
+<span class="kw">elif</span> gda_utils.d_gda_settings[<span class="str">'runtest'</span>]==<span class="str">'gda_BAT'</span>:
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: GDA_BAT TESTS"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    gda_BAT.BAT(gpa,gpr)
+<span class="kw">elif</span> gda_utils.d_gda_settings[<span class="str">'runtest'</span>]==<span class="str">'gda_img_regression'</span>:
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: GDA IMAGE REGRESSION TESTS"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="cmt"># gda_img_regression.compare_image_sets(gpa,gpr)</span>
+
+<span class="kw">else</span>:
+    s=<span class="str">""</span>
+    <span class="kw">if</span> <span class="str">'runtest'</span> <span class="kw">in</span> gda_utils.d_gda_settings:
+        s = gda_utils.d_gda_settings[<span class="str">'runtest'</span>]
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"ERROR: NO TEST DEFINED"</span>
+    <span class="kw">print</span> s
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+</pre>
+</body>
+</html>

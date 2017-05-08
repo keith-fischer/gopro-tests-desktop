@@ -1,0 +1,383 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>gda_gensettings.sikuli</h2> <a href="gda_gensettings.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> gda_utils
+
+<span class="kw">from</span> sikuli <span class="kw">import</span> Sikuli
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> __builtin__ <span class="kw">import</span> True, False
+<span class="kw">import</span> org.sikuli.basics.SikulixForJython
+
+<span class="kw">class</span> GenSettings:
+    <span class="kw">def</span> __init__(self):
+        self.auto_launch=False
+        self.auto_download=False
+        self.auto_play=False
+        self.auto_sync=False
+        self.import_location=<span class="str">""</span>
+        self.media_folder=[]
+        self.fails=<span class="str">"\nGenSettings: REPORT TESTS FAILED"</span>
+        self.passes=<span class="str">"\nGenSettings: REPORT TESTS PASSED"</span>
+
+    <span class="kw">def</span> evalgensettings(self):
+        p=Pattern(<img src="gensettings_btn_backtomedia.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># gensettings_btn_backtomedia</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"TOP"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_btn_selected.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># gensettings_btn_selected</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"LEFTPANEL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_btn_cloudsettings-unselected.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># gensettings_btn_cloudsettings-unselected</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"LEFTPANEL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_btn_feedback.png" />).similar(<span class="dig">0.68</span>) <span class="cmt"># gensettings_btn_feedback</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"LEFTPANEL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_lbl_title-settings.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_lbl_title-settings</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"TITLE"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_lbl_importlocation.png" />).similar(<span class="dig">0.69</span>)
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_IMPORTLOCATION"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_dir_importlocation.png" />).similar(<span class="dig">0.69</span>)
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_IMPORTLOCATION"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_btn_importlocation-select.png" />).similar(<span class="dig">0.69</span>)
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_IMPORTLOCATION"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_lbl_mediafolder.png" />).similar(<span class="dig">0.69</span>)
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_MEDIAFOLDER"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_txt_mediafolder-goprodir.png" />).similar(<span class="dig">0.69</span>)
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_MEDIAFOLDER"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_txt_mediafolder-gdatest.png" />).similar(<span class="dig">0.69</span>)
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_MEDIAFOLDER"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_btn_mediafolder-scan-gopro.png" />).similar(<span class="dig">0.69</span>).targetOffset(-<span class="dig">22</span>,<span class="dig">0</span>)
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_MEDIAFOLDER"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_btn_mediafolder-gdatest-scan-delete.png" />).similar(<span class="dig">0.69</span>).targetOffset(-<span class="dig">17</span>,<span class="dig">0</span>)
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_MEDIAFOLDER"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_btn_addnew.png" />).similar(<span class="dig">0.69</span>)
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_MEDIAFOLDER"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_chk_autolaunch-checked.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_chk_autolaunch-checked</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_CHECKBOXAUTO"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+            rsettings.<span class="skw">click</span>()
+
+        p=Pattern(<img src="gensettings_chk_autolaunch-unchecked.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_chk_autolaunch-unchecked</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_CHECKBOXAUTO"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+            rsettings.<span class="skw">click</span>()
+
+        p=Pattern(<img src="gensettings_chk_autodownload-checked.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_chk_autodownload-checked</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_CHECKBOXAUTO"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+            rsettings.<span class="skw">click</span>()
+
+        p=Pattern(<img src="gensettings_chk_autodownload-unchecked.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_chk_autodownload-unchecked</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_CHECKBOXAUTO"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+            rsettings.<span class="skw">click</span>()
+
+        p=Pattern(<img src="gensettings_chk_autoplay-unchecked.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_chk_autoplay-unchecked</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_CHECKBOXAUTO"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+            rsettings.<span class="skw">click</span>()
+
+        p=Pattern(<img src="gensettings_chk_autoplay-checked.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_chk_autoplay-checked</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_CHECKBOXAUTO"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+            rsettings.<span class="skw">click</span>()
+
+        p=Pattern(<img src="gensettings_chk_autosync-unchecked.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_chk_autosync-unchecked</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_CHECKBOXAUTO"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+            rsettings.<span class="skw">click</span>()
+
+        p=Pattern(<img src="gensettings_chk_autosync-checked.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_chk_autosync-checked</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_CHECKBOXAUTO"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+            rsettings.<span class="skw">click</span>()
+
+        p=Pattern(<img src="gensettings_btn_onlinesupport.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_btn_onlinesupport</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_CHECKBOXAUTO"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+            rsettings.<span class="skw">click</span>()
+
+        p=Pattern(<img src="gensettings_btn_sendfeedback.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_btn_sendfeedback</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_CHECKBOXAUTO"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+
+        p=Pattern(<img src="gensettings_lbl_sharing.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_lbl_sharing</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_SHARING"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_lbl_sharing-notloggedinfacebook.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_lbl_sharing-notloggedinfacebook</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_SHARING"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_lbl_sharing-notloggedinyoutube.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#gensettings_lbl_sharing-notloggedinyoutube</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_SHARING"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+
+
+
+
+<span class="cmt">######################################</span>
+<span class="cmt"># Assumes automation window size Mac{x35,y35,w1280, h836}</span>
+<span class="cmt"># for windows using Autoit we need to identify the inner region w,h relative to mac and set the win size accordingly</span>
+<span class="cmt"># Win,Mac window container border widths are different</span>
+<span class="cmt"># this is global region list for more accurate image query</span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> set_gensettings_regions(REGION):
+
+    screenregion=<span class="str">"GENSETTINGS"</span>
+    subregion=<span class="str">"TOP"</span>
+    rx=REGION.getX()
+    ry=REGION.getY()<span class="cmt">#+REGION.getH()-80</span>
+    rw=REGION.getW()
+    rh=<span class="dig">80</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(1)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+    subregion=<span class="str">"LEFTPANEL"</span>
+    rx=REGION.getX()
+    ry=REGION.getY()+<span class="dig">80</span>
+    rw=<span class="dig">238</span>
+    rh=REGION.getH()-<span class="dig">80</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(5)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+    subregion=<span class="str">"TITLE"</span>
+    rx=REGION.getX()+ <span class="dig">238</span>
+    ry=REGION.getY()+<span class="dig">90</span>
+    rw=REGION.getW()-<span class="dig">238</span>
+    rh=<span class="dig">80</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(5)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+    subregion=<span class="str">"SETTINGS_IMPORTLOCATION"</span>
+    r=r.below(<span class="dig">120</span>)
+    <span class="cmt">#r.highlight(5)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+    subregion=<span class="str">"SETTINGS_MEDIAFOLDER"</span>
+    r=r.below(<span class="dig">230</span>)
+    <span class="cmt">#r.highlight(5)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+    subregion=<span class="str">"SETTINGS_CHECKBOXAUTO"</span>
+    r=r.below(<span class="dig">200</span>)
+    <span class="cmt">#r.highlight(5)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+    subregion=<span class="str">"SETTINGS_SHARING"</span>
+    r=r.below(<span class="dig">100</span>)
+    <span class="cmt">#r.highlight(5)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+
+
+<span class="kw">def</span> mediafolder_addnew(pathdir):
+    m=gda_utils.EXISTS3(<span class="str">"GENSETTINGS"</span>,<span class="str">"SETTINGS_MEDIAFOLDER"</span>,Pattern(<img src="gensettings_btn_addnew.png" />).similar(<span class="dig">0.69</span>),<span class="dig">5</span>)
+    <span class="kw">if</span> m:
+        m.<span class="skw">click</span>()
+
+<span class="cmt">######################################</span>
+<span class="cmt"># for debugging in sikuli ide</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> test_module():
+    gda_utils.GetEnvInfo()
+    gpa,gpr=gda_utils.AppStart(<span class="str">"GoPro"</span>)
+    set_gensettings_regions(gpr)
+    g=GenSettings()
+    <span class="kw">if</span> <span class="kw">not</span> g:
+        <span class="kw">print</span> <span class="str">"Error: failed to create GenSettings class"</span>
+        <span class="kw">return</span>
+    g.evalgensettings()
+    <span class="kw">print</span> g.passes
+    <span class="kw">print</span> g.fails
+
+<span class="cmt">######################################</span>
+<span class="cmt"># for debugging in sikuli ide</span>
+<span class="cmt"># </span>
+<span class="cmt"># KEEP THIS COMMENTED when checking in to GIT</span>
+<span class="cmt">######################################    </span>
+test_module()
+</pre>
+</body>
+</html>

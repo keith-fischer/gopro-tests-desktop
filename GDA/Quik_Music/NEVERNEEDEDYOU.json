@@ -1,0 +1,932 @@
+{
+    "beats_per_minute": 127.846,
+    "genre": "Electronica",
+    "music_title": {
+        "en": "Never Needed You",
+        "version": 0
+    },
+    "tracks": [
+        {
+            "duration_seconds": 15.283991,
+            "marks": [
+                [
+                    {
+                        "music_seconds": 5.7188,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 5.7188,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 12.7812,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 1.9869,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 5.7188,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 12.7812,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 1.9869,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 5.7188,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 9.4761,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 12.7812,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 1.9869,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 5.7188,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.5783,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 9.4761,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 12.7812,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 1.9869,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 5.7188,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.5783,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 9.4761,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 10.8831,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 12.7365,
+                        "version": 0
+                    }
+                ]
+            ],
+            "music_source_file_short_name": "NEVERNEEDEDYOU_15.mp3",
+            "version": 0,
+            "waveform_data_cache_file_short_name": "NEVERNEEDEDYOU_15_waveform_cache.dat"
+        },
+        {
+            "duration_seconds": 30.173991,
+            "marks": [
+                [
+                    {
+                        "music_seconds": 15.1876,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 7.2162,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 22.6749,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 7.2162,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.2127204625,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 22.6749,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.9721,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 11.4158,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.9593,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 25.9936,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.9721,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 11.4158,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.9334,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 22.6552,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 25.9936,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.9721,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.6692227125,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 11.4158,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.9334,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 22.6552,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 25.9936,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 1.5833,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 5.8321,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.6692,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 11.4158,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.9334,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 22.6552,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 25.9936,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 1.5833,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 5.8321,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.6692,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 11.4158,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.237865455,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.9334,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 22.6552,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 25.9936,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 1.5833,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 5.8321,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.6692,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 11.4158,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 13.3771,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 17.0483,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.9334,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 22.6552,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 25.9936,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 1.5833,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 5.8321,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 6.7888,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 9.5551,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 11.4158,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 13.3771,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 17.0483,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.9334,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 22.6552,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 25.9936,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 1.5833,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 5.8321,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 6.7888,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 9.5551,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 11.4158,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 13.3771,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 17.0483,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.9334,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 22.6552,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 25.9936,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 26.9554,
+                        "version": 0
+                    }
+                ]
+            ],
+            "music_source_file_short_name": "NEVERNEEDEDYOU_30.mp3",
+            "version": 0,
+            "waveform_data_cache_file_short_name": "NEVERNEEDEDYOU_30_waveform_cache.dat"
+        },
+        {
+            "duration_seconds": 60.137007,
+            "marks": [
+                [
+                    {
+                        "music_seconds": 45.3533,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 29.9659,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 45.3533,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 37.736,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 52.3677,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 7.867925082499999,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 37.736,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 52.3677,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 7.8679,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.0343,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 37.736,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 52.3677,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 7.8679,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.0343,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 37.736,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 52.3677,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 56.2782,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.1572,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.8679,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.0343,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 37.736,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 52.3677,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 56.2782,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.1572,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.8679,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.0343,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 30.3191,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 37.736,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 52.3677,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 56.2782,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.1572,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.8679,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.0343,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 27.1118,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 32.6212,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 37.736,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 52.3677,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 56.2782,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.1572,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.8679,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.0343,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 27.1118,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 32.6212,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 37.736,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 41.594,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 48.2568,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 57.3799,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.1572,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.8679,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.0343,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.64247217,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 27.1118,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 32.6212,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 37.736,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 41.594,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 48.2568,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 57.3799,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.1572,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.8679,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.0343,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.6425,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 27.1118,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 32.6212,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 34.9797,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 40.0404,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 41.594,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 48.2568,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 57.3799,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.1572,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.8679,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.0343,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.6425,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 27.1118,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 32.6212,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 34.9797,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 40.0404,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 41.594,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 45.2531,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 48.2568,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 57.3799,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.1572,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.8679,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.0343,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.6425,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 27.1118,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 32.6212,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 34.9797,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 40.0404,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 41.594,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 43.6455,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 46.4057,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 48.3046,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 57.3799,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.1572,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.8679,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 15.0343,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.6425,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 21.9469,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 27.1118,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 32.6212,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 34.9797,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 40.0404,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 41.594,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 43.6455,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 46.4057,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 48.3046,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 53.5219,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 59.1347,
+                        "version": 0
+                    }
+                ]
+            ],
+            "music_source_file_short_name": "NEVERNEEDEDYOU_60.mp3",
+            "version": 0,
+            "waveform_data_cache_file_short_name": "NEVERNEEDEDYOU_60_waveform_cache.dat"
+        }
+    ],
+    "version": 11,
+    "vibes": [
+        "Dark",
+        "Haunting",
+        "Nostalgic"
+    ]
+}

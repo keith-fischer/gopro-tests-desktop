@@ -1,0 +1,31 @@
+Cloud Media List Reporting Tool
+
+This tool is used to read a cloud account and report all the found media items, including failed uploaded media which is "invisible" from the browser and most clients. The tool can also delete this invisible media. Each media item found in the account also itemizes all the derived media items of each media item.
+Media list details are output as JSON and optionally csv for easy Excel importing. For the csv the derived media list is flattened with fields "Derived-0-available","Derived-1-available"
+
+python "/my/directory/path/GpCloudManager.py" -h
+-j <json output path> path to output json file name [path of file]
+-l <login> the cloud account email
+-p <pasword> the cloud account password
+-c <client> the client gda|webbrowser
+-t <targetcloud> the cloud environment [prod|staging|qa]
+-d <deletecleanup> cleanup invalid media items in cloud account such as failed uploads
+-x <csv> outputs a csv file for excel import [path of file]
+
+
+Python 2.7 prerequisites:
+MBP-25710:~ keithfisher$ which python
+/Users/keithfisher/miniconda2/bin/python
+If you don't have python I recommend miniconda for python 2.7
+http://conda.pydata.org/miniconda.html
+
+pip install rauth
+pip install requests
+pip install logging
+
+Examples:
+
+python "/Automation/gopro-tests-desktop/GDA/python/cloud/GpCloudManager.py" -c quik -j "/Users/keithfisher/Downloads/autogda00_prod1.json" -l "autogda00@gmail.com" -p access4auto -v "/Users/keithfisher/Downloads/validatemedia.txt" -t production -x "/Users/keithfisher/Downloads/autogda00_prod1.csv" -d
+python "/Automation/gopro-tests-desktop/GDA/python/cloud/GpCloudManager.py" -c quik -j "/Users/keithfisher/Downloads/autogda00_stage.json" -l "sqaautomation1@gopro.com" -p "Password2#" -v "/Users/keithfisher/Downloads/validatemedia.txt" -t staging -x "/Users/keithfisher/Downloads/autogda00_stage1.csv"
+python "/Automation/gopro-tests-desktop/GDA/python/cloud/GpCloudManager.py" -c quik -j "/Users/keithfisher/Downloads/pavel_staging.json" -l "gobro2@mailinator.com" -p newpassword -v "/Users/keithfisher/Downloads/validatemedia.txt" -t staging -x "/Users/keithfisher/Downloads/pavel_staging.csv"
+python "/Automation/gopro-tests-desktop/GDA/python/cloud/GpCloudManager.py" -h

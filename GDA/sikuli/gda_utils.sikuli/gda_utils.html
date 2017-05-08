@@ -1,0 +1,1776 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>gda_utils.sikuli</h2> <a href="gda_utils.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> java.lang.System
+<span class="kw">import</span> java
+<span class="kw">import</span> sys
+<span class="kw">import</span> traceback
+<span class="kw">import</span> sys.argv
+<span class="kw">import</span> os
+<span class="kw">import</span> os.path
+<span class="kw">import</span> urllib2
+<span class="kw">from</span> os.path <span class="kw">import</span> expanduser
+<span class="kw">import</span> shutil
+<span class="kw">import</span> json
+<span class="kw">from</span> time <span class="kw">import</span> strftime
+<span class="kw">from</span> types <span class="kw">import</span> *
+<span class="kw">import</span> subprocess
+<span class="kw">from</span> sikuli <span class="kw">import</span> Sikuli
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> __builtin__ <span class="kw">import</span> True, False
+<span class="kw">import</span> org.sikuli.basics.SikulixForJython
+<span class="kw">import</span> org.sikuli.script.ImagePath
+<span class="kw">import</span> testrail
+
+setShowActions(False)
+Debug.setDebugLevel(<span class="dig">3</span>)
+DO_HIGHLIGHT = True
+MIN_SIMILIARITY=<span class="dig">50</span>
+failcount=<span class="dig">0</span> <span class="cmt">#tests failed</span>
+passcount=<span class="dig">0</span> <span class="cmt">#tests passed</span>
+passtotal=<span class="dig">0</span>
+failtotal=<span class="dig">0</span>
+errorcount=<span class="dig">0</span>
+failexit=<span class="dig">3</span> <span class="cmt">#Stop test after number of fails</span>
+testcount = <span class="dig">0</span> <span class="cmt">#number of tests</span>
+d_gda_settings = {}
+d_similarity = {}
+startupcnt=<span class="dig">0</span>
+jenkins = <span class="str">"C:\\Win_GDA-Studio_3a_BAT\\"</span>
+screen_seq = <span class="dig">0</span>
+d_screen_regions = {}
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> add_region(region_screen, region_name, REGION):
+    <span class="kw">global</span> d_screen_regions
+    <span class="kw">print</span> <span class="str">"addregion &gt;&gt;&gt; %s - %s\n%s"</span> % (region_screen,region_name,str(REGION))
+    <span class="kw">if</span> <span class="kw">not</span> region_screen <span class="kw">in</span> d_screen_regions:
+        d_screen_regions[region_screen]={} <span class="cmt">#dict of sub regions to the screen</span>
+    d_screen_regions[region_screen][region_name]=REGION
+    m=d_screen_regions[region_screen][region_name]
+
+    <span class="kw">if</span> m:
+        m.highlight(<span class="dig">1</span>)
+        <span class="kw">print</span> <span class="str">"addregion OK &lt;&lt;&lt;&lt;"</span>
+        <span class="kw">return</span> True
+
+    <span class="kw">print</span> <span class="str">"addregion FAIL &lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> False
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> getregion(region_screen,region_name):
+    <span class="kw">global</span> d_screen_regions
+    <span class="kw">if</span> <span class="kw">not</span> region_screen <span class="kw">in</span> d_screen_regions:
+        <span class="kw">return</span> None
+    <span class="kw">if</span> region_name <span class="kw">in</span> d_screen_regions[region_screen]:
+        <span class="kw">return</span> d_screen_regions[region_screen][region_name]
+    <span class="kw">return</span> None
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> do_highlight(REGION_MATCH,seconds=<span class="dig">1</span>):
+    <span class="kw">global</span> DO_HIGHLIGHT
+    <span class="kw">try</span>:
+        <span class="kw">if</span> REGION_MATCH <span class="kw">and</span> DO_HIGHLIGHT:
+            REGION_MATCH.highlight(seconds)
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"Error in do_highlight"</span>
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> eval_argsv():
+    <span class="kw">global</span> d_gda_settings
+    d_gda_settings[<span class="str">'runtest'</span>] = <span class="str">'default'</span>
+    d_gda_settings[<span class="str">'version'</span>]=<span class="str">"Quik missing ver arg"</span>
+    <span class="kw">print</span> str(sys.argv)
+    d_gda_settings[<span class="str">'exclusive_songs'</span>]=False
+
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1</span>,len(sys.argv)):
+        <span class="kw">if</span> i==<span class="dig">1</span>: <span class="cmt">#required</span>
+            d_gda_settings[<span class="str">'runtest'</span>] = sys.argv[<span class="dig">1</span>]
+        <span class="kw">elif</span> i==<span class="dig">2</span>: <span class="cmt">#required</span>
+            d_gda_settings[<span class="str">'version'</span>] = sys.argv[<span class="dig">2</span>]
+            <span class="kw">print</span> <span class="str">"================"</span>
+            <span class="kw">print</span> <span class="str">"QUIK VERSION=%s"</span> % d_gda_settings[<span class="str">'version'</span>]
+            <span class="kw">print</span> <span class="str">"================"</span>
+        <span class="kw">elif</span> i&gt;<span class="dig">2</span>:
+            arg=sys.argv[i].split(<span class="str">"="</span>)
+            <span class="kw">if</span> arg <span class="kw">and</span> len(arg)==<span class="dig">2</span>:
+                <span class="kw">if</span> len(arg[<span class="dig">0</span>])==<span class="dig">0</span> <span class="kw">or</span> len(arg[<span class="dig">1</span>])==<span class="dig">0</span>:
+                    <span class="kw">continue</span>
+                d_gda_settings[arg[<span class="dig">0</span>]]=arg[<span class="dig">1</span>]
+                <span class="cmt">#basepath=</span>
+                <span class="cmt">#testpath=</span>
+            <span class="kw">elif</span> arg <span class="kw">and</span> len(arg)==<span class="dig">1</span>:
+                <span class="kw">if</span> len(arg[<span class="dig">0</span>])==<span class="dig">0</span>:
+                    <span class="kw">continue</span>
+                <span class="kw">if</span> arg[<span class="dig">0</span>]==<span class="str">"ex_songs"</span>:
+                    d_gda_settings[<span class="str">'exclusive_songs'</span>]=True
+                    <span class="kw">print</span> <span class="str">"================"</span>
+                    <span class="kw">print</span> <span class="str">"EXCLUSIVE SONG MODE=%s"</span> % str(d_gda_settings[<span class="str">'exclusive_songs'</span>])
+                    <span class="kw">print</span> <span class="str">"================"</span>
+                <span class="kw">else</span>:
+                    d_gda_settings[arg[<span class="dig">0</span>]]=True
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> resetglobals():
+    <span class="kw">global</span> failcount
+    failcount = <span class="dig">0</span> <span class="cmt">#tests failed</span>
+    <span class="kw">global</span> passcount
+    passcount = <span class="dig">0</span> <span class="cmt">#tests passed</span>
+    <span class="kw">global</span> passtotal
+    passtotal=<span class="dig">0</span>
+    <span class="kw">global</span> failtotal
+    failtotal = <span class="dig">0</span>
+    <span class="kw">global</span> errorcount
+    errorcount = <span class="dig">0</span>
+    <span class="kw">global</span> testcount
+    testcount = <span class="dig">0</span> <span class="cmt">#number of test</span>
+    <span class="kw">global</span> startupcnt
+    startupcnt = <span class="dig">0</span>
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> setregionrelative(REGION,relx,rely,relw,relh):
+    rx=REGION.getX()+relx
+    ry=REGION.getY()+rely
+    rw=REGION.getW()+relw
+    rh=REGION.getH()+relh
+    <span class="kw">return</span> Region(rx,ry,rw,rh)
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># for .png failed files only</span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> copyfile(src,dst,prefix,post=<img src=".png" />):
+    name1=prefix+os.path.basename(dst).replace(<img src=".png" />,post)
+    bname = os.path.join(<span class="str">"FAILED"</span>,name1)
+
+    _dir = os.path.dirname(dst)
+    newpath = os.path.join(_dir,bname)
+    <span class="kw">print</span> <span class="str">"copyfile: "</span>+newpath
+    shutil.move(str(src),newpath) <span class="cmt">#file copy and delete src</span>
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># for .png failed files only</span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> copyfile_to_results(src,dst,prefix,post=<img src=".png" />):
+    <span class="kw">global</span> d_gda_settings
+    name1=prefix+os.path.basename(dst).replace(<img src=".png" />,post)
+    <span class="cmt">#bname = os.path.join("FAILED",name1)</span>
+
+    _dir = d_gda_settings[<span class="str">"RESULTS"</span>]
+    newpath = os.path.join(_dir,name1)
+    <span class="kw">print</span> <span class="str">"copyfile_to_results: "</span>+newpath
+    shutil.move(str(src),newpath) <span class="cmt">#file copy and delete src</span>
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># testregion.H must be larger than verifypngpath.H</span>
+<span class="cmt"># testregion.W must be larger than verifypngpath.W</span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> verifyregion(testregion,verifypngpath,similarity=<span class="dig">0.80</span>):
+    <span class="kw">print</span> <span class="str">"verifyregion &gt;&gt;&gt;&gt;&gt;&gt; "</span>
+    rc=False
+    m_match=None
+    <span class="kw">try</span>:
+        <span class="kw">if</span> <span class="kw">not</span> os.path.isfile(verifypngpath):
+            <span class="kw">print</span> <span class="str">"Error: Invalid pngPath: %s"</span> % verifypngpath
+            <span class="kw">print</span> <span class="str">"verifyregion &lt;&lt;&lt;&lt;&lt;&lt;&lt; "</span>
+            <span class="kw">return</span> rc, m_match
+        <span class="kw">if</span> <span class="kw">not</span> testregion:
+            <span class="kw">print</span> <span class="str">"Error: Invalid testregion: %s"</span> % verifypngpath
+            <span class="kw">print</span> <span class="str">"verifyregion &lt;&lt;&lt;&lt;&lt;&lt;&lt; "</span>
+            <span class="kw">return</span> rc, m_match
+        rtest=testregion<span class="cmt">#.grow(5)</span>
+        p=Pattern(verifypngpath).similar(similarity)
+        m_match=testregion.exists(p)
+        <span class="cmt">#ftest=capture(rtest)</span>
+        <span class="cmt">#rc,m_match=compare_img1path_img2path(ftest,verifypngpath,similarity)</span>
+        <span class="kw">if</span> m_match:
+            rc=True
+            m_match=testregion.getLastMatch()
+            <span class="kw">print</span> <span class="str">"MATCH SCORE=%f"</span> % m_match.getScore()
+        <span class="kw">if</span> <span class="kw">not</span> rc:
+            <span class="kw">print</span> <span class="str">"Failed verifyregion in compare_img1path_img2path"</span>
+            ftest=<span class="skw">capture</span>(testregion)
+            copyfile_to_results(str(ftest),verifypngpath,<span class="str">"FAILED_"</span>,<img src="_screenshot.png" />)
+
+    <span class="kw">except</span> Exception <span class="kw">as</span> e:
+        <span class="kw">print</span> <span class="str">"Error in verifyregion\n%s"</span> % str(e)
+    <span class="kw">finally</span>:
+        <span class="kw">print</span> <span class="str">"verifyregion &lt;&lt;&lt;&lt;&lt;&lt;&lt; "</span>
+        <span class="kw">return</span> rc, m_match
+
+<span class="kw">def</span> cleantxt(txt):
+    txt=txt.replace(<span class="str">"/"</span>,<span class="str">""</span>)
+    txt=txt.replace(<span class="str">":"</span>,<span class="str">""</span>)
+    txt=txt.replace(<span class="str">"\\"</span>,<span class="str">""</span>)
+    <span class="kw">return</span> txt
+<span class="cmt">##########################################</span>
+<span class="cmt"># ScreenShot</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> ScreenShot(imgRegion, FileName, info=<span class="str">""</span>):
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">global</span> screen_seq
+
+    <span class="kw">print</span> <span class="str">"ScreenShot&gt;&gt;&gt;&gt;&gt;&gt;&gt; %s\nregion=%s\n%s"</span> % (FileName,getRegionInfo(imgRegion),info)
+    info=cleantxt(info)
+    <span class="kw">print</span> info
+    <span class="kw">if</span> <span class="kw">not</span> imgRegion:
+        <span class="kw">print</span> <span class="str">"region not defined"</span>
+        <span class="kw">print</span> <span class="str">"ScreenShot&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+        <span class="kw">return</span>
+    <span class="kw">if</span> <span class="kw">not</span> FileName <span class="kw">or</span> len(FileName)==<span class="dig">0</span>:
+        fname = <img src="screenshot.png" />
+    <span class="kw">else</span>:
+        fname = os.path.basename(FileName)
+    <span class="kw">print</span> fname
+    ext = get_extension(fname)
+    <span class="kw">if</span> len(ext) != <span class="dig">0</span>:
+        fname = fname.replace(ext,<span class="str">""</span>)
+    <span class="kw">else</span>:
+        ext = <span class="str">'.png'</span>
+    screen_seq += <span class="dig">1</span>
+    _info=<span class="str">"_"</span>
+    <span class="kw">if</span> len(info)&gt;<span class="dig">0</span>:
+        _info = <span class="str">"_"</span> + info + <span class="str">"_"</span>
+    trimfname = <span class="str">"srn_"</span> + str(screen_seq) + _info + fname
+    resultsPath = d_gda_settings[<span class="str">"RESULTS"</span>]
+    newfname = trimfname+ext
+    <span class="kw">print</span> resultsPath
+    <span class="kw">print</span> newfname
+    newpath = os.path.join(resultsPath,newfname)
+    <span class="cmt"># should not happen with screen seq num</span>
+    <span class="kw">if</span> FileExists(newpath):
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1</span>,<span class="dig">99</span>,<span class="dig">1</span>): <span class="cmt">#index a new file name</span>
+            newfname = trimfname+<span class="str">"_"</span>+str(i)+ext
+            newpath = os.path.join(resultsPath,newfname)
+            <span class="cmt">#print newpath</span>
+            <span class="kw">if</span> <span class="kw">not</span> FileExists(newpath):
+                <span class="kw">break</span>
+    <span class="kw">print</span> newpath
+    srnfile = <span class="skw">capture</span>(imgRegion) <span class="cmt">#return temp path to png file</span>
+    shutil.move(str(srnfile),newpath) <span class="cmt">#file copy and delete src</span>
+    <span class="kw">print</span> <span class="str">"ScreenShot&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> getDictFromFile(jsonpath=None):
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">print</span> <span class="str">"getDictFromFile&gt;&gt;&gt;&gt;"</span>
+    _dict ={}
+    fpath=jsonpath
+    <span class="kw">if</span> <span class="kw">not</span> fpath:
+        fpath = d_gda_settings[<span class="str">"SIMILARITY"</span>]
+
+    <span class="kw">print</span> <span class="str">"getDictFromFile:"</span>+fpath
+    _json=fileread(fpath)
+    <span class="kw">if</span> _json <span class="kw">and</span> len(_json)&gt;<span class="dig">0</span>:
+        _dict = json.loads(_json)
+        <span class="kw">if</span> _dict:
+            <span class="kw">print</span> <span class="str">"getDictFromFile&lt;&lt;&lt; ok"</span>
+            <span class="kw">return</span> _dict
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"Error: Failed to set Dict"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"Error: Failed to set JSON"</span>
+    <span class="kw">print</span> <span class="str">"getDictFromFile&lt;&lt;&lt; failed"</span>
+    <span class="kw">return</span> _dict
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> putDictToFile(_dict,jsonpath=None):
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">if</span> _dict <span class="kw">and</span> len(_dict)&gt;<span class="dig">0</span>:
+        s_dict=json.dumps(_dict)
+        fpath=jsonpath
+        <span class="kw">if</span> <span class="kw">not</span> fpath:
+            fpath = d_gda_settings[<span class="str">"SIMILARITY"</span>]
+        <span class="kw">print</span> <span class="str">"putDictToFile:"</span>+fpath
+        <span class="kw">if</span> <span class="kw">not</span> filewrite(fpath,s_dict,<span class="str">'w'</span>):
+            <span class="kw">print</span> <span class="str">"FAILED: putDictToFile similarity index file save"</span>
+            <span class="kw">print</span> <span class="str">"Automation needs to save these values for subsequent test runs for faster run times"</span>
+            exit(<span class="dig">1</span>)
+        <span class="kw">return</span> True
+    <span class="kw">else</span>:
+        <span class="kw">return</span> False
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> PATTERN(image,Pattern_Similar_Value = <span class="dig">0.69</span>):
+<span class="cmt">#    SmartyLib.Log("SmartyLib.PATTERN:"+str(image) )</span>
+    <span class="kw">return</span> Pattern(image).similar(Pattern_Similar_Value)
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># clickoffsetfromcenterX/Y is integer</span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> getPattern(pngname,similarity,clickoffsetfromcenterX=None,clickoffsetfromcenterY=None):
+    <span class="kw">if</span> <span class="kw">not</span> clickoffsetfromcenterX:
+        <span class="kw">return</span> Pattern(pngname).similar(similarity)
+    <span class="kw">else</span>:
+        <span class="kw">if</span> clickoffsetfromcenterY:
+            <span class="kw">return</span> Pattern(pngname).similar(similarity).targetOffset(clickoffsetfromcenterX,clickoffsetfromcenterY)
+
+    <span class="kw">print</span> <span class="str">"Error in getPattern: invalid params"</span>
+    <span class="kw">return</span> None
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> evaltolerance(oldnum,newnum,tolerance):
+    <span class="kw">print</span> <span class="str">"evaltolerance"</span>+str(oldnum)+<span class="str">":"</span>+str(newnum)
+    <span class="kw">if</span> oldnum == newnum: <span class="kw">return</span> <span class="dig">0</span>
+    v = abs(oldnum - newnum)
+    <span class="kw">print</span> str(tolerance)+<span class="str">":"</span>+str(v)
+    <span class="kw">if</span> v&gt;tolerance:
+        <span class="kw">print</span> str(v)
+        <span class="kw">return</span> v
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="dig">0</span>
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> printjson(JSON):
+    <span class="kw">try</span>:
+        <span class="kw">return</span> str(json.dumps(JSON))
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"Error Invalid json: %s"</span> % str(JSON)
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># orig_match is a dict</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> compare_match(new_match,orig_match, tolerance):
+    <span class="kw">print</span> <span class="str">"compare_match:tolerance="</span>+str(tolerance)
+    matchreport=<span class="str">""</span>
+    mc=<span class="dig">0</span>
+    <span class="kw">if</span> <span class="kw">not</span> new_match:
+        <span class="kw">return</span>
+    x=new_match.getX()
+    _x=orig_match[<span class="str">"X"</span>]
+    <span class="kw">if</span> evaltolerance(_x,x,tolerance)&gt;<span class="dig">0</span>:
+        matchreport+= <span class="str">"\ncompare_match:Failed X-"</span>+str(_x)+<span class="str">":"</span>+str(x)
+        mc+=<span class="dig">1</span>
+    y=new_match.getY()
+    _y=orig_match[<span class="str">"Y"</span>]
+    <span class="kw">if</span> evaltolerance(_y,y,tolerance)&gt;<span class="dig">0</span>:
+        matchreport+= <span class="str">"\ncompare_match:Failed Y-"</span>+str(_y)+<span class="str">":"</span>+str(y)
+        mc+=<span class="dig">1</span>
+    w=new_match.getW()
+    _w=orig_match[<span class="str">"W"</span>]
+    <span class="kw">if</span> evaltolerance(_w,w,tolerance)&gt;<span class="dig">0</span>:
+        matchreport+= <span class="str">"\ncompare_match:Failed W-"</span>+str(_w)+<span class="str">":"</span>+str(w)
+        mc+=<span class="dig">1</span>
+    h=new_match.getH()
+    _h=orig_match[<span class="str">"H"</span>]
+    <span class="kw">if</span> evaltolerance(_h,h,tolerance)&gt;<span class="dig">0</span>:
+        matchreport+= <span class="str">"\ncompare_match:Failed H-"</span>+str(_h)+<span class="str">":"</span>+str(h)
+        mc+=<span class="dig">1</span>
+
+    sim = <span class="str">"%.2f"</span> % new_match.getScore()
+    _sim = float(_dict[<span class="str">"similarity"</span>])
+    <span class="kw">if</span> evaltolerance((_sim*<span class="dig">100</span>),(sim*<span class="dig">100</span>),(tolerance+<span class="dig">5</span>))&gt;<span class="dig">0</span>:
+        matchreport+= <span class="str">"\ncompare_match:Failed similarity-"</span>+str(_sim)+<span class="str">":"</span>+str(sim)
+        mc+=<span class="dig">1</span>
+
+    <span class="kw">if</span> mc&gt;<span class="dig">0</span>:
+        <span class="cmt">#matchreport = "Match location Failed *****************************"+matchreport</span>
+        <span class="kw">return</span> matchreport
+    <span class="kw">return</span> <span class="str">""</span>
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> util_read_json(jpath):
+    mj = None
+    <span class="kw">with</span> open(jpath, <span class="str">'r'</span>) <span class="kw">as</span> f:
+        mj = json.load(f)
+    <span class="kw">return</span> mj
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> DirExists(dpath):
+    <span class="kw">return</span> os.path.isdir(dpath)
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> FileExists(fpath):
+    <span class="kw">return</span> os.path.exists(fpath)
+
+
+<span class="cmt">####################################################</span>
+<span class="cmt">### getDatetime</span>
+<span class="cmt">####################################################</span>
+<span class="kw">def</span> getDatetime():
+    <span class="kw">return</span> strftime(<span class="str">"%Y%m%d_%H%M%S"</span>)
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> getdatetime():
+    <span class="kw">return</span> strftime(<span class="str">"%Y%m%d_%H%M%S"</span>)
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> getDate():
+    <span class="kw">return</span> strftime(<span class="str">"%Y%m%d"</span>)
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> getdate():
+    <span class="kw">return</span> strftime(<span class="str">"%m/%d/%Y"</span>)
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> getTime():
+    <span class="kw">return</span> strftime(<span class="str">"%H%M%S"</span>)
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> gettime():
+    <span class="kw">return</span> strftime(<span class="str">"%H:%M:%S"</span>)
+
+<span class="cmt">####################################################</span>
+<span class="cmt">### this is dumb use os.path.ext</span>
+<span class="cmt">####################################################</span>
+<span class="kw">def</span> get_extension(filename):
+    <span class="cmt">#print filename</span>
+    <span class="kw">if</span> <span class="str">'.'</span> <span class="kw">in</span> filename:
+        ext = str(filename).split(<span class="str">'.'</span>, <span class="dig">1</span>)
+        <span class="kw">if</span> len(ext)&gt;<span class="dig">0</span>:
+            <span class="kw">return</span> <span class="str">'.'</span> + ext[<span class="dig">1</span>].lower()
+
+    <span class="kw">return</span> <span class="str">''</span>
+
+<span class="cmt">####################################################</span>
+<span class="cmt">### getRegionInfo</span>
+<span class="cmt">####################################################</span>
+<span class="kw">def</span> getRegionInfo(thisRegion):
+    rc = <span class="str">""</span>
+    <span class="kw">if</span> <span class="kw">not</span> thisRegion:
+        <span class="kw">return</span> rc
+
+    rc += <span class="str">"X="</span> + str(thisRegion.getX()) + <span class="str">","</span>
+    rc += <span class="str">"Y="</span> + str(thisRegion.getY()) + <span class="str">","</span>
+    rc += <span class="str">"W="</span> + str(thisRegion.getW()) + <span class="str">","</span>
+    rc += <span class="str">"H="</span> + str(thisRegion.getH()) + <span class="str">","</span>
+    rc+= <span class="str">"CX="</span> + str(thisRegion.getCenter().getX())+<span class="str">","</span>
+    rc+= <span class="str">"CY="</span> + str(thisRegion.getCenter().getY())+<span class="str">","</span>
+
+    <span class="kw">return</span> rc
+
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> log(info):
+    <span class="kw">print</span>(getdatetime()+<span class="str">" "</span>+info)
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># fmode w|a</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> filewrite(fpath,txt,fmode=<span class="str">'w'</span>):
+    f = None
+    rc = False
+    <span class="kw">try</span>:
+        f=open(fpath, fmode)
+        f.write(txt)
+        rc=True
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"***Failed: filewrite - "</span>+str(fmode)+<span class="str">"-"</span>+fpath
+    <span class="kw">finally</span>:
+        <span class="kw">if</span> f:
+            f.close()
+    <span class="kw">return</span> rc
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> fileread(fpath):
+    txt = None
+    f = None
+    <span class="kw">try</span>:
+        f=open(fpath)
+        txt=f.read()
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"***Failed: fileread - "</span>+fpath
+    <span class="kw">finally</span>:
+        <span class="kw">if</span> f:
+            f.close()
+
+    <span class="kw">return</span> txt
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> setsettings(name,data,dtype = <span class="str">""</span>):
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">if</span> <span class="kw">not</span> data:
+        <span class="kw">print</span> <span class="str">"setsettings: No data"</span>
+
+    <span class="kw">else</span>:
+        d_gda_settings[name]=data
+        <span class="kw">if</span> dtype == <span class="str">"setsettings: array"</span>:
+            <span class="kw">print</span> name+<span class="str">"="</span>
+            arr = d_gda_settings[name]
+            <span class="kw">for</span> item <span class="kw">in</span> arr:
+                <span class="kw">print</span> <span class="str">"--&gt;"</span> + str(item)
+        <span class="kw">else</span>:
+            s=<span class="str">""</span>
+            <span class="kw">try</span>:
+                s=str(d_gda_settings[name])
+            <span class="kw">except</span>:
+                s=str(<span class="skw">type</span>(d_gda_settings[name]))
+            <span class="cmt">#if (type(d_gda_settings[name]) is not types.StringType) or (type(d_gda_settings[name]) is not types.IntType):</span>
+            <span class="cmt">#    s="Other type"</span>
+            <span class="cmt">#else:</span>
+                <span class="cmt">#s=str(d_gda_settings[name])</span>
+            <span class="kw">print</span> "setsettings: %s=%d % (name,s)
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># main test framework config setup</span>
+<span class="cmt"># individual test modules have seperate config </span>
+<span class="cmt"># init which build from GetEnvInfo                    </span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> GetEnvInfo():
+    <span class="kw">global</span> d_gda_settings
+    eval_argsv()
+    setsettings(<span class="str">"isMac"</span>,str(Env.isMac()))
+    setsettings(<span class="str">"isWindows"</span>,str(Env.isWindows()))
+    dd = getDate()
+    tt = getTime()
+    dt = dd+<span class="str">"_"</span>+tt
+    <span class="kw">if</span> d_gda_settings[<span class="str">"isWindows"</span>]==<span class="str">"True"</span>:
+        <span class="kw">print</span> <span class="str">"GetEnvInfo&gt;isWindows"</span>
+        setsettings(<span class="str">"PLATFORM_KEY_CTRL"</span>,Key.CTRL)
+        setsettings(<span class="str">"JENKINS"</span>,<span class="str">"C:\\Win_GDA-Studio_3a_BAT"</span>)
+        setsettings(<span class="str">"JOBNAME"</span>,<span class="str">"C:\\Win_GDA-Studio_3a_BAT"</span>)
+        setsettings(<span class="str">"HOME"</span>, <span class="str">"C:\\Users\\"</span> + os.getenv(<span class="str">"USERNAME"</span>)+<span class="str">"\\"</span>)
+        setsettings(<span class="str">"RESULTS"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"\\Results\\"</span> +dd+<span class="str">"\\"</span>+tt)
+        setsettings(<span class="str">"SIMILARITY"</span>,d_gda_settings[<span class="str">"JENKINS"</span>]+<span class="str">"\\d_similarity.json"</span>)
+        setsettings(<span class="str">"AUTOMATION"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"\\Automation"</span>)
+        setsettings(<span class="str">"TEMP"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"\\temp"</span>)
+        setsettings(<span class="str">"ARTIFACTS"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"\\temp\\artifacts"</span>)
+
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"RESULTS"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"RESULTS"</span>])
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"AUTOMATION"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"AUTOMATION"</span>])
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"ARTIFACTS"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"ARTIFACTS"</span>])
+    <span class="kw">elif</span> d_gda_settings[<span class="str">"isMac"</span>]==<span class="str">"True"</span>:
+        <span class="kw">print</span> <span class="str">"GetEnvInfo&gt;isMac"</span>
+        setsettings(<span class="str">"PLATFORM_KEY_CTRL"</span>,Key.CMD)
+        setsettings(<span class="str">"HOME"</span>,os.getenv(<span class="str">"HOME"</span>)+<span class="str">"/"</span>)
+        setsettings(<span class="str">"JENKINS"</span>,d_gda_settings[<span class="str">"HOME"</span>] + <span class="str">"/workspace"</span>)
+        setsettings(<span class="str">"RESULTS"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"/Results/"</span> + dd + <span class="str">"/"</span> + tt)
+        setsettings(<span class="str">"SIMILARITY"</span>,d_gda_settings[<span class="str">"JENKINS"</span>]+<span class="str">"/d_similarity.json"</span>)
+        setsettings(<span class="str">"JOBNAME"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"/Mac_GDA-Studio_3a_BAT"</span>)
+        setsettings(<span class="str">"AUTOMATION"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"/Mac_GDA-Studio_3a_BAT/Automation"</span>)
+        setsettings(<span class="str">"TEMP"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"/Mac_GDA-Studio_3a_BAT/Automation/temp"</span>)
+        setsettings(<span class="str">"ARTIFACTS"</span>,d_gda_settings[<span class="str">"TEMP"</span>] + <span class="str">"/temp/artifacts"</span>)
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"RESULTS"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"RESULTS"</span>])
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"AUTOMATION"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"AUTOMATION"</span>])
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"ARTIFACTS"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"ARTIFACTS"</span>])
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"Error: Invalid platform, not Mac or Win"</span>
+        exit(<span class="dig">1</span>)
+    <span class="kw">if</span> <span class="kw">not</span> os.path.isdir(d_gda_settings[<span class="str">"HOME"</span>]):
+        <span class="kw">print</span> <span class="str">"Invalid HOME directory: Test cant continue"</span>
+        exit(<span class="dig">1</span>)
+    setsettings(<span class="str">"junitxml"</span>,d_gda_settings[<span class="str">"ARTIFACTS"</span>] + os.path.sep + <span class="str">"junit-results_"</span>+dt+<span class="str">".xml"</span>)
+    setsettings(<span class="str">"SikuliVersion"</span>,Env.getSikuliVersion())
+    setsettings(<span class="str">"SikuliDataPath"</span>,Env.getSikuliDataPath())
+    <span class="cmt">#java.lang.System.getProperty('os.name')</span>
+    setsettings(<span class="str">"BundleFolder"</span>,getBundleFolder())
+    setsettings(<span class="str">"ParentPath"</span>,getParentPath())
+    setsettings(<span class="str">"OS"</span>,str(Settings.getOS()))
+    setsettings(<span class="str">"OSVersion"</span>,str(Settings.getOSVersion()))
+    setsettings(<span class="str">"ImagePath"</span>,getImagePath(),<span class="str">"array"</span>)
+    temp = str(d_gda_settings[<span class="str">"HOME"</span>])
+    imgdir = os.path.join(temp, <span class="str">"gda_music_images"</span>)
+    setsettings(<span class="str">"gda_music_images"</span>,imgdir)
+
+    <span class="kw">if</span> d_gda_settings[<span class="str">'runtest'</span>]==<span class="str">"gda_create_tests-record"</span>:
+        imgdir = os.path.join(temp, (<span class="str">"gda_music_images-"</span>+str(d_gda_settings[<span class="str">'version'</span>])))
+        setsettings(<span class="str">"gda_music_images"</span>,imgdir)
+    <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"gda_music_images"</span>]):
+        os.makedirs(d_gda_settings[<span class="str">"gda_music_images"</span>])
+    imgdir = os.path.join(d_gda_settings[<span class="str">"gda_music_images"</span>], <span class="str">"FAILED"</span>)
+    <span class="kw">if</span> <span class="kw">not</span> os.path.exists(imgdir):
+        os.makedirs(imgdir)
+    <span class="kw">if</span> <span class="str">"NO-TestRail"</span> <span class="kw">not</span> <span class="kw">in</span> d_gda_settings:
+        <span class="kw">if</span> <span class="kw">not</span> init_testrail():
+            <span class="kw">print</span> <span class="str">"FAILED TO INIT TESTRAIL"</span>
+            exit(<span class="dig">1</span>)
+        <span class="kw">print</span> <span class="str">"TESTRAIL IS READY ================================"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"[NO-TestRail] Reporting ================================"</span>
+    <span class="kw">print</span> str(d_gda_settings)
+    <span class="kw">print</span> <span class="str">"&lt;GetEnvInfo"</span>
+
+<span class="cmt">#####################################################</span>
+<span class="cmt"># T E S T R A I L</span>
+<span class="cmt">#####################################################</span>
+<span class="kw">def</span> init_testrail():
+    rc=False
+    <span class="kw">global</span> d_gda_settings
+
+    d_gda_settings[<span class="str">"isTestRail"</span>]=False
+    <span class="kw">print</span> <span class="str">"init_testrail &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    run_name = d_gda_settings[<span class="str">'version'</span>]
+    suite_name = <span class="str">"Quik_Music_Story_Output_Regression"</span>
+    run_description=<span class="str">"SQA Regression Tests"</span>
+    run_mode = <span class="str">"run_non-passed"</span>
+    baseuri = <span class="str">"http://127.0.0.1:8081/testrail"</span>
+    proj_id = <span class="dig">86</span>
+    <span class="kw">print</span> <span class="str">"Using Testrun: %s"</span> % run_name
+    <span class="cmt">#if testrun does not exist, the TestRailClient class will create the testrun from the derived test suite</span>
+    tr = testrail.TestRailClient(run_name,suite_name,run_description,run_mode,baseuri,proj_id)
+    d_gda_settings[<span class="str">'testrail'</span>] = None
+    <span class="kw">if</span> tr <span class="kw">and</span> tr.ok==True:
+        <span class="kw">print</span> <span class="str">"TestRail Tests Count=%d"</span> % (len(tr.testcases))
+        d_gda_settings[<span class="str">'testrail'</span>] = tr
+
+        <span class="kw">if</span>  d_gda_settings[<span class="str">'testrail'</span>] <span class="kw">and</span>  d_gda_settings[<span class="str">'testrail'</span>].ok==True:
+            <span class="kw">print</span> <span class="str">"Testrail is Ready"</span>
+            rc=True
+            d_gda_settings[<span class="str">"isTestRail"</span>]=rc
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"Testrail NOT ready"</span>
+    <span class="kw">print</span> <span class="str">"init_testrail &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> rc
+
+
+<span class="kw">def</span> get_testrail_testrun_testcase_byname(testname):
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">if</span> <span class="kw">not</span> d_gda_settings[<span class="str">"isTestRail"</span>]:
+        <span class="kw">return</span>
+    testitem = d_gda_settings[<span class="str">'testrail'</span>].find_test_name(testname)
+    <span class="kw">if</span> testitem:
+        <span class="kw">return</span> testitem
+    <span class="kw">else</span>:
+        <span class="kw">return</span> None
+
+<span class="kw">def</span> report_testrail_status(passfail, testid, runid, elapsed=<span class="str">"5s"</span>,comment=<span class="str">"sikuli automation reported status"</span>):
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">if</span> <span class="kw">not</span> d_gda_settings[<span class="str">"isTestRail"</span>]:
+        <span class="kw">return</span>
+    <span class="kw">if</span> <span class="str">"testrail"</span> <span class="kw">in</span> d_gda_settings <span class="kw">and</span> d_gda_settings[<span class="str">"testrail"</span>] <span class="kw">and</span> d_gda_settings[<span class="str">"testrail"</span>].ok:
+        testitem = d_gda_settings[<span class="str">"testrail"</span>].setteststatus(passfail, testid, runid, elapsed, comment)
+    <span class="kw">if</span> testitem:
+        <span class="kw">return</span> testitem
+    <span class="kw">else</span>:
+        <span class="kw">return</span> None
+
+<span class="cmt">#############################################</span>
+<span class="cmt">#</span>
+<span class="cmt"># Easy testrail object eval</span>
+<span class="cmt"># return functional testrail class or None</span>
+<span class="cmt">#############################################</span>
+<span class="kw">def</span> get_testrail_object():
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">if</span> <span class="kw">not</span> d_gda_settings[<span class="str">"isTestRail"</span>]:
+        <span class="kw">return</span>
+    <span class="kw">if</span> <span class="kw">not</span> <span class="str">"testrail"</span> <span class="kw">in</span> d_gda_settings:
+        <span class="kw">print</span> <span class="str">"No testrail eval or reporting"</span>
+        <span class="kw">return</span> None
+    <span class="kw">try</span>:
+        tr=d_gda_settings[<span class="str">"tesrail"</span>]
+        <span class="kw">if</span> tr <span class="kw">and</span> tr.ok==True:
+            <span class="kw">return</span> tr
+        <span class="kw">return</span> None
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"Testrail object failed"</span>
+    <span class="kw">return</span> None
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># passfail 1=fail, 0=pass,-1 error, status</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> reportstatus(passfail,testinfo,gpr = None,imgName = None):
+    <span class="kw">global</span> failcount
+    <span class="kw">global</span> errorcount
+    <span class="kw">global</span> passcount
+    <span class="kw">global</span> passtotal
+    <span class="kw">global</span> failexit
+    <span class="kw">global</span> failtotal
+    <span class="kw">global</span> testcount
+
+    <span class="kw">if</span> passfail==<span class="dig">0</span>:
+        testcount+=<span class="dig">1</span>
+        passcount+=<span class="dig">1</span>
+        failtotal=<span class="dig">0</span>
+        <span class="kw">print</span> <span class="str">"=========================================="</span>
+        <span class="kw">print</span> <span class="str">"Test Number: "</span> +str(testcount)
+        log( <span class="str">"PASSED: "</span> + testinfo)
+        <span class="kw">print</span> <span class="str">"=========================================="</span>
+        <span class="kw">if</span> gpr <span class="kw">and</span> imgName:
+            ScreenShot(gpr,imgName,<span class="str">"T"</span>+str(testcount)+<span class="str">"PASS"</span>)
+    <span class="kw">elif</span> passfail==<span class="dig">1</span>:
+        testcount+=<span class="dig">1</span>
+        failcount+=<span class="dig">1</span>
+        failtotal+=<span class="dig">1</span>
+        <span class="kw">print</span> <span class="str">"******************************************"</span>
+        <span class="kw">print</span> <span class="str">"Test Number: "</span> +str(testcount)
+        log( <span class="str">"FAILED: "</span> + testinfo)
+        <span class="kw">print</span> <span class="str">"******************************************"</span>
+        <span class="kw">if</span> gpr <span class="kw">and</span> imgName:
+            ScreenShot(gpr,imgName,<span class="str">"T"</span>+str(testcount)+<span class="str">"FAIL"</span>)
+    <span class="kw">elif</span> passfail==<span class="dig">2</span>:
+        <span class="kw">print</span> <span class="str">"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"</span>
+        <span class="kw">print</span> <span class="str">"Test Number: "</span> +str(testcount)
+        log( <span class="str">"WARNING: "</span> + testinfo)
+        <span class="kw">print</span> <span class="str">"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"</span>
+        <span class="kw">if</span> gpr <span class="kw">and</span> imgName:
+            ScreenShot(gpr,imgNamee,<span class="str">"T"</span>+str(testcount)+<span class="str">"WARN"</span>)
+    <span class="kw">elif</span> passfail==-<span class="dig">1</span>:
+        errorcount+=<span class="dig">1</span>
+        <span class="kw">print</span> <span class="str">"###########################################"</span>
+        <span class="kw">print</span> <span class="str">"Test Number: "</span> +str(testcount)
+        log( <span class="str">"ERROR: "</span> + testinfo)
+        <span class="kw">print</span> <span class="str">"###########################################"</span>
+        <span class="kw">if</span> gpr <span class="kw">and</span> imgName:
+            ScreenShot(gpr,imgNamee,<span class="str">"T"</span>+str(testcount)+<span class="str">"ERROR"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"------------------------------------------"</span>
+        log(<span class="str">"STATUS: "</span> + testinfo)
+        <span class="cmt">#print "STATUS: " + testinfo</span>
+        <span class="kw">print</span> <span class="str">"------------------------------------------"</span>
+    <span class="kw">if</span> failtotal&gt;=failexit: <span class="cmt"># cuts tests short when too many fails</span>
+        <span class="kw">print</span> <span class="str">"###########################################"</span>
+        log( <span class="str">"Aborting Test Run: Too many subsequent fails"</span>)
+        <span class="kw">print</span> <span class="str">"###########################################"</span>
+        printreport()
+        exit(<span class="dig">1</span>)
+
+<span class="kw">def</span> typerepeat(REGION,txt=<span class="str">""</span>,count=<span class="dig">1</span>):
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1</span>,count):
+        <span class="kw">print</span> <span class="str">"typerepeat:%d"</span> % i
+        REGION.<span class="skw">type</span>(txt)
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> printreport(msg = <span class="str">"BAT TEST"</span>,exitonfail=True):
+    <span class="kw">global</span> d_similarity
+    <span class="kw">global</span> failcount
+    <span class="kw">global</span> errorcount
+    <span class="kw">global</span> passcount
+    <span class="kw">global</span> failexit
+    <span class="kw">global</span> failtotal
+    <span class="kw">global</span> testcount
+    <span class="kw">print</span> <span class="str">"=============================================="</span>
+    <span class="kw">print</span> <span class="str">"Test Report =================================="</span>
+    p=<span class="dig">0</span>
+    f=<span class="dig">0</span>
+    e=<span class="dig">0</span>
+    l=<span class="dig">0</span>
+    <span class="kw">for</span> png, region <span class="kw">in</span> d_similarity.iteritems():
+        <span class="cmt">#print png</span>
+        <span class="kw">if</span> <span class="str">"failed"</span> <span class="kw">in</span> region <span class="kw">and</span> region[<span class="str">"failed"</span>]&gt;<span class="dig">0</span>:
+            f+=<span class="dig">1</span>
+            <span class="kw">print</span> <span class="str">"FAILED: "</span> +png
+        <span class="kw">else</span>:
+            p+=<span class="dig">1</span>
+        <span class="kw">if</span> <span class="str">"location"</span> <span class="kw">in</span> region <span class="kw">and</span> region[<span class="str">"location"</span>]&gt;<span class="dig">0</span>:
+            l+=<span class="dig">1</span>
+            <span class="kw">print</span> <span class="str">"LOCATION: "</span> +png
+            <span class="kw">print</span> region[<span class="str">"location_mismatch"</span>]
+        <span class="kw">if</span> <span class="str">"error"</span> <span class="kw">in</span> region <span class="kw">and</span> region[<span class="str">"error"</span>]&gt;<span class="dig">1</span>:
+            e+=<span class="dig">1</span>
+            <span class="kw">print</span> <span class="str">"WARNING: "</span> +png
+            <span class="kw">print</span> <span class="str">"msg: "</span> +str(region[<span class="str">"errmsg"</span>])
+        <span class="kw">elif</span> <span class="str">"error"</span> <span class="kw">in</span> region <span class="kw">and</span> region[<span class="str">"error"</span>]&gt;<span class="dig">0</span>:
+            e+=<span class="dig">1</span>
+            <span class="kw">print</span> <span class="str">"ERROR: "</span> +png
+            <span class="kw">print</span> <span class="str">"msg: "</span> +str(region[<span class="str">"errmsg"</span>])
+        <span class="kw">else</span>:
+            p+=<span class="dig">1</span>
+    <span class="cmt">#passcount = testcount - failcount            </span>
+    <span class="kw">print</span> <span class="str">"Summary Report =================================="</span>
+    <span class="kw">print</span> <span class="str">"PNG Location Mismatch:"</span>+str(l)
+    <span class="kw">print</span> <span class="str">"PNG Errors:"</span>+str(e)
+
+
+    <span class="kw">print</span> <span class="str">"TESTS PASSED:"</span>+str(passcount)
+    <span class="kw">print</span> <span class="str">"TESTS FAILED:"</span>+str(failcount)
+    <span class="kw">print</span> <span class="str">"SCRIPT ERRORS:"</span>+str(errorcount)
+    <span class="kw">print</span> <span class="str">"----------------------------------------------"</span>
+    <span class="kw">print</span> <span class="str">"TOTAL:"</span>+str(passcount+failcount)
+
+    <span class="kw">if</span> failcount==<span class="dig">0</span>:
+        <span class="kw">print</span> <span class="str">"%s PASSED"</span> % msg
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"%s FAILED"</span> % msg
+        <span class="kw">if</span> exitonfail:
+            exit(<span class="dig">1</span>)  <span class="cmt"># fail process exit so jenkins detects as failed bat</span>
+    <span class="kw">print</span> <span class="str">"=============================================="</span>
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># FIND_Similarity</span>
+<span class="cmt"># We always want the image template similarity highest possible like 99% (0-1)</span>
+<span class="cmt"># images not found, the similarity search is reset to 100 &amp; decremented by 5.</span>
+<span class="cmt"># newley </span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> FIND_Similarity(REGION,PATTERN,min = <span class="dig">50</span>):
+    <span class="kw">print</span> <span class="str">"FIND_Similarity&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    <span class="cmt">#Pattern("signout_tool.png").similar(0.90).targetOffset(14,2)</span>
+    <span class="kw">global</span> d_similarity
+    newpattern = None
+    failed = <span class="dig">0</span>
+    error=<span class="dig">0</span>
+    errmsg=<span class="str">""</span>
+    location = <span class="dig">0</span>
+    cm = <span class="str">""</span>
+    <span class="cmt">#print PATTERN.getFilename()</span>
+    <span class="kw">if</span> PATTERN.getFilename() <span class="kw">in</span> d_similarity:
+        <span class="kw">print</span> <span class="str">"Found dict similarity "</span>+str(d_similarity[PATTERN.getFilename()])
+        _dict = d_similarity[PATTERN.getFilename()]
+        <span class="kw">if</span> <span class="str">"similarity"</span> <span class="kw">in</span> _dict:
+            f = round(float(_dict[<span class="str">"similarity"</span>]),<span class="dig">3</span>)
+            <span class="kw">print</span> <span class="str">"d_similarity.similarity="</span>+str(f)
+            <span class="kw">if</span> f&lt;<span class="dig">.50</span> <span class="kw">or</span> f&gt;<span class="dig">.99</span>:
+                f=<span class="dig">0.900</span>
+            newpattern = PATTERN.similar(f)
+            <span class="cmt">#MATCH = REGION.find(newpattern)</span>
+            <span class="kw">try</span>:
+                MATCH = REGION.<span class="skw">find</span>(newpattern)
+
+                <span class="kw">if</span> MATCH:
+                    MATCH = REGION.getLastMatch()
+                    newf=round(MATCH.getScore(),<span class="dig">3</span>)
+                    <span class="cmt">#newf="%.2f" % newf</span>
+
+                    _dict[<span class="str">"similarity"</span>]=str(f)
+
+                    <span class="kw">if</span> newf&gt;f: <span class="cmt">#keep highest found similarity index</span>
+                        newf=round(newf - <span class="dig">0.05</span>,<span class="dig">3</span>)
+                        _dict[<span class="str">"similarity"</span>]=str(newf)
+                        d_similarity[PATTERN.getFilename()]=_dict
+
+                    <span class="kw">print</span> <span class="str">"similarity:"</span>+str(f)+<span class="str">"&gt;"</span>+str(newf)+<span class="str">" Found from dict"</span>
+                    cm = compare_match(MATCH,_dict, <span class="dig">10</span>)
+                    <span class="cmt">#do_highlight(MATCH) #.highlight(1)        </span>
+                    <span class="cmt">#d_similarity[PATTERN.getFilename()]=str(f)</span>
+                    <span class="kw">if</span> len(cm)==<span class="dig">0</span>: <span class="cmt"># no mismatch</span>
+                        location+=<span class="dig">1</span>
+                        _dict[<span class="str">"location_mismatch"</span>]=cm
+                        _dict[<span class="str">"failed"</span>]=<span class="dig">0</span>
+                        _dict[<span class="str">"location"</span>]=<span class="dig">0</span>
+                        d_similarity[PATTERN.getFilename()]=_dict
+
+                        <span class="kw">print</span> <span class="str">"FIND_Similarity&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+
+                        <span class="kw">return</span> MATCH
+                    location=<span class="dig">1</span>
+                    <span class="kw">print</span> cm
+                <span class="kw">else</span>:
+                    <span class="kw">print</span> str(f)+<span class="str">"Match Not Found"</span>
+                    failed = <span class="dig">1</span>
+            <span class="kw">except</span>: <span class="cmt"># Exception, e:</span>
+                e = sys.exc_info()[<span class="dig">0</span>]
+                errmsg = str(f)+<span class="str">" Error:"</span> +str(e)
+                error=<span class="dig">1</span>
+                <span class="cmt">#failed re-identify the similarity index</span>
+    f = <span class="dig">0.90</span>
+    <span class="kw">print</span> <span class="str">"Learning new similarity threshold"</span>
+
+    <span class="kw">for</span> s <span class="kw">in</span> range(<span class="dig">99</span>, min, -<span class="dig">5</span>):
+        f = float(s)*(<span class="dig">.01</span>)
+        newpattern = PATTERN.similar(f)
+        <span class="cmt">#do_highlight(REGION) #.highlight(1)</span>
+        ftrim = <span class="str">"0.90"</span>
+        <span class="kw">try</span>:
+            <span class="kw">print</span> <span class="str">"search "</span>+ str(f)
+            MATCH = REGION.<span class="skw">find</span>(newpattern)
+            <span class="kw">if</span> MATCH:
+                MATCH = REGION.getLastMatch()
+                <span class="kw">print</span> str(f)+<span class="str">" Found"</span>
+                <span class="cmt">#do_highlight(MATCH)#.highlight(1)</span>
+                region ={}
+                newf=MATCH.getScore()
+                ftrim = <span class="str">"%.3f"</span> % f
+                newf = round(newf - <span class="dig">0.05</span>,<span class="dig">3</span>)
+                <span class="kw">print</span> <span class="str">"similarity search:"</span>+str(ftrim)+<span class="str">"&gt;"</span>+str(newf)+<span class="str">" Found from dict"</span>
+                region[<span class="str">"similarity"</span>]=str(newf) <span class="cmt">#decreament by 5 to remove near threshold values which would force repeat of the similarity search</span>
+                <span class="cmt">#region["similarity"]=ftrim</span>
+                region[<span class="str">"X"</span>]=MATCH.getX()
+                region[<span class="str">"Y"</span>]=MATCH.getY()
+                region[<span class="str">"H"</span>]=MATCH.getH()
+                region[<span class="str">"W"</span>]=MATCH.getW()
+                failed = <span class="dig">0</span>
+                region[<span class="str">"failed"</span>]=failed <span class="cmt">#1= failed orginal similarity and had to relearn a new similarity</span>
+                region[<span class="str">"location"</span>]=location <span class="cmt">#1= location mismatch</span>
+                region[<span class="str">"location_mismatch"</span>]=cm
+                error = <span class="dig">0</span>
+                region[<span class="str">"error"</span>]=error
+                region[<span class="str">"errmsg"</span>]=<span class="str">""</span>
+                d_similarity[PATTERN.getFilename()]=region
+                <span class="kw">if</span> newf &lt; <span class="dig">0.4</span>:
+                    <span class="kw">print</span> <span class="str">"************************************************"</span>
+                    <span class="kw">print</span> <span class="str">"*** VERY LOW SIMILARITY INDEX ***"</span>
+                    <span class="kw">print</span> <span class="str">"*** "</span> + str(newf)
+                    <span class="kw">print</span> <span class="str">"************************************************"</span>
+                    region[<span class="str">"error"</span>]=error = <span class="dig">2</span>
+                    region[<span class="str">"errmsg"</span>]=<span class="str">"VERY LOW SIMILARITY INDEX="</span> + str(newf)
+
+                <span class="kw">print</span> <span class="str">"FIND_Similarity&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+                <span class="kw">return</span> MATCH
+            <span class="kw">else</span>:
+                <span class="kw">print</span> str(f)+<span class="str">"Match Not Found"</span>
+        <span class="kw">except</span>:
+            failed+=<span class="dig">1</span>
+            region={}
+            e = sys.exc_info()[<span class="dig">0</span>]
+            errmsg+= <span class="str">"similarity:"</span>+str(f)+<span class="str">" Error:"</span> + str(e)
+            <span class="kw">print</span> <span class="str">"ERROR Match Not Found: "</span> + errmsg
+            <span class="kw">if</span> PATTERN.getFilename() <span class="kw">in</span> d_similarity:
+                region = d_similarity[ PATTERN.getFilename()]
+                region[<span class="str">"error"</span>]=error
+                region[<span class="str">"errmsg"</span>]=errmsg
+            <span class="kw">else</span>:
+                region[<span class="str">"X"</span>]=<span class="dig">0</span>
+                region[<span class="str">"Y"</span>]=<span class="dig">0</span>
+                region[<span class="str">"H"</span>]=<span class="dig">0</span>
+                region[<span class="str">"W"</span>]=<span class="dig">0</span>
+                region[<span class="str">"location"</span>]=location <span class="cmt">#1= location mismatch</span>
+                region[<span class="str">"location_mismatch"</span>]=cm
+                region[<span class="str">"error"</span>]=error
+                region[<span class="str">"errmsg"</span>]=errmsg
+            d_similarity[PATTERN.getFilename()]=region
+    <span class="kw">print</span> <span class="str">"FAILED No match found return None"</span>
+    <span class="kw">print</span> <span class="str">"FIND_Similarity&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> refreshregion(GP):
+    <span class="kw">global</span> d_gda_settings
+    ap = d_gda_settings[<span class="str">"app_path"</span>]
+    switchApp(ap)
+    <span class="kw">if</span> <span class="kw">not</span> GP:
+        <span class="kw">print</span> <span class="str">"Failed: App not found"</span>
+        <span class="kw">return</span>
+    GP.focus()
+    r0 = GP.focusedWindow()
+    <span class="kw">if</span> <span class="kw">not</span> r0:
+        <span class="kw">print</span> <span class="str">"Failed: Window region not found"</span>
+        <span class="kw">return</span>
+    <span class="kw">else</span>:
+        do_highlight(r0)<span class="cmt">#.highlight(1)</span>
+        <span class="kw">return</span> r0
+
+<span class="kw">def</span> startapp(path):
+    os.system(path)
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># http://sikulix-2014.readthedocs.org/en/latest/appclass.html#App.App</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> waitforappstartup(apppath,appname,retry=<span class="dig">3</span>):
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">print</span> <span class="str">"waitforappstartup&gt;:"</span>+apppath+ appname
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    ap = App(appname)
+    <span class="kw">if</span> <span class="kw">not</span> ap:
+        ap.open(<span class="dig">30</span>)
+        <span class="skw">wait</span>(<span class="dig">15</span>)
+
+    <span class="kw">if</span> <span class="kw">not</span> ap <span class="kw">or</span> <span class="kw">not</span> ap.window():
+        <span class="kw">print</span> <span class="str">"App not found: Sikuli starting GDA"</span>
+
+        <span class="kw">if</span> d_gda_settings[<span class="str">"isMac"</span>]==<span class="str">"True"</span>:
+            <span class="kw">print</span> <span class="str">"looking for app:%s.app"</span> % appname
+            ap = App.open(appname+<span class="str">".app"</span>)
+        <span class="kw">else</span>: <span class="cmt">#assume win</span>
+            <span class="kw">print</span> <span class="str">"looking for app:%s%s"</span> % (apppath,appname)
+            ap = App.open(apppath+appname)
+
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1</span>,retry,<span class="dig">1</span>):
+        <span class="kw">print</span> <span class="str">"wait for app startup:"</span>+str(i)
+        <span class="kw">if</span> ap:
+            <span class="kw">for</span> ii <span class="kw">in</span> range(<span class="dig">1</span>,<span class="dig">5</span>,<span class="dig">1</span>):
+                <span class="kw">print</span> <span class="str">"wait for app isRunning:"</span>+str(ii)
+                <span class="kw">if</span> ap.isRunning():
+                    <span class="kw">print</span> <span class="str">"App Started:"</span>
+                    <span class="kw">if</span> ap.window():
+                        <span class="kw">print</span> <span class="str">"Window found"</span>
+                        ap.focus()
+                    <span class="kw">else</span>:
+                        <span class="kw">print</span> <span class="str">"No windows found"</span>
+                    <span class="kw">print</span> <span class="str">"&lt;waitforappstartup"</span>
+                    <span class="kw">return</span> ap
+                <span class="kw">else</span>:
+                    <span class="kw">print</span> <span class="str">"App not running"</span>
+                <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="cmt">#ap = open(apppath+appname)</span>
+    <span class="kw">print</span> <span class="str">"App NOT Started:"</span>
+    <span class="kw">print</span> <span class="str">"&lt;waitforappstartup"</span>
+    <span class="kw">return</span> ap
+
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> centerwindow():
+    scn=Screen(<span class="dig">0</span>)
+    <span class="kw">if</span> <span class="kw">not</span> scn:
+        <span class="kw">print</span> <span class="str">"ERROR centerwindow: screen(0) object not created"</span>
+        exit(<span class="dig">1</span>)
+    <span class="kw">print</span> str(scn)
+    scnrect=scn.getBounds()
+    tw=<span class="dig">1296</span>
+    th=<span class="dig">759</span>
+    <span class="kw">if</span> scnrect: <span class="kw">print</span> str(scnrect)
+    srnx = (scnrect.width-tw)/<span class="dig">2</span>
+    <span class="kw">print</span> <span class="str">"X="</span>+str(srnx)
+    srny = (scnrect.height-th)/<span class="dig">2</span>
+    <span class="kw">print</span> <span class="str">"Y="</span>+str(srny)
+    <span class="kw">return</span> srnx,srny
+
+
+<span class="cmt"># this works well for mac</span>
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> getGDARegion(app=<span class="str">"GoPro Quik"</span>):
+    <span class="kw">print</span> <span class="str">"getGDARegion&gt;&gt;&gt;"</span>
+    ap = switchApp(app)
+    <span class="kw">if</span> <span class="kw">not</span> ap:
+        <span class="kw">print</span> <span class="str">"Error: APP not running"</span>
+        <span class="kw">print</span> <span class="str">"getGDARegion&lt;&lt;&lt;"</span>
+        <span class="kw">return</span> None, None
+    r = ap.focusedWindow()
+    <span class="kw">if</span> <span class="kw">not</span> r:
+        <span class="kw">print</span> <span class="str">"Error: No App Window"</span>
+        <span class="kw">print</span> <span class="str">"getGDARegion&lt;&lt;&lt;"</span>
+        <span class="kw">return</span> None, ap
+    do_highlight(r)<span class="cmt">#.highlight(2)</span>
+    <span class="kw">print</span> <span class="str">"getGDARegion&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> r, ap
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> AppStart(appname, width=<span class="dig">1080</span>, height=<span class="dig">750</span>):
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">print</span> <span class="str">"AppStart&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    ext = <span class="str">""</span>
+    ap = None
+    apprun = appname
+    r0 = None
+    id = int(-<span class="dig">1</span>)
+
+    <span class="kw">if</span> <span class="str">"isWindows"</span> <span class="kw">in</span> d_gda_settings <span class="kw">and</span> d_gda_settings[<span class="str">"isWindows"</span>] == <span class="str">"True"</span>:
+        ext=<span class="str">".exe"</span>
+        width=<span class="dig">1280</span>-<span class="dig">100</span>
+        height=<span class="dig">920</span>-<span class="dig">60</span>
+        reportstatus(-<span class="dig">2</span>,<span class="str">"WINDOWS:"</span>+d_gda_settings[<span class="str">"OSVersion"</span>])
+        fname=appname+ext
+        fpath=<span class="str">"C:\\Program Files\\GoPro\\GoPro Desktop App\\"</span>
+        apprun = fpath+fname
+        d_gda_settings[<span class="str">"app_path"</span>]=apprun
+
+        <span class="kw">print</span> <span class="str">"GDASetAppWindow.exe"</span>
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+        <span class="cmt">#run("C:\\Automation\\gopro-tests-desktop\\GDA\\GDASetAppWindow64.bat")</span>
+        ap = waitforappstartup(fpath,fname,<span class="dig">3</span>)
+        <span class="cmt">#wait(15)</span>
+        <span class="kw">if</span> <span class="kw">not</span> ap:
+            <span class="kw">print</span> <span class="str">"App "</span> + appname + <span class="str">" failed to startup"</span>
+            exit(<span class="dig">1</span>)
+        <span class="cmt">#ap.focus()</span>
+
+        <span class="kw">if</span> ap.hasWindow()==False:
+            <span class="kw">print</span> <span class="str">"Failed: App has no main window"</span>
+            exit(<span class="dig">1</span>)
+        <span class="cmt">#ap.focus()</span>
+
+        title = ap.getWindow()
+        <span class="kw">if</span> title != appname:
+            <span class="kw">print</span> <span class="str">"Failed: Window title not found:"</span>+appname+<span class="str">"&lt;&gt;"</span>+title
+<span class="cmt">#            exit(1) </span>
+        <span class="kw">print</span> <span class="str">"window title:"</span>+title
+<span class="cmt">#        ap.focus()</span>
+        <span class="cmt">#ap.focus("GoPro")</span>
+<span class="cmt">#        wait(5)</span>
+<span class="cmt">#        r0 = ap.window(0)</span>
+<span class="cmt">#        r0 = ap.window(0)</span>
+<span class="cmt">#        print str(r0.getScreen())+"Main:"+str(r0.x) + ":" + str(r0.y)+":"+str(r0.w) + ":" + str(r0.h)</span>
+        ap.focus()
+        <span class="cmt">#r0=App.focusedWindow()        </span>
+
+        id=-<span class="dig">1</span>
+        <span class="kw">if</span> <span class="kw">not</span> r0:
+            cx,cy = centerwindow()
+            <span class="kw">if</span> <span class="kw">not</span> cx <span class="kw">or</span> <span class="kw">not</span> cy:
+                <span class="kw">print</span> <span class="str">"FAILED: Center window location X, Y values"</span>
+                exit(<span class="dig">1</span>)
+            r0=ap.window()
+            <span class="kw">if</span> <span class="kw">not</span> r0:
+                <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">0</span>,<span class="dig">100</span>):
+                    ap.focus()
+                    r0 = ap.window(i)
+                    <span class="kw">if</span> <span class="kw">not</span> r0:
+                        <span class="kw">print</span> <span class="str">"%d. No window"</span> % i
+                        <span class="kw">break</span>
+                    do_highlight(r0)<span class="cmt">#.highlight(1)      </span>
+                    <span class="kw">print</span> str(i)+<span class="str">". srn:"</span> + str(r0.getScreen()) + <span class="str">"&gt;"</span> + <span class="str">"x"</span> + str(r0.x) + <span class="str">"y"</span> + str(r0.y) + <span class="str">"w"</span> + str(r0.w) + <span class="str">"h"</span> + str(r0.h)
+                    <span class="cmt">#Width=1288,Height=855</span>
+                    <span class="kw">if</span> (r0.w &gt;= width) <span class="kw">and</span> (r0.w &lt; (width+<span class="dig">360</span>)) <span class="kw">and</span> (r0.h &gt;= height) <span class="kw">and</span> (r0.h &lt; (height+<span class="dig">150</span>)): <span class="cmt">#and r0.x &gt;= cx and r0.y &gt;= cy:</span>
+                        <span class="kw">print</span> <span class="str">"found window id="</span>+str(i)
+                        id=i
+                        <span class="kw">break</span>
+                    <span class="kw">print</span> <span class="str">"--------------"</span>
+                <span class="kw">print</span> <span class="str">"============"</span>
+                <span class="kw">if</span>(id&lt;<span class="dig">0</span>):
+                    <span class="kw">print</span> <span class="str">"FAILED to find target window"</span>
+            <span class="cmt">#r0 = ap.window(id)</span>
+        <span class="kw">else</span>:
+            do_highlight(r0)<span class="cmt">#.highlight(3)</span>
+        <span class="kw">if</span> <span class="kw">not</span> r0:
+            <span class="kw">print</span> <span class="str">"Failed: Window region not found"</span>
+            exit(<span class="dig">1</span>)
+        r0.highlight(<span class="dig">1</span>)
+        w=<span class="dig">1000</span>
+        <span class="kw">if</span> r0.w&lt;width:
+            <span class="kw">print</span> <span class="str">"Failed: Window region width not correct main window: %i &lt; %i"</span> % (r0.w,width)
+            exit(<span class="dig">1</span>)
+        <span class="cmt">#ap.focus()</span>
+        <span class="cmt">#switchApp(d_gda_settings["app_path"])</span>
+        <span class="cmt">#do_highlight(r0)#.highlight(3)</span>
+
+        <span class="kw">print</span> str(r0.getScreen())+<span class="str">"Main:"</span>+str(r0.x) + <span class="str">":"</span> + str(r0.y)+<span class="str">":"</span>+str(r0.w) + <span class="str">":"</span> + str(r0.h)
+        setsettings(<span class="str">"getWindow"</span>,title)
+        setsettings(<span class="str">"PID"</span>,str(ap.getPID()))
+        setsettings(<span class="str">"getName"</span>,ap.getName())
+        ap.focus()
+        do_highlight(r0)<span class="cmt">#.highlight(3)</span>
+        <span class="kw">print</span> <span class="str">"&lt;openApp"</span>
+        <span class="cmt">#ap.close()</span>
+        <span class="kw">return</span> ap, r0
+    <span class="kw">elif</span> d_gda_settings[<span class="str">"isMac"</span>]==<span class="str">"True"</span>:
+        ext=<span class="str">".app"</span>
+        reportstatus(-<span class="dig">2</span>,<span class="str">"MAC:"</span>+d_gda_settings[<span class="str">"OSVersion"</span>])
+        apprun = appname+ext
+        d_gda_settings[<span class="str">"app_path"</span>]=apprun
+        <span class="cmt">#ap = openApp(apprun)</span>
+        r0, ap = getGDARegion()
+        <span class="kw">if</span> <span class="kw">not</span> ap:
+            ap = waitforappstartup(<span class="str">""</span>,appname,<span class="dig">3</span>)
+            <span class="kw">if</span> <span class="kw">not</span> ap:
+                <span class="kw">print</span> <span class="str">"App "</span> + appname + <span class="str">" failed to startup"</span>
+                exit(<span class="dig">1</span>)
+            ap.focus()
+            <span class="kw">if</span> <span class="kw">not</span> r0:
+                r0 = ap.focusedWindow()
+                <span class="kw">if</span> <span class="kw">not</span> r0:
+                    <span class="kw">print</span> <span class="str">"Failed: Window region not found"</span>
+                    exit(<span class="dig">1</span>)
+                <span class="kw">if</span> width&gt;<span class="dig">0</span>:
+                    <span class="kw">if</span> r0.w&lt;(width+<span class="dig">120</span>): <span class="cmt">#1200</span>
+                        <span class="kw">print</span> <span class="str">"Failed: Window region width not correct main window:"</span> + str(r0.w) + <span class="str">"&lt;1200"</span>
+                        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">100</span>):
+                            ap.focus()
+                            rn = ap.window(i)
+                            <span class="kw">if</span> rn:
+                                do_highlight(rn)<span class="cmt">#.highlight(1) </span>
+                                <span class="kw">print</span> str(rn.w) + <span class="str">"x"</span>+str(rn.h)
+                            <span class="kw">else</span>:
+                                r0=rn
+                                <span class="kw">break</span>
+
+
+            do_highlight(r0)<span class="cmt">#.highlight(3)    </span>
+            switchApp(d_gda_settings[<span class="str">"app_path"</span>])
+            do_highlight(r0)<span class="cmt">#.highlight(3)</span>
+        <span class="kw">print</span> str(r0.getScreen())+<span class="str">"Main:"</span>+str(r0.x) + <span class="str">":"</span> + str(r0.y)+<span class="str">":"</span>+str(r0.w) + <span class="str">":"</span> + str(r0.h)
+        title = ap.getWindow()
+
+        setsettings(<span class="str">"getWindow"</span>,title)
+        setsettings(<span class="str">"PID"</span>,str(ap.getPID()))
+        setsettings(<span class="str">"getName"</span>,ap.getName())
+        <span class="kw">print</span> <span class="str">"&lt;AppStart&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+
+        <span class="kw">return</span> ap, r0
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"No platform info [mac|win]"</span>
+        <span class="kw">return</span>
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> getmactitle():
+    <span class="kw">print</span> <span class="str">"getmactitle"</span>
+    cmd = <span class="str">"""
+    tell application "Finder"
+            activate
+        
+            delay 1
+        get title of front window
+    end tell
+    """</span>
+    txt = runScript(cmd)
+    <span class="kw">return</span> txt
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> AppStartRetry(appname, retry):
+    <span class="cmt">#gp,gpr=AppStartRetry("GoPro",3)</span>
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, retry):
+        <span class="kw">try</span>:
+            gp,gpr = AppStart(appname)
+            <span class="kw">if</span> gp <span class="kw">and</span> gpr:
+                <span class="kw">return</span> gp,gpr
+        <span class="kw">except</span>:
+            <span class="kw">print</span> str(x) + <span class="str">" retry: gp, gpr"</span>
+    <span class="kw">print</span> <span class="str">"FAILED to start "</span> +appname + <span class="str">" *****************************"</span>
+    exit(<span class="dig">1</span>)
+    <span class="kw">return</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> getscreenImageLocationOffset(REGION,MATCH,PATTERN):
+    patoffset = PATTERN.getTargetOffset()
+    center = MATCH.getCenter()
+    clickx = REGION.getX() + MATCH.getX() + center.getX() + patoffset.getX()
+    clicky = REGION.getY() + MATCH.getY() + center.getY() + patoffset.getY()
+    <span class="kw">print</span> <span class="str">"getscreenImageLocationOffset: X=%s, Y=%s"</span> % (clickx,clicky)
+    <span class="kw">return</span> Location(clickx,clicky)
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> ChangePatternsimilarity(MATCH,PATTERN):
+    <span class="kw">if</span> MATCH <span class="kw">and</span> PATTERN:
+        newpat = PATTERN.similar(MATCH.getScore()-<span class="dig">0.05</span>)
+        <span class="kw">return</span> newpat
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> CLICK(REGION, PATTERN,sleeep=<span class="dig">1</span>,FAST=True,min=<span class="dig">70</span>):
+    rc = False
+    <span class="kw">print</span> <span class="str">"CLICK: &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    MATCH = FIND_Similarity(REGION,PATTERN,min)
+
+    <span class="kw">if</span> MATCH:
+        Settings.ClickDelay=<span class="dig">2</span>
+        Settings.DelayBeforeMouseDown=<span class="dig">4</span>
+
+        newPATTERN = ChangePatternsimilarity(MATCH, PATTERN)
+        do_highlight(MATCH)<span class="cmt">#.highlight(1)</span>
+        <span class="cmt">#matchclick =getscreenImageLocationOffset(REGION,MATCH,newPATTERN)</span>
+        <span class="cmt">#if not FAST: # mouse hover delay</span>
+        REGION.mouseMove(newPATTERN)
+        _wait = sleeep+<span class="dig">2</span>
+        <span class="skw">wait</span>(_wait)
+        <span class="kw">if</span> REGION.<span class="skw">click</span>(newPATTERN)&gt;<span class="dig">0</span>:
+            <span class="skw">wait</span>(_wait)
+            REGION.mouseMove(Location(REGION.getX(),REGION.getY()))
+            reportstatus(<span class="dig">0</span>,<span class="str">"CLICK:"</span>+<span class="str">" similar:"</span>+str((<span class="str">"%.2f"</span> % MATCH.getScore()))+<span class="str">"-"</span>+newPATTERN.getFilename(),REGION,newPATTERN.getFilename())
+            rc = True
+        <span class="kw">else</span>:
+            REGION.mouseMove(Location(REGION.getX(),REGION.getY()))
+            reportstatus(<span class="dig">1</span>,<span class="str">"CLICK:"</span>+PATTERN.getFilename(),REGION,newPATTERN.getFilename())
+    <span class="kw">else</span>:
+        reportstatus(<span class="dig">1</span>,<span class="str">"CLICK:"</span>+PATTERN.getFilename(),REGION,PATTERN.getFilename())
+
+    <span class="cmt">#wait(sleeep)</span>
+    <span class="kw">print</span> <span class="str">"CLICK: &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> rc
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> DCLICK(REGION, PATTERN,sleeep=<span class="dig">1</span>,min=<span class="dig">70</span>):
+    rc = False
+    <span class="kw">print</span> <span class="str">"DCLICK: &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    MATCH = FIND_Similarity(REGION,PATTERN,min)
+
+    <span class="kw">if</span> MATCH:
+        newPATTERN = ChangePatternsimilarity(MATCH, PATTERN)
+        do_highlight(MATCH)<span class="cmt">#.highlight(1)</span>
+        <span class="kw">if</span> REGION.<span class="skw">doubleClick</span>(newPATTERN)&gt;<span class="dig">0</span>:
+            <span class="skw">wait</span>(<span class="dig">2</span>)
+            REGION.mouseMove(Location(REGION.getX(),REGION.getY()))
+            reportstatus(<span class="dig">0</span>,<span class="str">"DCLICK:"</span>+<span class="str">" similar:"</span>+str((<span class="str">"%.2f"</span> % MATCH.getScore()))+<span class="str">"-"</span>+newPATTERN.getFilename(),REGION,newPATTERN.getFilename())
+            rc = True
+        <span class="kw">else</span>:
+            REGION.mouseMove(Location(REGION.getX(),REGION.getY()))
+            reportstatus(<span class="dig">1</span>,<span class="str">"DCLICK:"</span>+PATTERN.getFilename(),REGION,newPATTERN.getFilename())
+    <span class="kw">else</span>:
+        reportstatus(<span class="dig">1</span>,<span class="str">"DCLICK:"</span>+PATTERN.getFilename(),REGION,PATTERN.getFilename())
+
+    <span class="skw">wait</span>(sleeep)
+    <span class="kw">print</span> <span class="str">"DCLICK: &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> rc
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> Click_Verify(REGION, PATTERN1,PATTERN2,timeout=<span class="dig">10</span>,sleeep=<span class="dig">1</span>):
+    CLICK(REGION,PATTERN1)
+    <span class="skw">wait</span>(sleeep)
+    WAIT(REGION,PATTERN2,timeout)
+    <span class="skw">wait</span>(sleeep)
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> FIND(REGION,PATTERN,sleeep=<span class="dig">1</span>,min=<span class="dig">50</span>,NOFAIL=False):
+    <span class="kw">print</span> <span class="str">"FIND: &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    rc = False
+    <span class="cmt">#Pattern("startupCreateAcct_title.png").similar(0.91)</span>
+    <span class="cmt">#if REGION.find(PATTERN).highlight(1):</span>
+    MATCH = FIND_Similarity(REGION,PATTERN,min)
+    <span class="kw">if</span> MATCH:
+        do_highlight(MATCH)<span class="cmt">#.highlight(1)</span>
+        <span class="kw">if</span> <span class="kw">not</span> NOFAIL:
+            reportstatus(<span class="dig">0</span>,<span class="str">"FIND:"</span>+str((<span class="str">"%.2f"</span> % MATCH.getScore()))+<span class="str">"-"</span>+PATTERN.getFilename(),REGION,PATTERN.getFilename())
+        rc = True
+    <span class="kw">else</span>:
+        <span class="kw">if</span> <span class="kw">not</span> NOFAIL:
+            reportstatus(<span class="dig">1</span>,<span class="str">"FIND:"</span>+PATTERN.getFilename(),REGION,PATTERN.getFilename())
+    <span class="skw">wait</span>(sleeep)
+    <span class="kw">print</span> <span class="str">"FIND: &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> rc
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> WAIT(REGION,PATTERN,timeout=<span class="dig">10</span>,min=<span class="dig">50</span>,sleeep=<span class="dig">1</span>):
+    rc = False
+    <span class="kw">print</span> <span class="str">"WAIT: &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    MATCH = None
+    <span class="kw">try</span>:
+        MATCH = REGION.<span class="skw">wait</span>(PATTERN,timeout)
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"WAIT: not found"</span>
+    MATCH = FIND_Similarity(REGION,PATTERN,min)
+    <span class="kw">if</span> MATCH:
+        do_highlight(MATCH)<span class="cmt">#.highlight(1)</span>
+        reportstatus(<span class="dig">0</span>,<span class="str">"WAIT:"</span>+str((<span class="str">"%.2f"</span> % MATCH.getScore()))+<span class="str">"-"</span>+PATTERN.getFilename(),REGION,PATTERN.getFilename())
+        rc = True
+    <span class="kw">else</span>:
+        reportstatus(<span class="dig">1</span>,<span class="str">"WAIT:"</span>+PATTERN.getFilename(),REGION,PATTERN.getFilename())
+
+    <span class="skw">wait</span>(sleeep)
+    <span class="kw">print</span> <span class="str">"WAIT: &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> rc
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> TYPE(REGION,PATTERN,txt,sleeep=<span class="dig">1</span>,min=<span class="dig">50</span>):
+    <span class="kw">print</span> <span class="str">"TYPE: &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+
+    <span class="kw">if</span> txt:
+        MATCH = FIND_Similarity(REGION,PATTERN,min)
+        <span class="kw">if</span> MATCH:
+            do_highlight(MATCH)<span class="cmt">#.highlight(1)</span>
+            newPATTERN = ChangePatternsimilarity(MATCH, PATTERN)
+            <span class="kw">if</span> REGION.<span class="skw">type</span>(newPATTERN,txt)&gt;<span class="dig">0</span>:
+                reportstatus(<span class="dig">0</span>,<span class="str">"TYPE:"</span>+txt+<span class="str">" similar:"</span>+str((<span class="str">"%.2f"</span> % MATCH.getScore()))+<span class="str">"-"</span>+newPATTERN.getFilename(),REGION,newPATTERN.getFilename())
+            <span class="kw">else</span>:
+                reportstatus(<span class="dig">1</span>,<span class="str">"TYPE:"</span>+txt+<span class="str">" similar:"</span>+str((<span class="str">"%.2f"</span> % MATCH.getScore()))+<span class="str">"-"</span>+newPATTERN.getFilename(),REGION,newPATTERN.getFilename())
+        <span class="kw">else</span>:
+            reportstatus(<span class="dig">1</span>,<span class="str">"TYPE:"</span>+txt+<span class="str">" -"</span>+newPATTERN.getFilename(),REGION,PATTERN.getFilename(),<span class="str">"FAIL"</span>)
+    <span class="kw">else</span>:
+        reportstatus(<span class="dig">1</span>,<span class="str">"TYPE: No Text -"</span>+newPATTERN.getFilename(),REGION,PATTERN.getFilename())
+        <span class="skw">wait</span>(sleeep)
+    <span class="kw">print</span> <span class="str">"TYPE: &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+
+<span class="cmt">######################################</span>
+<span class="cmt"># </span>
+<span class="cmt"># Experimental ocr with sikuli</span>
+<span class="cmt"># not reliable enough for text verfication</span>
+<span class="cmt"># Does not return consistant text on same image</span>
+<span class="cmt"># whether wrong text or correct. </span>
+<span class="cmt"># Had better results doing Tessaract ocr external on commandline</span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> ocr(REGION,txt):
+    <span class="kw">print</span> <span class="str">"==============================="</span>
+<span class="cmt">#    print REGION.text()</span>
+<span class="cmt">#    print "==============================="</span>
+    m=<span class="skw">find</span>(Pattern(<img src="music_txt_thenightwedanced.png" />).similar(<span class="dig">0.81</span>))
+    xtx = m.text()
+    uprint(xtx)
+    <span class="kw">print</span> <span class="str">"==============================="</span>
+    m=<span class="skw">find</span>(<img src="after.png" />)
+    m2=<span class="skw">find</span>(<img src="glow.png" />)
+
+    m.highlight(<span class="dig">1</span>)
+    xtx =  m.text()+<span class="str">"|"</span>+m2.text()
+
+    uprint(xtx)
+    <span class="kw">print</span> <span class="str">"==============================="</span>
+
+    <span class="kw">print</span> <span class="str">"==============================="</span>
+    m=<span class="skw">find</span>(<img src="BRINGITEDMDe.png" />)
+    m.highlight(<span class="dig">1</span>)
+    xtx =  m.text()
+    uprint(xtx)
+    <span class="kw">print</span> <span class="str">"==============================="</span>
+
+    <span class="kw">print</span> <span class="str">"==============================="</span>
+    m=<span class="skw">find</span>(<img src="COMETHRUHipH.png" />)
+    m.highlight(<span class="dig">1</span>)
+    xtx =  m.text()
+    uprint(xtx)
+    <span class="kw">print</span> <span class="str">"==============================="</span>
+
+
+<span class="kw">def</span> compare_img1path_img2path0(img1,img2,SIMILARITY=<span class="dig">0.69</span>):
+    rc=False
+    m=None
+    <span class="cmt">#imagePath1 = capture()  #snapshots the screen</span>
+    image1 = exists(img1)  <span class="cmt">#Create a Match object</span>
+    <span class="kw">if</span> <span class="kw">not</span> image1:
+        <span class="kw">print</span> <span class="str">"image1 none"</span>
+        <span class="kw">return</span> rc,m
+    <span class="cmt">#imagePath2 = capture()  #snapshots the screen</span>
+    image2 = Pattern(img2).similar(SIMILARITY)  <span class="cmt">#Create a Matach Object</span>
+    myRegion = Region(image1)  <span class="cmt">#make new region from the match object</span>
+    <span class="kw">if</span> <span class="kw">not</span> myRegion:
+        <span class="kw">print</span> <span class="str">"myRegion none"</span>
+        <span class="kw">return</span> rc,m
+    m=myRegion.exists(image2)
+    <span class="kw">if</span> m: <span class="cmt">#look in the region</span>
+        <span class="kw">print</span> <span class="str">"ok"</span> <span class="cmt">#yeah it's in the region of the screen</span>
+        rc=True
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"Fail"</span>  <span class="cmt">#nope not there....    </span>
+
+    <span class="kw">return</span> rc, m
+<span class="cmt">##########################################</span>
+<span class="cmt"># img1 must be &gt;= img2 in WxH size</span>
+<span class="cmt"># img1 is verfication region to search img2</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> compare_img1path_img2path(img1,img2,SIMILARITY=<span class="dig">0.69</span>):
+    <span class="kw">print</span> <span class="str">"compare_img1path_img2path &gt;&gt;&gt;&gt;&gt; similarity=%f\n%s\n%s"</span> % (SIMILARITY,img1,img2)
+    rc=False
+    matches=[]
+    img1f = None
+    bestmatch = None
+    bs=-<span class="dig">1</span>
+    <span class="kw">try</span>:
+        img1f=Finder(img1)
+        <span class="kw">if</span> <span class="kw">not</span> img1f:
+            <span class="kw">print</span> <span class="str">"ERROR img1:%s"</span> % img1
+            <span class="kw">print</span> <span class="str">"compare_img1path_img2path &lt;&lt;&lt;&lt;&lt;&lt;"</span>
+            <span class="kw">return</span> rc, bestmatch
+        <span class="kw">else</span>:
+            <span class="cmt">#print "img1-Finder=%s" % str(img1f)</span>
+            p=Pattern(img2).similar(SIMILARITY)
+            <span class="kw">print</span> <span class="str">"img2-Pattern=%s"</span> % str(p)
+            img1f.findAll(p)
+
+            <span class="kw">while</span> img1f.hasNext():
+                m=None
+                m=img1f.next()
+                <span class="kw">if</span> m:
+                    matches.append(m)
+            img1f.destroy()<span class="cmt"># is obsolete but docs ref this    </span>
+            <span class="kw">if</span> len(matches)==<span class="dig">0</span>:
+                <span class="kw">print</span> <span class="str">"FAILED compare: no matches with similarity=%f"</span> % SIMILARITY
+                <span class="kw">print</span> <span class="str">"img1:%s\nimg2:%s"</span> % (img1,img2)
+                <span class="kw">print</span> <span class="str">"compare_img1path_img2path &lt;&lt;&lt;&lt;&lt;&lt;"</span>
+            <span class="kw">else</span>:
+                bestmatch=matches[<span class="dig">0</span>]
+                bs=bestmatch.getScore()
+                mlen=len(matches)
+                <span class="kw">print</span> <span class="str">"FindAll matches=%d"</span> % mlen
+                <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">0</span>,mlen):
+                    mm=matches[i]
+                    ms=mm.getScore()
+                    <span class="kw">print</span> <span class="str">"score=%f-%f"</span> % (bs,ms)
+                    <span class="kw">if</span> ms&gt;bestmatch.getScore():
+                        bestmatch=mm
+                        bs=bestmatch.getScore()
+                    rc = True
+    <span class="kw">except</span> Exception <span class="kw">as</span> e:
+            <span class="kw">print</span> <span class="str">"Error compare_img1path_img2path: %s"</span> % str(e)
+
+    <span class="kw">finally</span>:
+        <span class="kw">if</span> bestmatch:
+            <span class="kw">print</span> <span class="str">"bestmatch=%s"</span> % str(bestmatch)
+        <span class="kw">print</span> <span class="str">"compare_img1path_img2path &lt;&lt;&lt;&lt;&lt;&lt;"</span>
+        <span class="kw">return</span> rc, bestmatch
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################    </span>
+<span class="kw">def</span> CLICK3(screen,subreg,PATTERN,timeout=<span class="dig">5</span>,bslow=False):
+    rc=False
+    <span class="kw">print</span> <span class="str">"CLICK3 slow=%s &gt;&gt;&gt;&gt;&gt;&gt; %s"</span> % (str(bslow),str(PATTERN))
+    r=getregion(screen,subreg)
+    <span class="kw">if</span> <span class="kw">not</span> r:
+        <span class="kw">print</span> <span class="str">"CLICK3: region not found"</span>
+        <span class="kw">return</span> False
+    rc = CLICK2(r,PATTERN,timeout,bslow)
+    <span class="kw">print</span> <span class="str">"CLICK3 &lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> rc
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> CLICK2(REGION,PATTERN,timeout=<span class="dig">5</span>,bslow=False,retry=<span class="dig">0</span>):
+    <span class="kw">print</span> <span class="str">"CLICK2 slow=%s &gt;&gt;&gt;&gt;&gt;&gt; %s"</span> % (str(bslow),str(PATTERN))
+    rc = False
+    r = EXISTS2(REGION,PATTERN,timeout)
+    <span class="kw">if</span> r:
+        <span class="kw">try</span>:
+            i=<span class="dig">0</span>
+            <span class="kw">if</span> bslow==True:
+                <span class="cmt">#print "CLICK2: slow pattern found"</span>
+                REGION.mouseMove(PATTERN)
+                <span class="cmt">#r.mouseDown(Button.LEFT)</span>
+                <span class="skw">wait</span>(<span class="dig">4</span>)
+                i=r.<span class="skw">click</span>()
+                <span class="skw">wait</span>(<span class="dig">1</span>)
+            <span class="kw">else</span>:
+                <span class="cmt">#print "CLICK2: fast pattern found"</span>
+                i=r.<span class="skw">click</span>()
+
+            <span class="kw">if</span> i==<span class="dig">1</span>:
+                <span class="cmt">#print "CLICK2: OK"</span>
+                rc=True
+            <span class="kw">else</span>:
+                <span class="kw">print</span> <span class="str">"CLICK2: No mouse click"</span>
+                retry+=<span class="dig">1</span>
+                <span class="kw">if</span> retry&gt;<span class="dig">3</span>:
+                    <span class="kw">print</span> <span class="str">"Failed CLICK2: retry=3"</span>
+                <span class="kw">else</span>:
+                    rc= CLICK2(REGION,PATTERN,timeout,bslow,retry)
+
+        <span class="kw">except</span>:
+            <span class="kw">print</span> <span class="str">"CLICK2: mouse error"</span>
+
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        REGION.mouseMove(Location(REGION.getX(),REGION.getY()))
+
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"CLICK2: pattern not found"</span>
+
+    <span class="kw">print</span> <span class="str">"CLICK2 &lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> rc
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> EXISTS3(screen,subreg,pngPATTERN,timeout=<span class="dig">5</span>,similarity=<span class="dig">0.69</span>):
+    <span class="kw">print</span> <span class="str">"EXISTS3 &gt;&gt;&gt;&gt;&gt; %s"</span> % str(pngPATTERN)
+
+    r=getregion(screen,subreg)
+    <span class="kw">if</span> <span class="kw">not</span> r:
+        <span class="kw">print</span> <span class="str">"region not found"</span>
+        <span class="kw">print</span> <span class="str">"EXISTS3 &lt;&lt;&lt;&lt;&lt;&lt;"</span>
+        <span class="kw">return</span> None
+    <span class="kw">if</span> isinstance(pngPATTERN,str): <span class="cmt">#assume is str png file name</span>
+        <span class="kw">print</span> <span class="str">"make pattern"</span>
+        pngPATTERN=gda_utils.PATTERN(pngPATTERN,similarity)
+    <span class="kw">if</span> r:
+        <span class="cmt">#r.highlight(1)</span>
+        <span class="kw">print</span> <span class="str">"EXISTS3 &lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"EXISTS3 &lt;&lt;&lt;&lt;&lt;&lt;!"</span>
+    <span class="kw">return</span> EXISTS2(r,pngPATTERN,timeout)
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> EXISTS2(REGION,PATTERN,timeout=<span class="dig">5</span>):
+    <span class="kw">print</span> <span class="str">"EXISTS2 &gt;&gt;&gt;&gt;&gt; %s"</span> % str(PATTERN)
+    r = REGION.exists(PATTERN,timeout)
+    <span class="kw">if</span> r:
+        m=REGION.getLastMatch()
+        <span class="cmt">#print "EXISTS2:PATTERN FOUND &lt;&lt;&lt;&lt;&lt;&lt;"</span>
+        <span class="kw">return</span> m
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"EXISTS2:PATTERN NOT FOUND !!!!!!!"</span>
+    <span class="kw">print</span> <span class="str">"EXISTS2 &lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> None
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> testmodule():
+    <span class="cmt">#p=PATTERN("dog.png",0.23)</span>
+    <span class="cmt">#s=str(isinstance(p,str))</span>
+    <span class="cmt">#print s</span>
+    <span class="cmt">#os.system("open /Applications/GDASetWinSize.app")</span>
+    <span class="cmt">#process_one = subprocess.Popen("/Applications/sikuli/StartSikuliX.sh")</span>
+    <span class="cmt">#startapp("/Applications/GDASetWinSize.app")</span>
+    <span class="cmt">#startapp("/Applications/sikuli/StartSikuliX.sh")</span>
+    <span class="cmt">#startapp("/Applications/Quik.app/Contents/MacOS/Quik")</span>
+    GetEnvInfo()
+    gpa,gpr=AppStart(<span class="str">"GoPro Quik"</span>,<span class="dig">0</span>,<span class="dig">0</span>)
+    <span class="kw">print</span> str(gpr)
+    exit(<span class="dig">0</span>)
+    <span class="cmt">#gda_create_tests.set_CREATE_SCREEN_regions(REGION)</span>
+<span class="cmt">#    "srn_6_PASSED-SCORE=1.000000 - VERIFY MOMENTS SELECTIONS selectedmoments-Video_1-4_60sec_20cnt_song_AFTERGLOW.png"</span>
+<span class="cmt">#    "selectedmoments-Video_1-4_60sec_20cnt_song_AFTERGLOW.png"</span>
+    <span class="cmt">#Pattern("selectedmoments-Video_1-4_60sec_20cnt_song_AFTERGLOW.png").similar(SIMILARITY)</span>
+    img1=<img src="/Users/keithfisher/workspace/Results/20160825/150015/srn_7_FAILED-VERIFY MOMENTS SELECTIONS selectedmoments-Video_5-8_60sec_20cnt_song_AFTERGLOW.png_screenshot.png" />
+    img2=<img src="/Users/keithfisher/gda_music_images/selectedmoments-Video_1-4_60sec_20cnt_song_AFTERGLOW.png" />
+    SIMILARITY=<span class="dig">0.0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">0</span>,<span class="dig">10</span>):
+        SIMILARITY +=<span class="dig">0.1</span>
+        rc, bestmatch=verifyregion(gpr,img2,SIMILARITY)
+        p=Pattern(img2).similar(SIMILARITY)
+        m=gpr.exists(p)
+        <span class="kw">if</span> m:
+            <span class="kw">print</span> <span class="str">"m=%f"</span> % m.getScore()
+            m.highlight(<span class="dig">1</span>)
+
+        <span class="kw">if</span> rc:
+            <span class="kw">print</span> <span class="str">"rc true"</span>
+            <span class="kw">if</span> bestmatch:
+
+                <span class="kw">print</span> str(bestmatch)
+                d=bestmatch.getScore()
+                <span class="kw">print</span> <span class="str">"Found score=%f"</span> % d
+
+            <span class="kw">else</span>:
+                <span class="kw">print</span> <span class="str">"Match not found"</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"rc false"</span>
+
+<span class="cmt">#testmodule()</span>
+
+</pre>
+</body>
+</html>

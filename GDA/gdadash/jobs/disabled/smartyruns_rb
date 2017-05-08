@@ -1,0 +1,9 @@
+#smarty = ['bawa', 'uluwatu', 'pipe', 'backdoor', 'rockypoint', 'himalaya', 'himeiea', 'dog', 'cat']
+   #smarty_counts = Hash.new({ value: 0 })
+
+   #SCHEDULER.every '1s' do
+   #  random_smarty = smarty.sample
+   #  smarty_counts[random_smarty] = { label: random_smarty, value: (smarty_counts[random_smarty][:value] + 1) % 30 }
+
+   #  #send_event('smarty', { items: smarty_counts.values })
+   #end

@@ -1,0 +1,148 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>cmd.sikuli</h2> <a href="cmd.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> java.lang.System
+<span class="kw">import</span> java
+<span class="kw">import</span> sys, getopt
+<span class="kw">import</span> os
+<span class="kw">import</span> shutil
+<span class="cmt">#import math</span>
+<span class="cmt">#import ast</span>
+<span class="kw">import</span> json
+<span class="kw">from</span> time <span class="kw">import</span> strftime
+<span class="kw">from</span> sikuli <span class="kw">import</span> Sikuli
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> __builtin__ <span class="kw">import</span> True, False
+<span class="kw">import</span> org.sikuli.basics.SikulixForJython
+<span class="kw">import</span> org.sikuli.script.ImagePath
+<span class="cmt">#import results</span>
+setShowActions(False)
+Debug.setDebugLevel(<span class="dig">3</span>)
+
+d_settings = {}
+<span class="kw">def</span> parseargs():
+    <span class="kw">global</span> d_settings
+    <span class="kw">if</span> len(sys.argv) == <span class="dig">3</span>:
+        d_settings[<span class="str">"path"</span>] = sys.argv[<span class="dig">1</span>]
+        d_settings[<span class="str">"verify"</span>] = sys.argv[<span class="dig">2</span>]
+        <span class="kw">return</span> True
+    <span class="kw">return</span> False
+<span class="cmt">##########################################</span>
+<span class="cmt"># parse the args</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> main(argv):
+    init()
+    <span class="kw">if</span> <span class="kw">not</span> parseargs():
+        <span class="kw">print</span> <span class="str">"Invalid args:%s"</span> % str(sys.argv)
+        exit(<span class="dig">1</span>)
+    do_verify()
+
+<span class="kw">def</span> init():
+    <span class="kw">global</span> d_settings
+    d_settings[<span class="str">"root"</span>] = <span class="str">"/Automation/Sikuli"</span>
+    ImagePath.setBundlePath(d_settings[<span class="str">"root"</span>])
+    d_settings[<span class="str">"path"</span>] = <img src="/Automation/Sikuli/img-region.png" />
+    d_settings[<span class="str">"verify"</span>] = <img src="img-verify-3.png" />
+    d_settings[<span class="str">"similarity"</span>] = <span class="dig">0.99</span> <span class="cmt"># maybe add this as third param for different mobile devices</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># create region and validate</span>
+<span class="cmt"># region png should be larger than the verify png</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> do_verify():
+    <span class="cmt"># /Users/keithfisher/Desktop/ScreenShots/Screen Shot 2016-06-14 at 9.28.05 AM.png</span>
+    <span class="kw">global</span> d_settings
+    preview_region = Finder(d_settings[<span class="str">"path"</span>]) <span class="cmt">#your screenshot</span>
+    <span class="cmt">#m = preview_region.load(Pattern(d_settings["path"]).exact().targetOffset(1,0))</span>
+    <span class="cmt">#find(Pattern("zzzzzz.png").exact().targetOffset(1,0))</span>
+    <span class="kw">if</span> preview_region:
+        <span class="cmt">#verify your test template png is found in the screenshot</span>
+        preview_region.<span class="skw">find</span>(Pattern( d_settings[<span class="str">"verify"</span>]).similar(d_settings[<span class="str">"similarity"</span>]))
+        <span class="kw">if</span> preview_region.hasNext():
+            <span class="kw">while</span> preview_region.hasNext():
+                fmatch = preview_region.next()
+                <span class="kw">if</span> fmatch:
+                    <span class="kw">print</span> <span class="str">"FOUND:%s\n%s--&gt;%s"</span> % (str(fmatch),d_settings[<span class="str">"verify"</span>],d_settings[<span class="str">"path"</span>])
+                    <span class="kw">print</span> <span class="str">"similarity:%s"</span> % str(fmatch.getScore())
+                <span class="kw">else</span>:
+                    <span class="kw">print</span> <span class="str">"NOT FOUND:%s"</span> % d_settings[<span class="str">"verify"</span>]
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"NOT FOUND:%s"</span> % d_settings[<span class="str">"verify"</span>]
+        preview_region.destroy()
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"NOT FOUND:%s"</span> % d_settings[<span class="str">"verify"</span>]
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    main(sys.argv[<span class="dig">1</span>:])
+</pre>
+</body>
+</html>

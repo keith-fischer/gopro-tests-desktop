@@ -1,0 +1,2520 @@
+{
+    "templates": [
+                  {
+                  "active": true,
+                  "bpm": 98,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Cinematic",
+                  "id": "0",
+                  "package_size": "3750881",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/AWonderfulSacrifice.zip",
+                  "premium": true,
+                  "title": "A Wonderful Sacrifice",
+                  "version": 9,
+                  "vibes": [
+                            "Happy",
+                            "Lighthearted",
+                            "Warm"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 103,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Hip Hop",
+                  "id": "1",
+                  "package_size": "3748928",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/DarkFader.zip",
+                  "premium": true,
+                  "title": "Dark Fader",
+                  "version": 9,
+                  "vibes": [
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 82,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Country",
+                  "id": "2",
+                  "package_size": "3748347",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/GodWillCutYouDown.zip",
+                  "premium": true,
+                  "title": "God Will Cut You Down",
+                  "version": 9,
+                  "vibes": [
+                            "Brooding",
+                            "Haunting",
+                            "Moody",
+                            "Regretful",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 67,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Cinematic",
+                  "id": "3",
+                  "package_size": "3731324",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/HideAndFreak.zip",
+                  "premium": false,
+                  "title": "Hide and Freak",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Whimsical",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 95,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Hip Hop",
+                  "id": "4",
+                  "package_size": "3686878",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/ItsOurs.zip",
+                  "premium": true,
+                  "title": "It's Ours",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Ambitious",
+                            "Determined",
+                            "Confident",
+                            "Proud"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 105,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "5",
+                  "package_size": "3705243",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/PaleSand.zip",
+                  "premium": true,
+                  "title": "Pale Sand",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Lazy",
+                            "Playful",
+                            "Reflective",
+                            "Uplifting",
+                            "Warm",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 98,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "6",
+                  "package_size": "3737715",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/PushUpTheBeat.zip",
+                  "premium": true,
+                  "title": "Push Up the Beat",
+                  "version": 9,
+                  "vibes": [
+                            "Fun",
+                            "Moody",
+                            "Sexy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 128,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "7",
+                  "package_size": "3795273",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/ScreenDoorSlam.zip",
+                  "premium": true,
+                  "title": "Screen Door Slam",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Moody",
+                            "Sexy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 94,
+                  "default": true,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "8",
+                  "package_size": "3699210",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/TheNightWeDanced.zip",
+                  "premium": false,
+                  "title": "The Night We Danced",
+                  "version": 9,
+                  "vibes": [
+                            "Happy",
+                            "Hopeful",
+                            "Uplifting",
+                            "Warm"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 68,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "9",
+                  "package_size": "3708271",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/ZombieDrop.zip",
+                  "premium": true,
+                  "title": "Zombie Drop",
+                  "version": 9,
+                  "vibes": [
+                            "Brooding",
+                            "Determined",
+                            "Haunting",
+                            "Moody"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 160,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "10",
+                  "package_size": "3640443",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Afterglow.zip",
+                  "premium": false,
+                  "title": "Afterglow",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Exciting",
+                            "Uplifting",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 97,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "11",
+                  "package_size": "3711683",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/AintNoWay.zip",
+                  "premium": true,
+                  "title": "Ain't No Way",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Determined",
+                            "Regretful",
+                            "Rowdy",
+                            "Sexy",
+                            "Mean",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 124,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Hip Hop",
+                  "id": "12",
+                  "package_size": "3428890",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/AllIKnow.zip",
+                  "premium": true,
+                  "title": "All I Know",
+                  "version": 9,
+                  "vibes": [
+                            "Haunting",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 128,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "13",
+                  "package_size": "3644634",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Amazeballs.zip",
+                  "premium": true,
+                  "title": "Amazeballs",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Moody",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 112,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "14",
+                  "package_size": "3783847",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Amigos4Life.zip",
+                  "premium": true,
+                  "title": "Amigos 4 Life",
+                  "version": 9,
+                  "vibes": [
+                            "Exciting",
+                            "Fun",
+                            "Rowdy"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 107,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "15",
+                  "package_size": "3599694",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Bff.zip",
+                  "premium": true,
+                  "title": "BFF",
+                  "version": 9,
+                  "vibes": [
+                            "Fun",
+                            "Sexy",
+                            "Upbeat"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 70,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Cinematic",
+                  "id": "16",
+                  "package_size": "3662136",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/BiPolar.zip",
+                  "premium": true,
+                  "title": "Bi Polar",
+                  "version": 9,
+                  "vibes": [
+                            "Haunting",
+                            "Moody",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 99,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "17",
+                  "package_size": "3799952",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/BigBoy.zip",
+                  "premium": true,
+                  "title": "Big Boy",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Moody",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 138,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "18",
+                  "package_size": "3751513",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/BiteMe.zip",
+                  "premium": true,
+                  "title": "Bite Me",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Happy",
+                            "Lazy"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 140,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Folk",
+                  "id": "19",
+                  "package_size": "3721370",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Blame.zip",
+                  "premium": true,
+                  "title": "Blame",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Hopeful",
+                            "Nostalgic",
+                            "Reflective",
+                            "Uplifting",
+                            "Warm"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 68,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "20",
+                  "package_size": "3826842",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/BlindedByTheSun.zip",
+                  "premium": true,
+                  "title": "Blinded by the Sun",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Rowdy",
+                            "Mean",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 100,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Cinematic",
+                  "id": "21",
+                  "package_size": "3534140",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/BloodFeud.zip",
+                  "premium": true,
+                  "title": "Blood Feud",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Haunting",
+                            "Moody",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 125,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "EDM",
+                  "id": "22",
+                  "package_size": "3748274",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/BringIt.zip",
+                  "premium": false,
+                  "title": "Bring It",
+                  "version": 9,
+                  "vibes": [
+                            "Fun",
+                            "Sexy",
+                            "Upbeat"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 68,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "23",
+                  "package_size": "3771112",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/BringMeBackToLife.zip",
+                  "premium": true,
+                  "title": "Bring Me Back to Life",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Emotive",
+                            "Reflective",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 87,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "24",
+                  "package_size": "3622948",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/BuryMyLove.zip",
+                  "premium": true,
+                  "title": "Bury My Love",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Determined",
+                            "Passionate",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 82,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Country",
+                  "id": "25",
+                  "package_size": "3687644",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/CarryMeBackHome.zip",
+                  "premium": true,
+                  "title": "Carry Me Back Home",
+                  "version": 9,
+                  "vibes": [
+                            "Brooding",
+                            "Haunting Moody",
+                            "Reflective",
+                            "Regretful",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 139,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Country",
+                  "id": "26",
+                  "package_size": "3757719",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/ChokinChickens.zip",
+                  "premium": true,
+                  "title": "Chokin' Chickens",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Rowdy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 120,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "27",
+                  "package_size": "2623381",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/ColdFeet.zip",
+                  "premium": true,
+                  "title": "Cold Feet",
+                  "version": 9,
+                  "vibes": [
+                            "Peaceful",
+                            "Reflective"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 90,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Cinematic",
+                  "id": "28",
+                  "package_size": "3774273",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/CombatReady.zip",
+                  "premium": true,
+                  "title": "Combat Ready",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Determined",
+                            "Exciting"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 98,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Hip Hop",
+                  "id": "29",
+                  "package_size": "3672009",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/ComeThru.zip",
+                  "premium": false,
+                  "title": "Come Thru",
+                  "version": 9,
+                  "vibes": [
+                            "Naughty",
+                            "Dark",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 108,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "EDM",
+                  "id": "30",
+                  "package_size": "3684279",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/CrankIt.zip",
+                  "premium": true,
+                  "title": "Crank It",
+                  "version": 9,
+                  "vibes": [
+                            "Exciting",
+                            "Fun"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 73,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "EDM",
+                  "id": "31",
+                  "package_size": "3586793",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/DaftCrunk.zip",
+                  "premium": false,
+                  "title": "Daft Crunk",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Restless",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 79,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Country",
+                  "id": "32",
+                  "package_size": "3713833",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/DeadAndGone.zip",
+                  "premium": true,
+                  "title": "Dead and Gone",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Rowdy",
+                            "Dark",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 79,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "33",
+                  "package_size": "3642569",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/DoYouFeelAlive.zip",
+                  "premium": true,
+                  "title": "Do You Feel Alive",
+                  "version": 9,
+                  "vibes": [
+                            "Inspiration",
+                            "Ambitious",
+                            "Determined",
+                            "Hopeful",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 130,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Hip Hop",
+                  "id": "34",
+                  "package_size": "3777070",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/DopeDeluxe.zip",
+                  "premium": true,
+                  "title": "Dope Deluxe",
+                  "version": 9,
+                  "vibes": [
+                            "Fun",
+                            "Happy",
+                            "Restless",
+                            "Whimsical"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 80,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "35",
+                  "package_size": "3720420",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/DroppinDimes.zip",
+                  "premium": true,
+                  "title": "Droppin Dimes",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 156,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "36",
+                  "package_size": "3720726",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Everything.zip",
+                  "premium": true,
+                  "title": "Everything",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Determined",
+                            "Rowdy",
+                            "Confident",
+                            "Proud"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 120,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "EDM",
+                  "id": "37",
+                  "package_size": "3614412",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/FeelTheLove.zip",
+                  "premium": false,
+                  "title": "Feel the Love",
+                  "version": 9,
+                  "vibes": [
+                            "Exciting",
+                            "Sexy",
+                            "Uplifting"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 67,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Hip Hop",
+                  "id": "38",
+                  "package_size": "3658714",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/FeelsLikeIMadeIt.zip",
+                  "premium": true,
+                  "title": "Feels Like I Made It",
+                  "version": 9,
+                  "vibes": [
+                            "Ambitious",
+                            "Determined",
+                            "Moody",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 98,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "39",
+                  "package_size": "3760625",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/FifteenWays.zip",
+                  "premium": true,
+                  "title": "Fifteen Ways",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Brooding",
+                            "Sexy"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 70,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Cinematic",
+                  "id": "40",
+                  "package_size": "3506369",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/FretCollector.zip",
+                  "premium": true,
+                  "title": "Fret Collector",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Emotive",
+                            "Reflective"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 110,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "EDM",
+                  "id": "41",
+                  "package_size": "3476650",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/GettingBuzzed.zip",
+                  "premium": true,
+                  "title": "Getting Buzzed",
+                  "version": 9,
+                  "vibes": [
+                            "Exciting",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 89,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "42",
+                  "package_size": "3671372",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/GlassDarkly.zip",
+                  "premium": true,
+                  "title": "Glass Darkly",
+                  "version": 9,
+                  "vibes": [
+                            "Brooding",
+                            "Moody",
+                            "Restless"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 100,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Cinematic",
+                  "id": "43",
+                  "package_size": "3410117",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/GlockNRoll.zip",
+                  "premium": true,
+                  "title": "Glock n Roll",
+                  "version": 9,
+                  "vibes": [
+                            "Emotive",
+                            "Haunting",
+                            "Reflective",
+                            "Whimsical"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 80,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Country",
+                  "id": "44",
+                  "package_size": "3734238",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/GuiltyMan.zip",
+                  "premium": false,
+                  "title": "Guilty Man",
+                  "version": 9,
+                  "vibes": [
+                            "Haunting",
+                            "Moody",
+                            "Reflective",
+                            "Regretful",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 92,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "45",
+                  "package_size": "3843052",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/HallowedGround.zip",
+                  "premium": true,
+                  "title": "Hallowed Ground",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Euphoric",
+                            "Hopeful",
+                            "Reflective",
+                            "Sexy",
+                            "Tender"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 143,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Country",
+                  "id": "46",
+                  "package_size": "3725320",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/HeroesDressInBlack.zip",
+                  "premium": true,
+                  "title": "Heroes Dress in Black",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Dark",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 95,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Cinematic",
+                  "id": "47",
+                  "package_size": "3662630",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/HoldYourHeadUp.zip",
+                  "premium": true,
+                  "title": "Hold Your Head Up",
+                  "version": 9,
+                  "vibes": [
+                            "Hopeful",
+                            "Passionate",
+                            "Reflective",
+                            "Sexy",
+                            "Uplifting",
+                            "Warm"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 145,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "48",
+                  "package_size": "3665614",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/HundredDollaGirlz.zip",
+                  "premium": true,
+                  "title": "Hundred Dolla Girlz",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Restless",
+                            "Rowdy"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 85,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "49",
+                  "package_size": "3616915",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/IDareYou.zip",
+                  "premium": true,
+                  "title": "I Dare You",
+                  "version": 9,
+                  "vibes": [
+                            "Brooding",
+                            "Determined",
+                            "Sexy",
+                            "Dark",
+                            "Angry"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 115,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Hip Hop",
+                  "id": "50",
+                  "package_size": "3566035",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/InARow.zip",
+                  "premium": true,
+                  "title": "In a Row",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Dark",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 125,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "51",
+                  "package_size": "3664103",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/InThaMaison.zip",
+                  "premium": true,
+                  "title": "In tha Maison",
+                  "version": 9,
+                  "vibes": [
+                            "Fun",
+                            "Passionate",
+                            "Playful",
+                            "Sexy",
+                            "Uplifting",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 155,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Folk",
+                  "id": "52",
+                  "package_size": "3603023",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/JoyRide.zip",
+                  "premium": true,
+                  "title": "Joy Ride",
+                  "version": 9,
+                  "vibes": [
+                            "Inspiration",
+                            "Fun",
+                            "Happy",
+                            "Hopeful",
+                            "Joyful",
+                            "Lighthearted",
+                            "Playful",
+                            "Tender",
+                            "Uplifting",
+                            "Whimsical"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 128,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "53",
+                  "package_size": "3608333",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/JustALittle.zip",
+                  "premium": true,
+                  "title": "Just a Little",
+                  "version": 9,
+                  "vibes": [
+                            "Fun",
+                            "Happy",
+                            "Moody",
+                            "Reflective",
+                            "Uplifting"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 140,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "54",
+                  "package_size": "3681923",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/KeepTheFaithAlive.zip",
+                  "premium": true,
+                  "title": "Keep the Faith Alive",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Rowdy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 190,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "55",
+                  "package_size": "3680384",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/KillinFloor.zip",
+                  "premium": true,
+                  "title": "Killin Floor",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Fun",
+                            "Restless",
+                            "Rowdy",
+                            "Sexy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 125,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "56",
+                  "package_size": "3761666",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/KnuckleDragger.zip",
+                  "premium": true,
+                  "title": "Knuckle Dragger",
+                  "version": 9,
+                  "vibes": [
+                            "Exciting",
+                            "Sexy",
+                            "Mean",
+                            "Dark",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 118,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Hip Hop",
+                  "id": "57",
+                  "package_size": "3644983",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/LightEmUp.zip",
+                  "premium": true,
+                  "title": "Light em Up",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Determined",
+                            "Mean",
+                            "Dark",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 100,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Folk",
+                  "id": "58",
+                  "package_size": "3760081",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/MeadowMind.zip",
+                  "premium": true,
+                  "title": "Meadow Mind",
+                  "version": 9,
+                  "vibes": [
+                            "Happy",
+                            "Hopeful",
+                            "Joyful",
+                            "Lighthearted",
+                            "Reflective",
+                            "Uplifting",
+                            "Warm",
+                            "Whimsical"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 82,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Country",
+                  "id": "59",
+                  "package_size": "3784797",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/MoonshineAndGasoline.zip",
+                  "premium": true,
+                  "title": "Moonshine and Gasoline",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Brooding",
+                            "Determined",
+                            "Moody",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 108,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "60",
+                  "package_size": "3794101",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/NewDay.zip",
+                  "premium": true,
+                  "title": "New Day",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Emotive",
+                            "Hopeful",
+                            "Passionate",
+                            "Reflective",
+                            "Sentimental",
+                            "Uplifting"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 72,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Country",
+                  "id": "61",
+                  "package_size": "3625762",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/NotLookinBack.zip",
+                  "premium": true,
+                  "title": "Not Lookin Back",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Determined",
+                            "Sexy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 74,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "62",
+                  "package_size": "3777451",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Nuclear.zip",
+                  "premium": true,
+                  "title": "Nuclear",
+                  "version": 9,
+                  "vibes": [
+                            "Inspiration:",
+                            "Determined",
+                            "Hopeful",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 57,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "63",
+                  "package_size": "3674030",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/OnTheDl.zip",
+                  "premium": true,
+                  "title": "On the DL",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Hopeful",
+                            "Moody",
+                            "Nostalgic",
+                            "Reflective",
+                            "Dark",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 118,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "EDM",
+                  "id": "64",
+                  "package_size": "3608219",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/OneOfAKind.zip",
+                  "premium": true,
+                  "title": "One of a Kind",
+                  "version": 9,
+                  "vibes": [
+                            "Fun",
+                            "Happy",
+                            "Hopeful",
+                            "Passionate",
+                            "Romantic",
+                            "Sexy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 112,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "65",
+                  "package_size": "3710672",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/PartyWillComeAlive.zip",
+                  "premium": true,
+                  "title": "Party Will Come Alive",
+                  "version": 9,
+                  "vibes": [
+                            "Fun",
+                            "Happy",
+                            "Playful",
+                            "Uplifting",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 120,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "66",
+                  "package_size": "3702663",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Punching.zip",
+                  "premium": true,
+                  "title": "Punching",
+                  "version": 9,
+                  "vibes": [
+                            "Restless",
+                            "Dark",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 82,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Country",
+                  "id": "67",
+                  "package_size": "3768409",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/RainDown.zip",
+                  "premium": false,
+                  "title": "Rain Down",
+                  "version": 9,
+                  "vibes": [
+                            "Haunting",
+                            "Hopeful",
+                            "Moody",
+                            "Reflective",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 91,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "68",
+                  "package_size": "3592313",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Reasons.zip",
+                  "premium": true,
+                  "title": "Reasons",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Hopeful",
+                            "Peaceful",
+                            "Reflective",
+                            "Regretful",
+                            "Sentimental",
+                            "Tender",
+                            "Uplifting"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 69,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "69",
+                  "package_size": "3703945",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/RiseUp.zip",
+                  "premium": false,
+                  "title": "Rise Up",
+                  "version": 9,
+                  "vibes": [
+                            "Inspiration",
+                            "Determined",
+                            "Hopeful",
+                            "Confident",
+                            "Proud"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 128,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "70",
+                  "package_size": "3811767",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/DjBlowUpTheSpeakers.zip",
+                  "premium": true,
+                  "title": "DJ Blow Up the Speakers",
+                  "version": 9,
+                  "vibes": [
+                            "Emotive",
+                            "Fun",
+                            "Confident",
+                            "Upbeat"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 92,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "71",
+                  "package_size": "3760719",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Good4ThaHood.zip",
+                  "premium": true,
+                  "title": "Good 4 Tha Hood",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Determined",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 67,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "72",
+                  "package_size": "3374703",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/HeavyWeather.zip",
+                  "premium": true,
+                  "title": "Heavy Weather",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Reflective",
+                            "Sexy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 135,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "73",
+                  "package_size": "3649212",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/RockYourWorld.zip",
+                  "premium": true,
+                  "title": "Rock Your World",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Exciting",
+                            "Uplifting",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 99,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "74",
+                  "package_size": "3457799",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Rushes.zip",
+                  "premium": true,
+                  "title": "Rushes",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Confident",
+                            "Upbeat"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 160,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "75",
+                  "package_size": "3780473",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Shake.zip",
+                  "premium": true,
+                  "title": "Shake",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Confident",
+                            "Upbeat"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 128,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Pop",
+                  "id": "76",
+                  "package_size": "3629607",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/ShakeItOut.zip",
+                  "premium": true,
+                  "title": "Shake it Out",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Sexy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 97,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "77",
+                  "package_size": "3719354",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/SmokinFire.zip",
+                  "premium": true,
+                  "title": "Smokin Fire",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Determined",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 97,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Hip Hop",
+                  "id": "78",
+                  "package_size": "3831919",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/SoundBoi.zip",
+                  "premium": true,
+                  "title": "Sound Boi",
+                  "version": 9,
+                  "vibes": [
+                            "Fun",
+                            "Confident",
+                            "Upbeat"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 140,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "79",
+                  "package_size": "3740774",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/StrangeCondition.zip",
+                  "premium": true,
+                  "title": "Strange Condition",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Determined",
+                            "Rowdy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 50,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Cinematic",
+                  "id": "80",
+                  "package_size": "3669955",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/StringOfTruth.zip",
+                  "premium": true,
+                  "title": "String of Truth",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Emotive",
+                            "Hopeful",
+                            "Reflective",
+                            "Uplifting",
+                            "Proud"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 126,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "81",
+                  "package_size": "3750901",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/SugarGirl.zip",
+                  "premium": true,
+                  "title": "Sugar Girl",
+                  "version": 9,
+                  "vibes": [
+                            "Brooding",
+                            "Emotive",
+                            "Hopeful",
+                            "Sexy"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 128,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "82",
+                  "package_size": "3339226",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Surge.zip",
+                  "premium": true,
+                  "title": "Surge",
+                  "version": 9,
+                  "vibes": [
+                            "Emotive",
+                            "Haunting",
+                            "Moody",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 90,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "83",
+                  "package_size": "3840524",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/SwingOver.zip",
+                  "premium": true,
+                  "title": "Swing Over",
+                  "version": 9,
+                  "vibes": [
+                            "Fun",
+                            "Happy",
+                            "Sexy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 120,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "EDM",
+                  "id": "84",
+                  "package_size": "3800628",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/TaLigado.zip",
+                  "premium": true,
+                  "title": "Ta Ligado",
+                  "version": 9,
+                  "vibes": [
+                            "Exciting",
+                            "Fun",
+                            "Sexy"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 80,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "85",
+                  "package_size": "3124078",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/TheBoarderLands.zip",
+                  "premium": true,
+                  "title": "The Boarder Lands",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Determined",
+                            "Haunting",
+                            "Moody",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 128,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "EDM",
+                  "id": "86",
+                  "package_size": "3700476",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/TheRioDeal.zip",
+                  "premium": true,
+                  "title": "The Rio Deal",
+                  "version": 9,
+                  "vibes": [
+                            "Exciting",
+                            "Fun",
+                            "Sexy"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 97,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "87",
+                  "package_size": "3650438",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Thrillswitch.zip",
+                  "premium": true,
+                  "title": "Thrillswitch",
+                  "version": 9,
+                  "vibes": [
+                            "Exciting",
+                            "Fun",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 64,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "88",
+                  "package_size": "3745621",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/Thunderdrome.zip",
+                  "premium": true,
+                  "title": "Thunderdrome",
+                  "version": 9,
+                  "vibes": [
+                            "Brooding",
+                            "Determined",
+                            "Exciting"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 91,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Cinematic",
+                  "id": "89",
+                  "package_size": "3670002",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/ToyDivision.zip",
+                  "premium": true,
+                  "title": "Toy Division",
+                  "version": 9,
+                  "vibes": [
+                            "Happy",
+                            "Hopeful",
+                            "Sentimental",
+                            "Tender",
+                            "Uplifting"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 120,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "90",
+                  "package_size": "3490158",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/TrySoHard.zip",
+                  "premium": true,
+                  "title": "Try So Hard",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Determined",
+                            "Hopeful",
+                            "Sexy",
+                            "Uplifting"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 105,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Hip Hop",
+                  "id": "91",
+                  "package_size": "3744854",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/TwerkInProgress.zip",
+                  "premium": true,
+                  "title": "Twerk in Progress",
+                  "version": 9,
+                  "vibes": [
+                            "Fun",
+                            "Confident",
+                            "Upbeat"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 126,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Folk",
+                  "id": "92",
+                  "package_size": "3732139",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/WalkinTall.zip",
+                  "premium": true,
+                  "title": "Walkin Tall",
+                  "version": 9,
+                  "vibes": [
+                            "Hopeful",
+                            "Lighthearted",
+                            "Nostalgic",
+                            "Warm",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 100,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Country",
+                  "id": "93",
+                  "package_size": "3718697",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/WantedMan.zip",
+                  "premium": true,
+                  "title": "Wanted Man",
+                  "version": 9,
+                  "vibes": [
+                            "Determined",
+                            "Reflective",
+                            "Restless",
+                            "Mean",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 122,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "94",
+                  "package_size": "3676004",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/WhatWeStarted.zip",
+                  "premium": true,
+                  "title": "What We Started",
+                  "version": 9,
+                  "vibes": [
+                            "Inspiration",
+                            "Determined",
+                            "Confident",
+                            "Upbeat"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 75,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Hip Hop",
+                  "id": "95",
+                  "package_size": "3420724",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/WhiteGirls.zip",
+                  "premium": true,
+                  "title": "White Girls",
+                  "version": 9,
+                  "vibes": [
+                            "Ambitious",
+                            "Sexy",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 98,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Country",
+                  "id": "96",
+                  "package_size": "3645440",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/WhitewashedTomb.zip",
+                  "premium": true,
+                  "title": "Whitewashed Tomb",
+                  "version": 9,
+                  "vibes": [
+                            "Brooding",
+                            "Emotive",
+                            "Reflective",
+                            "Sad",
+                            "Dark"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 72,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Electronica",
+                  "id": "97",
+                  "package_size": "3612059",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/WhyDoI.zip",
+                  "premium": true,
+                  "title": "Why Do I",
+                  "version": 9,
+                  "vibes": [
+                            "Chill",
+                            "Emotive",
+                            "Hopeful",
+                            "Moody",
+                            "Reflective"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 100,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Rock",
+                  "id": "98",
+                  "package_size": "3661380",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/YangBang.zip",
+                  "premium": true,
+                  "title": "Yang Bang",
+                  "version": 9,
+                  "vibes": [
+                            "Aggressive",
+                            "Determined",
+                            "Confident"
+                            ]
+                  },
+                  {
+                  "active": true,
+                  "bpm": 80,
+                  "default": false,
+                  "durations": [
+                                15,
+                                30,
+                                60
+                                ],
+                  "effective_date": "2016-02-19T00:00:00Z",
+                  "expiry_date": "2020-02-19T00:00:00Z",
+                  "genre": "Cinematic",
+                  "id": "99",
+                  "package_size": "3748701",
+                  "package_url": "https://d2mji8855wtbxs.cloudfront.net/ZeroHour.zip",
+                  "premium": true,
+                  "title": "Zero Hour",
+                  "version": 9,
+                  "vibes": [
+                            "Brooding",
+                            "Haunting",
+                            "Moody",
+                            "Restless",
+                            "Dark"
+                            ]
+                  }
+                  ],
+    "version": "9"
+}

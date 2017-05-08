@@ -1,0 +1,2170 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>gda_music_tests.sikuli</h2> <a href="gda_music_tests.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> os
+<span class="kw">import</span> sys
+<span class="kw">import</span> traceback
+<span class="kw">import</span> platform
+<span class="kw">from</span> os.path <span class="kw">import</span> expanduser
+<span class="kw">import</span> json
+<span class="kw">import</span> org.sikuli.script.ImagePath;
+<span class="kw">import</span> shutil
+<span class="kw">from</span> time <span class="kw">import</span> strftime
+<span class="kw">from</span> sikuli <span class="kw">import</span> Sikuli
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> __builtin__ <span class="kw">import</span> True, False
+<span class="kw">import</span> org.sikuli.basics.SikulixForJython
+
+<span class="kw">import</span> gda_utils
+<span class="cmt">#import gda_create_tests</span>
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">class</span> GDA_music:
+    <span class="kw">def</span> __init__(self):
+        self.reset()
+        self.musiclistfile = <span class="str">"GDA_musiclist.json"</span>
+        self.automation_root = <span class="str">""</span>
+        self.evalplatform()
+        self.job_name = <span class="str">"GDA_Regression"</span>
+        self.isready=False
+        self.musiclist = self.load_json(self.automation_root+self.musiclistfile)
+        <span class="kw">if</span> self.musiclist:
+            <span class="kw">print</span> <span class="str">"musiclist items count=%i"</span> % len(self.musiclist)
+            self.isready=True
+        self.missingsongs = []
+        self.newsongs = []
+        self.currentsong = {}
+        <span class="cmt">#these songs are skipped from testing in the sortedsonglist</span>
+<span class="cmt">#        self.skipsongslist = [</span>
+<span class="cmt">#            "song_THENIGHTWEDANCED.png",            </span>
+<span class="cmt">#            "song_CHOKINCHICKENS.png",</span>
+<span class="cmt">#            "song_GLASSDARKLY.png",</span>
+<span class="cmt">#            "song_HUNDREDDOLLAGIRLZ.png"]</span>
+        self.skipsongslist = []
+        <span class="cmt">#start regression script args with "ex_songs", only runs songlist in exclusivesonglist = []</span>
+
+        self.exclusivesonglist = [
+            <img src="song_BURYMYLOVE.png" />,
+            <span class="cmt">#"song_CARRYMEBACKHOME.png",                </span>
+            <span class="cmt">#"song_COLDFEET.png", # song_COLDFEET                </span>
+            <span class="cmt">#"song_COMBATREADY.png", # song_COMBATREADY                </span>
+            <span class="cmt">#"song_BRINGMEBACKTOLIFE.png", #PASS</span>
+            <img src="song_CRANKIT.png" />] <span class="cmt"># song_CRANKIT</span>
+
+        <span class="cmt">#Sorted Quik song list with plus</span>
+        <span class="cmt">#validated 2017/02/27</span>
+        self.sortedsonglist = [ <span class="cmt">#freebies</span>
+                        <img src="song_THENIGHTWEDANCED.png" />, <span class="cmt">#176 song_THENIGHTWEDANCED.png</span>
+                        <img src="song_AFTERGLOW.png" />, <span class="cmt">#2 song_AFTERGLOW.png</span>
+                        <img src="song_BRINGIT.png" />, <span class="cmt">#28 song_BRINGIT.png</span>
+                        <img src="song_COMETHRU.png" />, <span class="cmt">#40 song_COMETHRU.png</span>
+                        <img src="song_DAFTCRUNK.png" />, <span class="cmt">#46 song_DAFTCRUNK.png</span>
+                        <img src="song_FEELTHELOVE.png" />, <span class="cmt">#62 song_FEELTHELOVE.png</span>
+                        <img src="song_GUILTYMAN.png" />, <span class="cmt">#75 song_GUILTYMAN.png</span>
+                        <img src="song_HIDEANDFREAK.png" />, <span class="cmt">#83 song_HIDEANDFREAK.png</span>
+                        <img src="song_RAINDOWN.png" />, <span class="cmt">#144 song_RAINDOWN.png</span>
+                        <img src="song_RISEUP.png" />, <span class="cmt">#148 song_RISEUP.png &gt;&gt;&gt;&gt;&gt; plus songs</span>
+            <span class="cmt">#&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span>
+                        <img src="song_ARECKONING.png" />, <span class="cmt">#9 song_ARECKONING.png</span>
+                        <img src="song_ATICKOFTIME.png" />, <span class="cmt">#13 song_ATICKOFTIME.png</span>
+                        <img src="song_AWONDERFULSACRIFICE.png" />, <span class="cmt">#15 song_AWONDERFULSACRIFICE.png</span>
+                        <img src="song_ATLDIRTYBIRDS.png" />, <span class="cmt">#14 song_ATLDIRTYBIRDS.png</span>
+                        <img src="song_ABOVEANDBELOW.png" />, <span class="cmt">#1 song_ABOVEANDBELOW.png</span>
+                        <img src="song_AINTNOWAY.png" />, <span class="cmt">#3 song_AINTNOWAY.png</span>
+                        <img src="song_ALLIKNOW.png" />, <span class="cmt">#4 song_ALLIKNOW.png</span>
+                        <img src="song_ALLYOURLIGHTS.png" />, <span class="cmt">#5 song_ALLYOURLIGHTS.png</span>
+                        <img src="song_AMAZEBALLS.png" />, <span class="cmt">#6 song_AMAZEBALLS.png</span>
+                        <img src="song_AMIGOS4LIFE.png" />, <span class="cmt">#7 song_AMIGOS4LIFE.png</span>
+                        <img src="song_ARABIANNIGHTS.png" />, <span class="cmt">#8 song_ARABIANNIGHTS.png</span>
+                        <img src="song_ARIZONA.png" />, <span class="cmt">#10 song_ARIZONA.png</span>
+                        <img src="song_ARROOTSYFINGERPICKING.png" />, <span class="cmt">#11 song_ARROOTSYFINGERPICKING.png</span>
+                        <img src="song_ASITEVERWAS.png" />, <span class="cmt">#12 song_ASITEVERWAS.png</span>
+                        <img src="song_BFF.png" />, <span class="cmt">#20 song_BFF.png</span>
+                        <img src="song_BACKFROMTHEROAD.png" />, <span class="cmt">#16 song_BACKFROMTHEROAD.png</span>
+                        <img src="song_BACKSTAGE.png" />, <span class="cmt">#17 song_BACKSTAGE.png</span>
+                        <img src="song_BADBLOOD.png" />, <span class="cmt">#18 song_BADBLOOD.png</span>
+                        <img src="song_BANDSAW.png" />, <span class="cmt">#19 song_BANDSAW.png</span>
+                        <img src="song_BIPOLAR.png" />, <span class="cmt">#23 song_BIPOLAR.png</span>
+                        <img src="song_BIGBOY.png" />, <span class="cmt">#21 song_BIGBOY.png</span>
+                        <img src="song_BIGLIFE.png" />, <span class="cmt">#22 song_BIGLIFE.png</span>
+                        <img src="song_BITEME.png" />, <span class="cmt">#24 song_BITEME.png</span>
+                        <img src="song_BLAME.png" />, <span class="cmt">#25 song_BLAME.png</span>
+                        <img src="song_BLINDEDBYTHESUN.png" />, <span class="cmt">#26 song_BLINDEDBYTHESUN.png</span>
+                        <img src="song_BLOODFEUD.png" />, <span class="cmt">#27 song_BLOODFEUD.png</span>
+                        <img src="song_BRINGMEBACKTOLIFE.png" />, <span class="cmt">#29 song_BRINGMEBACKTOLIFE.png</span>
+                        <img src="song_BRINGMESPIRITANIMAL.png" />, <span class="cmt">#30 song_BRINGMESPIRITANIMAL.png</span>
+                        <img src="song_BURYMYLOVE.png" />, <span class="cmt">#31 song_BURYMYLOVE.png</span>
+                        <img src="song_CAICOS.png" />, <span class="cmt">#32 song_CAICOS.png</span>
+                        <img src="song_CANNESCUTIT.png" />, <span class="cmt">#33 song_CANNESCUTIT.png</span>
+                        <img src="song_CARRYMEBACKHOME.png" />, <span class="cmt">#34 song_CARRYMEBACKHOME.png</span>
+                        <img src="song_CHOKINCHICKENS.png" />, <span class="cmt">#35 song_CHOKINCHICKENS.png</span>
+                        <img src="song_CITYLIGHTS.png" />, <span class="cmt">#36 song_CITYLIGHTS.png</span>
+                        <img src="song_CLUBCORNERS.png" />, <span class="cmt">#37 song_CLUBCORNERS.png</span>
+                        <img src="song_COLDFEET.png" />, <span class="cmt">#38 song_COLDFEET.png</span>
+                        <img src="song_COMBATREADY.png" />, <span class="cmt">#39 song_COMBATREADY.png</span>
+                        <img src="song_CONQUISTADOR.png" />, <span class="cmt">#41 song_CONQUISTADOR.png</span>
+                        <img src="song_CONTAGIOUS.png" />, <span class="cmt">#42 song_CONTAGIOUS.png</span>
+                        <img src="song_CRANBERRY.png" />, <span class="cmt">#43 song_CRANBERRY.png</span>
+                        <img src="song_CRANKIT.png" />, <span class="cmt">#44 song_CRANKIT.png</span>
+                        <img src="song_CRUNCHIT.png" />, <span class="cmt">#45 song_CRUNCHIT.png</span>
+                        <img src="song_DJBLOWUPTHESPEAKERS.png" />, <span class="cmt">#50 song_DJBLOWUPTHESPEAKERS.png</span>
+                        <img src="song_DARKFADER.png" />, <span class="cmt">#47 song_DARKFADER.png</span>
+                        <img src="song_DARKWOODS.png" />, <span class="cmt">#48 song_DARKWOODS.png</span>
+                        <img src="song_DEADANDGONE.png" />, <span class="cmt">#49 song_DEADANDGONE.png</span>
+                        <img src="song_DOYOUFEELALIVE.png" />, <span class="cmt">#52 song_DOYOUFEELALIVE.png</span>
+                        <img src="song_DOPEDELUXE.png" />, <span class="cmt">#51 song_DOPEDELUXE.png</span>
+                        <img src="song_DREAMPOP.png" />, <span class="cmt">#53 song_DREAMPOP.png</span>
+                        <img src="song_DROPPINDIMES.png" />, <span class="cmt">#54 song_DROPPINDIMES.png</span>
+                        <img src="song_ELDIABLO.png" />, <span class="cmt">#55 song_ELDIABLO.png</span>
+                        <img src="song_ETERNALLYYOURS.png" />, <span class="cmt">#56 song_ETERNALLYYOURS.png</span>
+                        <img src="song_EVEREST.png" />, <span class="cmt">#57 song_EVEREST.png</span>
+                        <img src="song_EVERYTHING.png" />, <span class="cmt">#58 song_EVERYTHING.png</span>
+                        <img src="song_FALLINGFASTER.png" />, <span class="cmt">#59 song_FALLINGFASTER.png</span>
+                        <img src="song_FEELITCOMINGON.png" />, <span class="cmt">#60 song_FEELITCOMINGON.png</span>
+                        <img src="song_FEELSLIKEIMADEIT.png" />, <span class="cmt">#61 song_FEELSLIKEIMADEIT.png</span>
+                        <img src="song_FIFTEENWAYS.png" />, <span class="cmt">#63 song_FIFTEENWAYS.png</span>
+                        <img src="song_FIREINTHEENGINEROOM.png" />, <span class="cmt">#64 song_FIREINTHEENGINEROOM.png</span>
+                        <img src="song_FLATBUSH.png" />, <span class="cmt">#65 song_FLATBUSH.png</span>
+                        <img src="song_FOLLOWALONG.png" />, <span class="cmt">#66 song_FOLLOWALONG.png</span>
+                        <img src="song_FRAGMENTS.png" />, <span class="cmt">#67 song_FRAGMENTS.png</span>
+                        <img src="song_FRETCOLLECTOR.png" />, <span class="cmt">#68 song_FRETCOLLECTOR.png</span>
+                        <img src="song_GETTINGBUZZED.png" />, <span class="cmt">#69 song_GETTINGBUZZED.png</span>
+                        <img src="song_GLASSDARKLY.png" />, <span class="cmt">#70 song_GLASSDARKLY.png</span>
+                        <img src="song_GLOCKNROLL.png" />, <span class="cmt">#71 song_GLOCKNROLL.png</span>
+                        <img src="song_GODWILLCUTYOUDOWN.png" />, <span class="cmt">#72 song_GODWILLCUTYOUDOWN.png</span>
+                        <img src="song_GOOD4THAHOOD.png" />, <span class="cmt">#73 song_GOOD4THAHOOD.png</span>
+                        <img src="song_GROOVEMEMATE.png" />, <span class="cmt">#74 song_GROOVEMEMATE.png</span>
+                        <img src="song_GYROSCOPE.png" />, <span class="cmt">#76 song_GYROSCOPE.png</span>
+                        <img src="song_HALLOWEDGROUND.png" />, <span class="cmt">#77 song_HALLOWEDGROUND.png</span>
+                        <img src="song_HANDSUPFORLOVE.png" />, <span class="cmt">#78 song_HANDSUPFORLOVE.png</span>
+                        <img src="song_HAUNTEDCOMPUTER.png" />, <span class="cmt">#79 song_HAUNTEDCOMPUTER.png</span>
+                        <img src="song_HEAVYFOG.png" />, <span class="cmt">#80 song_HEAVYFOG.png</span>
+                        <img src="song_HEAVYWEATHER.png" />, <span class="cmt">#81 song_HEAVYWEATHER.png</span>
+                        <img src="song_HEROESDRESSINBLACK.png" />, <span class="cmt">#82 song_HEROESDRESSINBLACK.png</span>
+                        <img src="song_HINDSIGHT.png" />, <span class="cmt">#84 song_HINDSIGHT.png</span>
+                        <img src="song_HOLDYOURHEADUP.png" />, <span class="cmt">#85 song_HOLDYOURHEADUP.png</span>
+                        <img src="song_HOTANDCOLD.png" />, <span class="cmt">#86 song_HOTANDCOLD.png</span>
+                        <img src="song_HUNDREDDOLLAGIRLZ.png" />, <span class="cmt">#87 song_HUNDREDDOLLAGIRLZ.png</span>
+                        <img src="song_IDAREYOU.png" />, <span class="cmt">#88 song_IDAREYOU.png</span>
+                        <img src="song_INAROW.png" />, <span class="cmt">#89 song_INAROW.png</span>
+                        <img src="song_INTHAMAISON.png" />, <span class="cmt">#92 song_INTHAMAISON.png</span>
+                        <img src="song_INTHEMIST.png" />, <span class="cmt">#93 song_INTHEMIST.png</span>
+                        <img src="song_INDIE.png" />, <span class="cmt">#90 song_INDIE.png</span>
+                        <img src="song_INSPIRED.png" />, <span class="cmt">#91 song_INSPIRED.png</span>
+                        <img src="song_ITSOURS.png" />, <span class="cmt">#94 song_ITSOURS.png</span>
+                        <img src="song_JAYLTER.png" />, <span class="cmt">#95 song_JAYLTER.png</span>
+                        <img src="song_JOYRIDE.png" />, <span class="cmt">#96 song_JOYRIDE.png</span>
+                        <img src="song_JUSTALITTLE.png" />, <span class="cmt">#97 song_JUSTALITTLE.png</span>
+                        <img src="song_KEEPTHEFAITHALIVE.png" />, <span class="cmt">#98 song_KEEPTHEFAITHALIVE.png</span>
+                        <img src="song_KILLINFLOOR.png" />, <span class="cmt">#99 song_KILLINFLOOR.png</span>
+                        <img src="song_KNUCKLEDRAGGER.png" />, <span class="cmt">#100 song_KNUCKLEDRAGGER.png</span>
+                        <img src="song_LASTCHANCESURVIVAL.png" />, <span class="cmt">#101 song_LASTCHANCESURVIVAL.png</span>
+                        <img src="song_LEANBACKSAX.png" />, <span class="cmt">#102 song_LEANBACKSAX.png</span>
+                        <img src="song_LETSMAKEADEAL.png" />, <span class="cmt">#104 song_LETSMAKEADEAL.png</span>
+                        <img src="song_LETSGETSAXY.png" />, <span class="cmt">#103 song_LETSGETSAXY.png</span>
+                        <img src="song_LEVEL.png" />, <span class="cmt">#105 song_LEVEL.png</span>
+                        <img src="song_LIFEDOESNOTSUCK.png" />, <span class="cmt">#106 song_LIFEDOESNOTSUCK.png</span>
+                        <img src="song_LIGHTEMUP.png" />, <span class="cmt">#107 song_LIGHTEMUP.png</span>
+                        <img src="song_LIGHTNINGRYDER.png" />, <span class="cmt">#108 song_LIGHTNINGRYDER.png</span>
+                        <img src="song_LONGLEGS.png" />, <span class="cmt">#109 song_LONGLEGS.png</span>
+                        <img src="song_LOSTCAUSES.png" />, <span class="cmt">#110 song_LOSTCAUSES.png</span>
+                        <img src="song_LOVECONQUERSALL.png" />, <span class="cmt">#111 song_LOVECONQUERSALL.png</span>
+                        <img src="song_MADISONSQUARE.png" />, <span class="cmt">#112 song_MADISONSQUARE.png</span>
+                        <img src="song_MADRIDISTA.png" />, <span class="cmt">#113 song_MADRIDISTA.png</span>
+                        <img src="song_MAINFLOOR.png" />, <span class="cmt">#114 song_MAINFLOOR.png</span>
+                        <img src="song_MAKEITMOVE.png" />, <span class="cmt">#115 song_MAKEITMOVE.png</span>
+                        <img src="song_MAKINGFYRE.png" />, <span class="cmt">#116 song_MAKINGFYRE.png</span>
+                        <img src="song_MAPODOUFU.png" />, <span class="cmt">#117 song_MAPODOUFU.png</span>
+                        <img src="song_MATTEROFFACTION.png" />, <span class="cmt">#118 song_MATTEROFFACTION.png</span>
+                        <img src="song_MEADOWMIND.png" />, <span class="cmt">#119 song_MEADOWMIND.png</span>
+                        <img src="song_MEETME.png" />, <span class="cmt">#120 song_MEETME.png</span>
+                        <img src="song_MOCKDRAFT.png" />, <span class="cmt">#121 song_MOCKDRAFT.png</span>
+                        <img src="song_MOONSHINEANDGASOLINE.png" />, <span class="cmt">#122 song_MOONSHINEANDGASOLINE.png</span>
+                        <img src="song_MOVINGUP.png" />, <span class="cmt">#123 song_MOVINGUP.png</span>
+                        <img src="song_NEVERNEEDEDYOU.png" />, <span class="cmt">#124 song_NEVERNEEDEDYOU.png</span>
+                        <img src="song_NEWDAY.png" />, <span class="cmt">#125 song_NEWDAY.png</span>
+                        <img src="song_NEXTDOOR.png" />, <span class="cmt">#126 song_NEXTDOOR.png</span>
+                        <img src="song_NIGHTOFTHECRICK.png" />, <span class="cmt">#127 song_NIGHTOFTHECRICK.png</span>
+                        <img src="song_NOTLOOKINBACK.png" />, <span class="cmt">#128 song_NOTLOOKINBACK.png</span>
+                        <img src="song_NUCLEAR.png" />, <span class="cmt">#129 song_NUCLEAR.png</span>
+                        <img src="song_ONTHEDL.png" />, <span class="cmt">#132 song_ONTHEDL.png</span>
+                        <img src="song_ONCEAGAIN.png" />, <span class="cmt">#130 song_ONCEAGAIN.png</span>
+                        <img src="song_ONEOFAKIND.png" />, <span class="cmt">#131 song_ONEOFAKIND.png</span>
+                        <img src="song_OPENSKY.png" />, <span class="cmt">#133 song_OPENSKY.png</span>
+                        <img src="song_PALESAND.png" />, <span class="cmt">#134 song_PALESAND.png</span>
+                        <img src="song_PARTYWILLCOMEALIVE.png" />, <span class="cmt">#135 song_PARTYWILLCOMEALIVE.png</span>
+                        <img src="song_PHOTOGRAPHS.png" />, <span class="cmt">#136 song_PHOTOGRAPHS.png</span>
+                        <img src="song_PIXIE.png" />, <span class="cmt">#137 song_PIXIE.png</span>
+                        <img src="song_PLAYTHATBACKWUT.png" />, <span class="cmt">#138 song_PLAYTHATBACKWUT.png</span>
+                        <img src="song_POUNDITOUT.png" />, <span class="cmt">#139 song_POUNDITOUT.png</span>
+                        <img src="song_PUNCHING.png" />, <span class="cmt">#140 song_PUNCHING.png</span>
+                        <img src="song_PUSHUPTHEBEAT.png" />, <span class="cmt">#141 song_PUSHUPTHEBEAT.png</span>
+                        <img src="song_PUZZLE.png" />, <span class="cmt">#142 song_PUZZLE.png</span>
+                        <img src="song_PYRAMID.png" />, <span class="cmt">#143 song_PYRAMID.png</span>
+                        <img src="song_REACHFORTH.png" />, <span class="cmt">#145 song_REACHFORTH.png</span>
+                        <img src="song_READYORNOT.png" />, <span class="cmt">#146 song_READYORNOT.png</span>
+                        <img src="song_REASONS.png" />, <span class="cmt">#147 song_REASONS.png</span>
+                        <img src="song_ROASTEDTURNT.png" />, <span class="cmt">#149 song_ROASTEDTURNT.png</span>
+                        <img src="song_ROCKYOURWORLD.png" />, <span class="cmt">#151 song_ROCKYOURWORLD.png</span>
+                        <img src="song_ROCKAWAY.png" />, <span class="cmt">#150 song_ROCKAWAY.png</span>
+                        <img src="song_RUSHES.png" />, <span class="cmt">#152 song_RUSHES.png</span>
+                        <img src="song_SCENTOFAWARENESS.png" />, <span class="cmt">#153 song_SCENTOFAWARENESS.png</span>
+                        <img src="song_SCREENDOORSLAM.png" />, <span class="cmt">#154 song_SCREENDOORSLAM.png</span>
+                        <img src="song_SECONDSIGHT.png" />, <span class="cmt">#155 song_SECONDSIGHT.png</span>
+                        <img src="song_SERENGETI.png" />, <span class="cmt">#156 song_SERENGETI.png</span>
+                        <img src="song_SHAKE.png" />, <span class="cmt">#157 song_SHAKE.png</span>
+                        <img src="song_SHAKEITOUT.png" />, <span class="cmt">#158 song_SHAKEITOUT.png</span>
+                        <img src="song_SKULKY.png" />, <span class="cmt">#159 song_SKULKY.png</span>
+                        <img src="song_SMOKINFIRE.png" />, <span class="cmt">#160 song_SMOKINFIRE.png</span>
+                        <img src="song_SOMEONECHORDS.png" />, <span class="cmt">#161 song_SOMEONECHORDS.png</span>
+                        <img src="song_SOUNDANDSIGNAL.png" />, <span class="cmt">#162 song_SOUNDANDSIGNAL.png</span>
+                        <img src="song_SOUNDBOI.png" />, <span class="cmt">#163 song_SOUNDBOI.png</span>
+                        <img src="song_STILLFRAMES.png" />, <span class="cmt">#164 song_STILLFRAMES.png</span>
+                        <img src="song_STRANGECONDITION.png" />, <span class="cmt">#165 song_STRANGECONDITION.png</span>
+                        <img src="song_STRINGOFTRUTH.png" />, <span class="cmt">#166 song_STRINGOFTRUTH.png</span>
+                        <img src="song_STRONGWORDS.png" />, <span class="cmt">#167 song_STRONGWORDS.png</span>
+                        <img src="song_SUGARGIRL.png" />, <span class="cmt">#168 song_SUGARGIRL.png</span>
+                        <img src="song_SURGE.png" />, <span class="cmt">#169 song_SURGE.png</span>
+                        <img src="song_SWINGOVER.png" />, <span class="cmt">#170 song_SWINGOVER.png</span>
+                        <img src="song_TALIGADO.png" />, <span class="cmt">#171 song_TALIGADO.png</span>
+                        <img src="song_TELLMETOSTAY.png" />, <span class="cmt">#173 song_TELLMETOSTAY.png</span>
+                        <img src="song_TELLER.png" />, <span class="cmt">#172 song_TELLER.png</span>
+                        <img src="song_THEAIRUPNORTH.png" />, <span class="cmt">#174 song_THEAIRUPNORTH.png</span>
+                        <img src="song_THEBOARDERLANDS.png" />, <span class="cmt">#175 song_THEBOARDERLANDS.png</span>
+                        <img src="song_THEOLIOTHEORY.png" />, <span class="cmt">#177 song_THEOLIOTHEORY.png</span>
+                        <img src="song_THEPOWEROUT.png" />, <span class="cmt">#178 song_THEPOWEROUT.png</span>
+                        <img src="song_THERIODEAL.png" />, <span class="cmt">#179 song_THERIODEAL.png</span>
+                        <img src="song_THRILLSWITCH.png" />, <span class="cmt">#180 song_THRILLSWITCH.png</span>
+                        <img src="song_THUNDERDROME.png" />, <span class="cmt">#181 song_THUNDERDROME.png</span>
+                        <img src="song_TIMETOFLY.png" />, <span class="cmt">#182 song_TIMETOFLY.png</span>
+                        <img src="song_TOYDIVISION.png" />, <span class="cmt">#183 song_TOYDIVISION.png</span>
+                        <img src="song_TRYSOHARD.png" />, <span class="cmt">#184 song_TRYSOHARD.png</span>
+                        <img src="song_TWERKINPROGRESS.png" />, <span class="cmt">#185 song_TWERKINPROGRESS.png</span>
+                        <img src="song_VINTAGENIGHTS.png" />, <span class="cmt">#186 song_VINTAGENIGHTS.png</span>
+                        <img src="song_WALKINTALL.png" />, <span class="cmt">#187 song_WALKINTALL.png</span>
+                        <img src="song_WANNAHAVEFUN.png" />, <span class="cmt">#188 song_WANNAHAVEFUN.png</span>
+                        <img src="song_WANTEDMAN.png" />, <span class="cmt">#189 song_WANTEDMAN.png</span>
+                        <img src="song_WHATWESTARTED.png" />, <span class="cmt">#190 song_WHATWESTARTED.png</span>
+                        <img src="song_WHENSHEWAS.png" />, <span class="cmt">#191 song_WHENSHEWAS.png</span>
+                        <img src="song_WHITEGIRLS.png" />, <span class="cmt">#192 song_WHITEGIRLS.png</span>
+                        <img src="song_WHITEWASHEDTOMB.png" />, <span class="cmt">#193 song_WHITEWASHEDTOMB.png</span>
+                        <img src="song_WHYDOI.png" />, <span class="cmt">#194 song_WHYDOI.png</span>
+                        <img src="song_WORKOUT.png" />, <span class="cmt">#195 song_WORKOUT.png</span>
+                        <img src="song_YANGBANG.png" />, <span class="cmt">#196 song_YANGBANG.png</span>
+                        <img src="song_ZEROFSGIVEN.png" />, <span class="cmt">#197 song_ZEROFSGIVEN.png</span>
+                        <img src="song_ZEROHOUR.png" />, <span class="cmt">#198 song_ZEROHOUR.png</span>
+                        <img src="song_ZOMBIEDROP.png" />] <span class="cmt">#199 song_ZOMBIEDROP.png</span>
+
+    <span class="kw">def</span> findsortedsongindex(self,png):
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">0</span>,len(self.sortedsonglist)):
+            <span class="kw">if</span> png==self.sortedsonglist[i]:
+                <span class="kw">return</span> i
+        <span class="kw">return</span> -<span class="dig">1</span>
+
+    <span class="cmt">################################################</span>
+    <span class="cmt"># return False if is in exclusive_songs mode and png is NOT in exclusive song list</span>
+    <span class="cmt"># return True if not in n exclusive_songs mode and uses self.sortedsonglist</span>
+    <span class="cmt"># return True if is in exclusive_songs mode and png IS in the exclusive song list</span>
+    <span class="cmt">################################################         </span>
+    <span class="kw">def</span> isexclusive(self, png):
+        rc=False
+        <span class="kw">if</span> gda_utils.d_gda_settings[<span class="str">'exclusive_songs'</span>]==True: <span class="cmt">#False return true using self.sortedsonglist song list</span>
+            <span class="kw">for</span> song <span class="kw">in</span> self.exclusivesonglist:
+                <span class="kw">if</span> png==song:
+                    <span class="kw">print</span> <span class="str">"isexclusive TRUE:%s"</span> % str(song)
+                    rc=True
+                    <span class="kw">break</span>
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"d_gda_settings['exclusive_songs'] = FALSE:%s"</span> % str(png)
+            rc=True
+        <span class="kw">return</span> rc
+    <span class="kw">def</span> getsortedsongcount(self):
+        <span class="kw">return</span> len(self.sortedsonglist)
+
+    <span class="kw">def</span> getGDAsongcount(self):
+        <span class="kw">if</span> self.musiclist:
+            <span class="kw">return</span> len(self.musiclist)
+        <span class="kw">return</span> -<span class="dig">1</span>
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################          </span>
+    <span class="kw">def</span> getFirstSongItem(self):
+        <span class="kw">if</span> self.sortedsonglist <span class="kw">and</span> len(self.sortedsonglist)&gt;<span class="dig">0</span>:
+            <span class="kw">return</span> self.sortedsonglist[<span class="dig">0</span>]
+        <span class="kw">return</span> None
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################      </span>
+    <span class="kw">def</span> getLastSongItem(self):
+        <span class="kw">if</span> self.sortedsonglist <span class="kw">and</span> len(self.sortedsonglist)&gt;<span class="dig">0</span>:
+            <span class="kw">return</span> self.sortedsonglist[len(self.sortedsonglist)-<span class="dig">1</span>]
+        <span class="kw">return</span> None
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################       </span>
+    <span class="kw">def</span> load_json(self,jpath):
+        mj = None
+        <span class="kw">if</span> os.path.exists(jpath):
+            <span class="kw">with</span> open(jpath, <span class="str">'r'</span>) <span class="kw">as</span> f:
+                mj = json.load(f)
+            <span class="kw">if</span> mj:
+                <span class="kw">return</span> mj[<span class="str">'musiclist'</span>]
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"Error: invalid path=%s"</span> % jpath
+        <span class="kw">return</span> None
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################ </span>
+    <span class="kw">def</span> evalplatform(self):
+        self.platform_system = platform.system()  <span class="cmt"># Darwin = Mac</span>
+        self.platform_release = platform.release()
+        <span class="kw">print</span> self.platform_system
+        <span class="kw">print</span> self.platform_release
+        <span class="cmt">#self.home = expanduser("~")</span>
+        self.musiclist = []
+        self.isWin = False
+        self.isMac = False
+        <span class="kw">if</span> Env.isWindows():
+            <span class="kw">print</span> <span class="str">"Windows"</span>
+            <span class="cmt">#self.automation_root = "%s\\workspace\\" % self.home</span>
+            self.automation_root = <span class="str">"C:\\Automation\\gopro-tests-desktop\\GDA\\Music_Tests\\"</span>
+            self.isWin = True
+        <span class="kw">elif</span> Env.isMac():
+            <span class="kw">print</span> <span class="str">"Mac"</span>
+            self.automation_root = <span class="str">"/Automation/gopro-tests-desktop/GDA/Music_Tests/"</span>
+            <span class="cmt">#self.automation_root = "%s/workspace/" % self.home</span>
+            self.isMac = True
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################             </span>
+    <span class="kw">def</span> validatesonglists(self):
+        <span class="kw">for</span> song1 <span class="kw">in</span> self.sortedsonglist:
+            mj=self.findsong(song1)
+            <span class="kw">if</span> <span class="kw">not</span> mj:
+                self.missingsongs.apprend(song1)
+        <span class="kw">for</span> mj <span class="kw">in</span> self.musiclist:
+            <span class="kw">if</span> mj:
+                png = mj[<span class="str">'pngsong_name'</span>]
+                <span class="kw">if</span> png <span class="kw">not</span> <span class="kw">in</span> self.sortedsonglist:
+                    self.newsongs.append(png)
+        report = <span class="str">""</span>
+        <span class="kw">if</span> len(self.missingsongs)&gt;<span class="dig">0</span>:
+            report += <span class="str">"-------------------------"</span>
+            report += <span class="str">"MISSING SONG LIST\n"</span>
+            <span class="kw">for</span> song1 <span class="kw">in</span> self.missingsongs:
+                report += <span class="str">"MISSING: %s\n"</span> % song1
+            report += <span class="str">"-------------------------"</span>
+        <span class="kw">if</span> len(self.newsongs)&gt;<span class="dig">0</span>:
+            report += <span class="str">"-------------------------"</span>
+            report += <span class="str">"NEW SONG LIST\n"</span>
+            <span class="kw">for</span> song1 <span class="kw">in</span> self.newsongs:
+                report += <span class="str">"NEW: %s\n"</span> % song1
+            report += <span class="str">"-------------------------"</span>
+
+        <span class="kw">if</span> len(report)==<span class="dig">0</span>:
+            report += <span class="str">"SONG LIST VALIDATED OK: FOUND %d SONGS"</span> % len(self.sortedsonglist)
+            <span class="kw">print</span> report
+            <span class="kw">return</span> None
+        <span class="kw">return</span> report
+
+    <span class="kw">def</span> songreport(self):
+        self.reset()
+        report=[]
+        <span class="kw">print</span> <span class="str">"====================================="</span>
+        <span class="kw">print</span> <span class="str">"SONG LIST"</span>
+        <span class="kw">print</span> <span class="str">"png\t\ttitle\t\t15s\t30s\t60s"</span>
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">0</span>,self.getmusiccount()):
+            d={}
+            title, png, t15, t30, t60=self.getsortednextsong()
+            row=<span class="str">"%s\t\t%s\t\t%d\t%d\t%d"</span> % (png,title,t15,t30,t60)
+            d[<span class="str">'png'</span>]=png
+            d[<span class="str">'title'</span>]=title
+            d[<span class="str">'t15'</span>]=t15
+            d[<span class="str">'t30'</span>]=t30
+            d[<span class="str">'t60'</span>]=t60
+            <span class="kw">if</span> self.currentsong <span class="kw">and</span> <span class="str">'tracks'</span> <span class="kw">in</span> self.currentsong:
+                d[<span class="str">'tracks'</span>]=self.currentsong[<span class="str">'tracks'</span>]
+            report.append(d)
+            <span class="kw">print</span> row
+            <span class="kw">print</span> <span class="str">"====================================="</span>
+
+        self.reset()
+        <span class="kw">return</span> report
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################                 </span>
+    <span class="kw">def</span> reset(self):
+        self.song_index = -<span class="dig">1</span>
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################ </span>
+    <span class="kw">def</span> getmusiccount(self):
+        <span class="kw">if</span> <span class="kw">not</span> self.musiclist <span class="kw">or</span> len(self.musiclist)==<span class="dig">0</span>:
+            <span class="kw">print</span> <span class="str">"Error: music list is not loaded"</span>
+            <span class="kw">return</span> None
+
+        <span class="kw">return</span> len(self.musiclist)
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################ </span>
+    <span class="kw">def</span> getsortednext(self):
+        self.song_index += <span class="dig">1</span>
+        <span class="kw">if</span> <span class="kw">not</span> self.sortedsonglist:
+            <span class="kw">print</span> <span class="str">"Done: No song list"</span>
+            <span class="kw">return</span> None
+
+        <span class="kw">if</span> self.song_index &gt;= len(self.sortedsonglist):
+            <span class="kw">print</span> <span class="str">"Done: end of song list"</span>
+            <span class="kw">return</span> None
+
+        pngsong = self.sortedsonglist[self.song_index]
+        <span class="kw">if</span> <span class="kw">not</span> pngsong <span class="kw">or</span> len(pngsong)==<span class="dig">0</span>:
+            <span class="kw">print</span> <span class="str">"Error: sorted song item name is empty"</span>
+            <span class="kw">return</span> None
+        songitem = self.findsong(pngsong)
+        <span class="kw">if</span> <span class="kw">not</span> songitem:
+            <span class="kw">print</span> <span class="str">"Error: song data not found %s"</span> &amp; pngsong
+            <span class="kw">return</span> None
+        <span class="kw">print</span> <span class="str">"============================================================================="</span>
+        n=len(self.sortedsonglist)
+        <span class="kw">print</span> <span class="str">"&gt;&gt;&gt; Song %i of %i %s &lt;&lt;&lt;"</span> % (self.song_index, n, pngsong)
+        <span class="kw">return</span> songitem
+
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################     </span>
+    <span class="kw">def</span> getnext(self,songindex = -<span class="dig">1</span>):
+        <span class="kw">if</span> <span class="kw">not</span> self.musiclist <span class="kw">or</span> len(self.musiclist)==<span class="dig">0</span>:
+            <span class="kw">print</span> <span class="str">"Error: music list is not loaded"</span>
+            <span class="kw">return</span> None
+        <span class="kw">if</span> songindex&gt;=<span class="dig">0</span>:
+            self.song_index = songindex
+        <span class="kw">else</span>:
+            self.song_index += <span class="dig">1</span>
+
+        <span class="kw">if</span> self.song_index &gt;=<span class="dig">0</span> <span class="kw">and</span> self.song_index &lt; len(self.musiclist):
+            <span class="kw">return</span> self.musiclist[self.song_index]
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"Error: music index exceeds music list"</span>
+            <span class="kw">return</span> None
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################ </span>
+    <span class="kw">def</span> findsong(self, pngsongname):
+        <span class="kw">for</span> songitem <span class="kw">in</span> self.musiclist:
+            <span class="kw">if</span> pngsongname == songitem[<span class="str">'pngsong_name'</span>]:
+                <span class="kw">return</span> songitem
+        <span class="kw">return</span> None
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################     </span>
+    <span class="kw">def</span> gettracks(self,tracks):
+        <span class="kw">if</span> <span class="kw">not</span> tracks:
+            <span class="kw">return</span> None, None, None
+        t15=<span class="dig">0</span>
+        t30=<span class="dig">0</span>
+        t60=<span class="dig">0</span>
+        <span class="kw">if</span> len(tracks) == <span class="dig">3</span>:
+            t0 = len(tracks[<span class="dig">0</span>][<span class="str">'marks'</span>])
+            t1 = len(tracks[<span class="dig">1</span>][<span class="str">'marks'</span>])
+            t2 = len(tracks[<span class="dig">2</span>][<span class="str">'marks'</span>])
+            <span class="kw">if</span> t0&lt;t1&lt;t2:
+                t15=t0
+                t30=t1
+                t60=t2
+            <span class="kw">elif</span> t2&lt;t1&lt;t0:
+                t15=t2
+                t30=t1
+                t60=t0
+            <span class="kw">elif</span> t0&lt;t2&lt;t1:
+                t15=t0
+                t30=t2
+                t60=t1
+            <span class="kw">elif</span> t2&lt;t0&lt;t1:
+                t15=t2
+                t30=t0
+                t60=t1
+            <span class="kw">elif</span> t1&lt;t0&lt;t2: <span class="cmt"># t15-t0=13,t30-t1=6,t60-t2=19</span>
+                t15=t1
+                t30=t0
+                t60=t2
+            <span class="kw">elif</span> t0&lt;t1&lt;=t2: <span class="cmt"># t15-t0=5,t30-t1=15,t60-t2=15 MAKINGFYRE</span>
+                t15=t0
+                t30=t1
+                t60=t2
+            <span class="kw">else</span>:
+                <span class="kw">print</span> <span class="str">"Error: Order t15-t0=%d,t30-t1=%d,t60-t2=%d"</span> % (t0,t1,t2)
+                <span class="kw">return</span> None, None, None
+
+            <span class="kw">return</span> t15, t30, t60
+        <span class="kw">print</span> <span class="str">"Error: invalid number of tracks=%d"</span> % len(tracks)
+        <span class="kw">return</span> None, None, None
+    <span class="cmt">################################################</span>
+    <span class="cmt"># get specfic song info by song png name</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################ </span>
+    <span class="kw">def</span> getsonginfo(self,songpngname):
+        <span class="kw">for</span> songinfo <span class="kw">in</span> self.musiclist:
+            <span class="kw">if</span> self.ispngsong(songpngname,songinfo):
+                <span class="kw">return</span> self.getsonginfo(songinfo)
+        <span class="kw">return</span> None, None, None, None, None
+    <span class="cmt">################################################</span>
+    <span class="cmt"># quick match for pngsong name</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################ </span>
+    <span class="kw">def</span> ispngsong(self,pngsongname,songdata):
+        <span class="kw">if</span> songdata <span class="kw">and</span> (<span class="str">'pngsong_name'</span> <span class="kw">in</span> songdata) <span class="kw">and</span> (songdata[<span class="str">'pngsong_name'</span>]==pngsongname):
+            <span class="kw">return</span> True
+        <span class="kw">return</span> False
+
+    <span class="cmt">################################################</span>
+    <span class="cmt"># </span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################ </span>
+    <span class="kw">def</span> getsonginfo(self,songdata):
+        <span class="kw">if</span> <span class="kw">not</span> songdata:
+            <span class="kw">return</span> None, None, None, None, None
+
+        <span class="kw">if</span> <span class="str">'pngsong_name'</span> <span class="kw">in</span> songdata:
+            png = songdata[<span class="str">'pngsong_name'</span>]
+            title=None
+            <span class="kw">if</span> <span class="str">'music_title'</span> <span class="kw">in</span> songdata <span class="kw">and</span> <span class="str">'en'</span> <span class="kw">in</span> songdata[<span class="str">'music_title'</span>]:
+                title = str(songdata[<span class="str">'music_title'</span>][<span class="str">'en'</span>])
+            t15, t30, t60 = self.gettracks(songdata[<span class="str">'tracks'</span>])
+            self.currentsong=songdata
+            <span class="kw">return</span> str(title), str(png), t15, t30, t60
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"Error: png not found &gt;&gt;%s&lt;&lt;"</span> % str(songdata)
+            <span class="kw">return</span> None, None, None, None, None
+    <span class="cmt">################################################</span>
+    <span class="cmt"># fast troubleshooting not retry problem songs   </span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################ </span>
+    <span class="kw">def</span> isskipped(self,png):
+        <span class="kw">if</span> self.skipsongslist <span class="kw">and</span> len(self.skipsongslist)&gt;<span class="dig">0</span>:
+            <span class="kw">if</span> png <span class="kw">in</span> self.skipsongslist:
+                <span class="kw">return</span> True
+        <span class="kw">return</span> False
+
+    <span class="cmt">################################################</span>
+    <span class="cmt"># Checks if song has been tested from the testrail run</span>
+    <span class="cmt">#</span>
+    <span class="cmt"># return False if no testrail or testrail has testcase status_id as not "passed"</span>
+    <span class="cmt"># returns True if testrail testcase status is set as passed</span>
+    <span class="cmt"># True the png is skipped</span>
+    <span class="cmt"># False the png is tested NOT skipped</span>
+    <span class="cmt">################################################     </span>
+    <span class="kw">def</span> istestrail(self,png):
+        tr=gda_utils.get_testrail_object()
+        <span class="kw">if</span> <span class="kw">not</span> tr:
+            <span class="kw">return</span> False
+        name=png.replace(<img src=".png" />,<span class="str">""</span>).replace(<span class="str">"song_"</span>,<span class="str">""</span>)
+        s=<span class="str">"%s - Select Song"</span> % name
+        <span class="kw">for</span> test <span class="kw">in</span> tr.testcases:
+            <span class="kw">if</span> test[<span class="str">"title"</span>]==name:
+                <span class="cmt">#get the latest test status</span>
+                t=tr.gettest(test[<span class="str">"id"</span>])
+                <span class="kw">if</span> t:
+                    <span class="kw">if</span> t[<span class="str">"status_id"</span>]==<span class="dig">1</span>: <span class="cmt">#passed</span>
+                        <span class="kw">print</span> <span class="str">"Testrail: Skipping %s"</span> % name
+                        <span class="kw">return</span> True
+                    <span class="kw">else</span>:
+                        <span class="kw">print</span> <span class="str">"Testrail: Test %s"</span> % name
+                        <span class="kw">return</span> False
+
+        <span class="kw">print</span> <span class="str">"Test case not found in testrun: %s"</span> % name
+        <span class="kw">return</span> False
+
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################     </span>
+    <span class="kw">def</span> getsortednextsong(self):
+        songdata = self.getsortednext()
+        <span class="kw">if</span> songdata:
+            title,png,t15,t30,t60=self.getsonginfo(songdata)
+            <span class="kw">if</span> self.isskipped(png): <span class="cmt">#skip song and get the next song</span>
+                title,png,t15,t30,t60=self.getsortednextsong()
+            <span class="kw">if</span> self.istestrail(png):
+                title,png,t15,t30,t60=self.getsortednextsong()
+
+            <span class="kw">return</span> title,png,t15,t30,t60
+        <span class="kw">print</span> <span class="str">"FAILED in gda_music_tests GDA_songs.getsortednext()"</span>
+        <span class="kw">return</span> None, None, <span class="dig">0</span>, <span class="dig">0</span>, <span class="dig">0</span>
+
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################         </span>
+    <span class="kw">def</span> getnextsong(self):
+        mj = self.getnext()
+        <span class="kw">if</span> <span class="kw">not</span> mj:
+            <span class="kw">return</span> None, None, None, None, None
+        png = mj[<span class="str">'pngsong_name'</span>]
+        title = str(mj[<span class="str">'music_title'</span>][<span class="str">'en'</span>])
+        t15, t30, t60 = self.gettracks(mj[<span class="str">'tracks'</span>])
+        <span class="kw">return</span> str(title), str(png), t15, t30, t60
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################ </span>
+    <span class="kw">def</span> gettext(self,png):
+        mpng = None
+        t = <span class="str">"NO_TXT"</span>
+        p = <span class="str">"NO_PNG"</span>
+        <span class="kw">try</span>:
+            mpng = Finder(png)
+            <span class="kw">if</span> mpng:
+                mpng.<span class="skw">find</span>(png)
+                <span class="kw">if</span> mpng.hasNext():
+                    m = mpng.next()
+                    <span class="kw">if</span> m:
+                        <span class="kw">return</span> <span class="str">"PNG_OK"</span>
+                        <span class="cmt">#OCR does not work</span>
+                        <span class="cmt">#perhaps try the external teseract ocr on the terminal works much better</span>
+<span class="cmt">#                        t=str(m.text())</span>
+<span class="cmt">#                        if len(t)&gt;0:</span>
+<span class="cmt">#                            return t</span>
+<span class="cmt">#                        return "NO_TXT"</span>
+        <span class="kw">except</span>:
+            <span class="kw">return</span> p
+        <span class="kw">return</span> p
+    <span class="cmt">################################################</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">#</span>
+    <span class="cmt">################################################     </span>
+    <span class="kw">def</span> testclass(self):
+        mcount = <span class="dig">0</span>
+        title = object
+        <span class="kw">while</span> title:
+            mcount += <span class="dig">1</span>
+            title, png, t15, t30, t60 = self.getnextsong()
+            <span class="kw">if</span> <span class="kw">not</span> title:
+                <span class="kw">print</span> <span class="str">"Done"</span>
+                <span class="kw">return</span>
+
+            t = self.gettext(png)
+
+            p = <span class="str">"%d. %s|%s|%d|%d|%d|%s"</span> % (mcount, title, png,t15,t30,t60,t)
+            p = p.replace(<span class="str">'\n'</span>,<span class="str">''</span>)
+            <span class="kw">print</span> p
+<span class="cmt">###########################################################</span>
+<span class="cmt"># END CLASS ###############################################</span>
+<span class="cmt">###########################################################</span>
+
+<span class="cmt">################################################</span>
+<span class="cmt"># compare current region with previous screenshot</span>
+<span class="cmt"># W x H of screenshot must be &gt;= to the region or else fail</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> comparescreens(REGION,screenshotpath):
+    f=Finder(screenshotpath)
+    <span class="cmt">#r=REGION.grow(-10)</span>
+    <span class="cmt">#wait(3)</span>
+    p=gda_utils.getPattern(<span class="skw">capture</span>(REGION),<span class="dig">0.98</span>)
+    <span class="kw">try</span>:
+        <span class="kw">if</span> f.<span class="skw">find</span>(p): <span class="cmt">#is region in screenshot</span>
+            <span class="kw">return</span> True
+        <span class="kw">else</span>:
+            <span class="kw">return</span> False
+    <span class="kw">except</span>: <span class="cmt">#not found</span>
+        <span class="kw">return</span> False
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> addtovideo(REGION):
+    rc = False
+<span class="cmt">#    rx=REGION.getX()+(REGION.getW()/2)-200</span>
+<span class="cmt">#    ry=REGION.getY()+REGION.getH()-60</span>
+<span class="cmt">#    rw=400</span>
+<span class="cmt">#    rh=70</span>
+<span class="cmt">#    r=Region(rx,ry,rw,rh)</span>
+    <span class="kw">if</span> gda_utils.CLICK3(<span class="str">"MUSIC"</span>,<span class="str">"BOTTOM"</span>,Pattern(<img src="music_btn_addtovideo.png" />).similar(<span class="dig">0.69</span>),<span class="dig">5</span>):
+        rc=True
+    <span class="kw">return</span> rc
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt"># fails if not found,</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> back(REGION):
+    <span class="kw">if</span> ismusic_screen(REGION):
+        rc = False
+        <span class="cmt">#rx=REGION.getX()+(REGION.getW()/2)-200</span>
+        <span class="cmt">#ry=REGION.getY()+REGION.getH()-60</span>
+        <span class="cmt">#rw=400</span>
+        <span class="cmt">#rh=70</span>
+        <span class="cmt">#r=Region(rx,ry,rw,rh)</span>
+        <span class="kw">if</span> gda_utils.CLICK3(<span class="str">"MUSIC"</span>,<span class="str">"BOTTOM"</span>,Pattern(<img src="music_btn_back.png" />).similar(<span class="dig">0.69</span>),<span class="dig">5</span>):
+            rc=True
+        <span class="kw">return</span> rc
+    <span class="kw">else</span>: <span class="cmt">#not at music screen</span>
+        <span class="kw">return</span> True
+
+
+<span class="cmt">################################################</span>
+<span class="cmt"># Try to reset the music screen to show all music</span>
+<span class="cmt"># returns true is at music scren or false not</span>
+<span class="cmt"># call back to get out of music screen</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> ismusic_screen(REGION):
+    <span class="cmt">#narrow the search region for more accuracy</span>
+    <span class="cmt">#rx=REGION.getX()</span>
+    <span class="cmt">#ry=REGION.getY()    </span>
+    <span class="cmt">#rw=400</span>
+   <span class="cmt"># rh=100</span>
+    <span class="cmt">#r=Region(rx,ry,rw,rh)</span>
+    <span class="cmt">#r.highlight(1)    </span>
+    m=gda_utils.EXISTS3(<span class="str">"MUSIC"</span>,<span class="str">"TITLE"</span>,Pattern(<img src="music_btn_musiclist.png" />).similar(<span class="dig">0.80</span>),<span class="dig">5</span>) <span class="cmt">#music_btn_musiclist</span>
+    <span class="kw">if</span> m:
+        <span class="kw">return</span> True <span class="cmt"># is at music list view</span>
+    m=gda_utils.EXISTS3(<span class="str">"MUSIC"</span>,<span class="str">"TITLE"</span>,Pattern(<img src="music_btn_history-selected.png" />).similar(<span class="dig">0.80</span>),<span class="dig">5</span>) <span class="cmt">#music_btn_musiclist</span>
+    <span class="kw">if</span> m:
+        m=gda_utils.EXISTS3(<span class="str">"MUSIC"</span>,<span class="str">"TITLE"</span>,Pattern(<img src="music_btn_music-unselected.png" />).similar(<span class="dig">0.80</span>),<span class="dig">5</span>) <span class="cmt">#music_btn_musiclist</span>
+        <span class="kw">if</span> m:
+            m.<span class="skw">click</span>()
+            <span class="kw">return</span> True
+
+    m=gda_utils.EXISTS3(<span class="str">"MUSIC"</span>,<span class="str">"TITLE"</span>,Pattern(<img src="music_btn_ALL.png" />).similar(<span class="dig">0.80</span>).targetOffset(-<span class="dig">15</span>,<span class="dig">0</span>),<span class="dig">5</span>) <span class="cmt">#music_btn_musiclist</span>
+    <span class="kw">if</span> m:
+        m.<span class="skw">click</span>()
+        <span class="kw">return</span> True
+    <span class="kw">return</span> False
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> scrollfind(REGION,searchpattern):
+    lastcapture = None
+    restart=<span class="dig">0</span>
+    lm = None
+    rc = False
+    checklastsong = <span class="dig">0</span>
+
+    <span class="cmt">#while not REGION.exists(searchpattern):</span>
+    <span class="kw">while</span> <span class="kw">not</span> gda_utils.FIND(REGION,searchpattern,<span class="dig">1</span>,<span class="dig">60</span>,True):
+        <span class="kw">print</span> <span class="str">"SEARCHPATTERN=%s"</span> % str(searchpattern)
+        <span class="cmt">#REGION.highlight(1)</span>
+        <span class="cmt">#wait(1)</span>
+        <span class="cmt">#lastcapture = capture(REGION)</span>
+        rc = doscroll(REGION)
+
+        <span class="cmt">#REGION.highlight(1)</span>
+        <span class="kw">if</span> rc: <span class="cmt"># if scroll happened</span>
+            checklastsong += <span class="dig">1</span>
+            <span class="kw">if</span> checklastsong&gt;<span class="dig">4</span>:
+                checklastsong = <span class="dig">0</span>
+                <span class="cmt">#REGION.highlight(1)</span>
+                <span class="kw">if</span> REGION.exists(gda_utils.getPattern(gda_utils.d_gda_settings[<span class="str">"LAST_SONG"</span>],<span class="dig">0.85</span>)):
+                    resetsonglist(REGION,gda_utils.d_gda_settings[<span class="str">"FIRST_SONG"</span>])
+                <span class="cmt">#if comparescreens(REGION,lastcapture):</span>
+                    <span class="cmt">#REGION.highlight(8)</span>
+                    <span class="kw">if</span> restart&gt;<span class="dig">2</span>:
+                        <span class="kw">print</span> <span class="str">"FAILED to find song after 1 retry in song list"</span>
+                        <span class="kw">print</span> <span class="str">"test is aborting"</span>
+                        <span class="kw">return</span> None
+                    <span class="cmt">#resetsonglist(REGION,gda_utils.d_gda_settings["FIRST_SONG"])</span>
+                    restart +=<span class="dig">1</span>
+
+    lm = REGION.getLastMatch()
+    <span class="cmt">#lm.highlight(1)</span>
+    <span class="cmt">#lastitem = lm</span>
+    <span class="kw">return</span> lm
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################    </span>
+<span class="kw">def</span> doscroll(REGION):
+    <span class="cmt">#global lastitem</span>
+    <span class="kw">print</span> <span class="str">"doscroll &gt;&gt;&gt;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"</span>
+    p=None
+    <span class="kw">try</span>:
+        foundlist =[]
+        <span class="cmt">#p=gda_utils.d_gda_settings["MUSIC_LIST_ITEM_UNSELECTED"]</span>
+        p = gda_utils.d_gda_settings[<span class="str">"MUSIC_LIST_ITEM_UNSELECTED"</span>]
+        <span class="kw">print</span> <span class="str">"findALL: %s"</span> % p
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+
+        mm = REGION.findAll(p)
+        <span class="kw">while</span> mm.hasNext():
+            item = mm.next()
+            <span class="kw">if</span> item:
+                <span class="kw">print</span> str(item)
+                foundlist.append(item)
+                <span class="cmt">#item.highlight(1)</span>
+        y=<span class="dig">0</span>
+        <span class="skw">wait</span>(<span class="dig">10</span>)
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">0</span>,len(foundlist)):
+            t=foundlist[i]
+            <span class="kw">print</span> str(t)
+            <span class="cmt">#t.highlight(1)</span>
+            <span class="kw">if</span> t.getY()&gt;y:
+                y=t.getY()
+                item=t
+            <span class="kw">print</span> <span class="str">"%d - %s"</span> % (y,str(item))
+        <span class="cmt">#last=len(foundlist)</span>
+        <span class="cmt">#item=itemlist[0]</span>
+        item.highlight(<span class="dig">1</span>)
+        item.<span class="skw">doubleClick</span>()
+        <span class="cmt">#item.mouseDown(1)</span>
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="cmt">#item,click()</span>
+        <span class="cmt">#item.mouseUp(1)</span>
+        dotyperepeat(item,Key.DOWN,<span class="dig">7</span>)
+        <span class="kw">return</span> True
+    <span class="kw">except</span> Exception <span class="kw">as</span> e:
+        <span class="kw">print</span> <span class="str">"ERROR: doscroll items not found"</span>
+        <span class="kw">print</span> <span class="str">"PATTERN=%s"</span> % str(p)
+        <span class="kw">print</span> <span class="str">"ERROR=%s"</span> % str(e)
+    <span class="kw">print</span> <span class="str">"doscroll &lt;&lt;&lt;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"</span>
+    <span class="kw">return</span> False
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################ </span>
+<span class="kw">def</span> dotyperepeat(region,key,count):
+    <span class="kw">if</span> region:
+        <span class="kw">try</span>:
+            <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1</span>,count,<span class="dig">1</span>):
+                region.<span class="skw">type</span>(key)
+                <span class="skw">wait</span>(<span class="dig">0.5</span>)
+        <span class="kw">except</span>:
+            <span class="kw">print</span> <span class="str">"dotyperepeat:type key error"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"dotyperepeat:invalid region error"</span>
+
+
+lastitem = None
+lastpattern = None
+
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> EXISTS(REGION,PATTERN,MATCH=None,do_play=True):
+    <span class="kw">global</span> lastitem
+    <span class="kw">global</span> lastpattern
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    m=MATCH
+    <span class="cmt">#if REGION.exists(PATTERN):</span>
+    <span class="kw">if</span> <span class="kw">not</span> m:
+        <span class="cmt">#if gda_utils.FIND(REGION,PATTERN,1,70,True):</span>
+        r = Region(REGION.getX(),(REGION.getY()+<span class="dig">50</span>),(REGION.getW()-<span class="dig">800</span>),(REGION.getH()-<span class="dig">50</span>))
+        <span class="cmt">#r.highlight(1)</span>
+        <span class="kw">if</span> r.exists(PATTERN):
+            m = r.getLastMatch()
+        <span class="kw">else</span>:
+            m = scrollfind(r,PATTERN)
+    <span class="kw">if</span> m:
+        lastitem = m
+        lastpattern = PATTERN
+        <span class="kw">print</span> <span class="str">"FOUND: %s - %s"</span> % (PATTERN.getFilename(),str((<span class="str">"%.2f"</span> % m.getScore())))
+        m.<span class="skw">click</span>()
+        <span class="kw">if</span> r.exists(PATTERN):
+            m=r.getLastMatch()
+
+            m.highlight(<span class="dig">1</span>)
+            m.<span class="skw">click</span>()
+            <span class="kw">if</span> do_play:
+                <span class="skw">wait</span>(<span class="dig">1</span>)
+                <span class="kw">try</span>:
+                    m1=m.right(<span class="dig">300</span>)
+                    m1=m1.grow(<span class="dig">1</span>,<span class="dig">30</span>)
+                    m.<span class="skw">click</span>()
+                    <span class="cmt">#m.highlight(1)</span>
+                    m1.<span class="skw">click</span>(Pattern(<img src="music_btn_play-selected.png" />).similar(<span class="dig">0.69</span>))
+                    <span class="kw">return</span> True
+                <span class="kw">except</span>:
+                    <span class="kw">print</span> <span class="str">"Play button not found"</span>
+                    m.<span class="skw">click</span>()
+                    m.<span class="skw">type</span>(Key.DOWN)
+            <span class="kw">else</span>:
+                <span class="kw">return</span> True
+
+    <span class="kw">else</span>:
+        <span class="kw">return</span> False
+        <span class="kw">print</span> <span class="str">"++NOT FOUND: %s"</span> % PATTERN.getFilename()
+        m = scrollfind(REGION, PATTERN)
+        <span class="kw">if</span> m:
+            <span class="kw">return</span> EXISTS(REGION,PATTERN,m)
+        <span class="kw">else</span>:
+            <span class="kw">return</span> False
+        <span class="kw">if</span> lastitem:
+
+            <span class="cmt">#if REGION.exists(lastpattern):</span>
+            <span class="kw">if</span> gda_utils.FIND(REGION,lastpattern,<span class="dig">1</span>,<span class="dig">70</span>,True):
+                m=REGION.getLastMatch()
+                <span class="kw">if</span> m:
+                    <span class="kw">print</span> <span class="str">"SCROLL:if REGION.exists(lastpattern):"</span>
+
+                    <span class="kw">try</span>:
+                        m.<span class="skw">click</span>()
+                    <span class="kw">except</span>:
+                        <span class="kw">print</span> <span class="str">"Error:m.click()"</span>
+                    dotyperepeat(m,Key.DOWN,<span class="dig">6</span>)
+                    m.<span class="skw">click</span>()
+                    <span class="kw">return</span> EXISTS(REGION,PATTERN)
+            <span class="kw">else</span>:
+                <span class="kw">print</span> <span class="str">"SCROLL:else:"</span>
+                dotyperepeat(lastpattern,Key.DOWN,<span class="dig">5</span>)
+                <span class="kw">try</span>:
+                    lastpattern.<span class="skw">click</span>()
+                <span class="kw">except</span>:
+                    <span class="kw">print</span> <span class="str">"End of song list: %s"</span> % PATTERN.getFilename()
+                    <span class="kw">return</span> False
+                <span class="kw">return</span> EXISTS(REGION,PATTERN)
+    <span class="kw">return</span> False
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################                </span>
+<span class="kw">def</span> resetsonglist(REGION,PATTERN):
+    <span class="kw">print</span> <span class="str">"resetsonglist &gt;&gt;&gt;"</span>
+    <span class="cmt">#global lastitem</span>
+    <span class="cmt">#global lastpattern    </span>
+    <span class="cmt">#if REGION.exists(PATTERN):</span>
+    <span class="kw">if</span> gda_utils.FIND(REGION,PATTERN):
+        item=REGION.getLastMatch()
+        <span class="kw">if</span> item:
+            item.<span class="skw">doubleClick</span>()
+            <span class="skw">wait</span>(<span class="dig">1</span>)
+            item.<span class="skw">type</span>(gda_utils.d_gda_settings[<span class="str">"PLATFORM_KEY_CTRL"</span>],Key.UP)
+            item.<span class="skw">type</span>(gda_utils.d_gda_settings[<span class="str">"PLATFORM_KEY_CTRL"</span>],Key.UP)
+            item.<span class="skw">type</span>(gda_utils.d_gda_settings[<span class="str">"PLATFORM_KEY_CTRL"</span>],Key.UP)
+    <span class="kw">print</span> <span class="str">"resetsonglist &lt;&lt;&lt;"</span>
+<span class="cmt">################################################</span>
+<span class="cmt"># this is obsolete</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> getsongbeatsregion(region):
+    <span class="kw">print</span> <span class="str">"getsongbeatsregion&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    beatsr = None
+    <span class="cmt">#if not region.exists(Pattern("music_btn_addtovideo.png").similar(0.98)): #  music_btn_addtovideo</span>
+    <span class="kw">if</span> <span class="kw">not</span> gda_utils.FIND(region,Pattern(<img src="music_btn_addtovideo.png" />).similar(<span class="dig">0.69</span>)):
+        <span class="kw">print</span> <span class="str">"ERROR get song beats region: music_btn_addtovideo not found"</span>
+        <span class="kw">print</span> <span class="str">"getsongbeatsregion&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+        <span class="kw">return</span> None
+    m=region.getLastMatch()
+    <span class="cmt">#m.highlight(1)</span>
+    m1=m.above(<span class="dig">153</span>)
+    <span class="cmt">#m1.highlight(1)</span>
+    m2=m1.left(<span class="dig">280</span>)
+    <span class="cmt">#m2.highlight(1)</span>
+
+    <span class="kw">if</span> m2 <span class="kw">and</span> gda_utils.FIND(m2,Pattern(<img src="editor_img.00timescale.png" />).similar(<span class="dig">0.98</span>)):
+        m3=m2.getLastMatch()
+        <span class="cmt">#m3.highlight(1)</span>
+        rx=m3.getX()
+        ry=m2.getY()
+        rw=(region.getW()-(rx-region.getX()))
+        rh=m2.getH()-<span class="dig">42</span>
+        <span class="cmt">#print "gda=%s" % str(region)</span>
+        <span class="cmt">#print "add=%s" % str(m)</span>
+        <span class="cmt">#print "above150=%s" % str(m1)</span>
+        <span class="cmt">#print "left400=%s" % str(m2)</span>
+        <span class="cmt">#print "00scale=%s" % str(m3)</span>
+        <span class="cmt">#print "%d,%d,%d,%d" % (rx,ry,rw,rh)</span>
+        beatsr=Region(rx,ry,rw,rh)
+        <span class="cmt">#beatsr.highlight(1)</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"ERROR get song beats region: time count zero &gt;:00&lt; not found to create beats region"</span>
+    <span class="kw">print</span> <span class="str">"getsongbeatsregion&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> beatsr
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> getbeatsfilename(png,duration,beatsdir):
+    rc= False
+    newname = <img src="_musicbeats_%d.png" /> % duration
+    beats = png.replace(<img src=".png" />,newname)
+    imgpath = os.path.join(beatsdir, beats)
+    <span class="kw">if</span> os.path.isfile(imgpath):
+        rc = True
+    <span class="kw">return</span> rc,imgpath
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> savebeatsscreenshot(region,imgpath):
+    rc = False
+    <span class="kw">print</span> <span class="str">"savebeatsscreenshot &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    found = False
+
+    beatsr = getsongbeatsregion(region)
+    <span class="kw">if</span> <span class="kw">not</span> beatsr:
+        <span class="kw">print</span> <span class="str">"FAILED savebeatsscreenshot region not found"</span>
+        <span class="kw">print</span> <span class="str">"savebeatsscreenshot &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+        <span class="kw">return</span> False
+    <span class="cmt">#newname = "_musicbeats_%d.png" % duration</span>
+    <span class="cmt">#beats = png.replace(".png",newname)</span>
+    beatsr.highlight(<span class="dig">1</span>)
+    <span class="cmt">#wait(2)</span>
+
+    <span class="cmt">#imagepath=ImagePath.getBundlePath()</span>
+    <span class="cmt">#imagepath=imgdir</span>
+    fpath = <span class="skw">capture</span>(beatsr)
+    <span class="kw">print</span> <span class="str">"%s &gt;&gt;&gt; MOVE &gt;&gt;&gt; %s"</span> % (fpath,imgpath)
+    <span class="cmt">#imgpath = os.path.join(imagepath, beats)        </span>
+    shutil.move(fpath, imgpath)
+    <span class="skw">wait</span>(<span class="dig">5.0</span>)
+    <span class="kw">if</span> os.path.isfile(imgpath):
+        <span class="kw">print</span> <span class="str">"SAVED: %s"</span> % imgpath
+        rc = True
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"FAILED file not found: %s"</span> % imgpath
+    <span class="kw">print</span> <span class="str">"savebeatsscreenshot &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> rc
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> verifybeatsscreenshot(region,imgpath):
+    rc = False
+    <span class="kw">print</span> <span class="str">"verifybeatsscreenshot &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    found = False
+
+    beatsr = getsongbeatsregion(region)
+    <span class="kw">if</span> <span class="kw">not</span> beatsr:
+        <span class="kw">print</span> <span class="str">"FAILED verifybeatsscreenshot region not found"</span>
+        <span class="kw">print</span> <span class="str">"verifybeatsscreenshot &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+        <span class="kw">return</span> False
+    <span class="cmt">#newname = "_musicbeats_%d.png" % duration</span>
+    <span class="cmt">#beats = png.replace(".png",newname)</span>
+    beatsr.highlight(<span class="dig">1</span>)
+
+    ftest=<span class="skw">capture</span>(beatsr)
+
+    f=Finder(imgpath)
+    p = gda_utils.getPattern(ftest,<span class="dig">0.95</span>)
+    <span class="kw">print</span> <span class="str">"PATTERN=%s"</span> % str(p)
+    f.<span class="skw">find</span>(p)
+    <span class="kw">if</span> f.hasNext():
+        <span class="kw">print</span> <span class="str">"verifybeatsscreenshot FOUND&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+        <span class="kw">return</span> True
+    <span class="kw">print</span> <span class="str">"verifybeatsscreenshot FAIL&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> False
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> resetscrolltotop(region):
+    <span class="cmt">#if region.exists(gda_utils.d_gda_settings["MUSIC_LIST_ITEM_UNSELECTED"]): # music_img_unselected</span>
+    <span class="kw">if</span> gda_utils.FIND(region,gda_utils.d_gda_settings[<span class="str">"MUSIC_LIST_ITEM_UNSELECTED"</span>]):
+        m = region.getLastMatch()
+        <span class="kw">if</span> m:
+            m.<span class="skw">click</span>()
+            m.keyDown(gda_utils.d_gda_settings[<span class="str">"PLATFORM_KEY_CTRL"</span>])
+            m.<span class="skw">type</span>(Key.UP)
+            m.keyUp(gda_utils.d_gda_settings[<span class="str">"PLATFORM_KEY_CTRL"</span>])
+            <span class="skw">wait</span>(<span class="dig">1</span>)
+            <span class="cmt">#if region.exists(Pattern("song_THENIGHTWEDANCED.png").similar(0.98)): # music_img_unselected</span>
+
+            <span class="kw">if</span> gda_utils.FIND(region,gda_utils.d_gda_settings[<span class="str">"FIRST_SONG"</span>]):
+                <span class="kw">return</span> True
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"ERROR resetscrolltotop: music_img_unselected.png not found"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"ERROR resetscrolltotop: music_img_unselected.png not found"</span>
+    <span class="kw">return</span> False
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> eval_duration(testduration,t15,t30,t60):
+    <span class="kw">if</span> testduration == <span class="dig">15</span>:
+        <span class="kw">return</span> t15
+    <span class="kw">elif</span> testduration == <span class="dig">30</span>:
+        <span class="kw">return</span> t30
+    <span class="kw">elif</span> testduration == <span class="dig">60</span>:
+        <span class="kw">return</span> t60
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> testmusic_init(gda_music):
+    fsong = gda_utils.getPattern(gda_music.getFirstSongItem(),<span class="dig">0.69</span>)
+    gda_utils.d_gda_settings[<span class="str">"FIRST_SONG"</span>]=fsong
+    gda_utils.d_gda_settings[<span class="str">"MUSIC_LIST_ITEMS_LOCKED"</span>]=False <span class="cmt">#select plus account music</span>
+    <span class="kw">print</span> <span class="str">"FIRST_SONG=%s"</span> % str(gda_utils.d_gda_settings[<span class="str">"FIRST_SONG"</span>])
+    lsong = gda_utils.getPattern(gda_music.getLastSongItem(),<span class="dig">0.69</span>)
+    gda_utils.d_gda_settings[<span class="str">"LAST_SONG"</span>]=lsong
+    <span class="kw">print</span> <span class="str">"LAST_SONG=%s"</span> % str(gda_utils.d_gda_settings[<span class="str">"LAST_SONG"</span>])
+    gda_utils.d_gda_settings[<span class="str">"MUSIC_LIST_ITEM_UNSELECTED"</span>] = Pattern(<img src="music_img_unselected.png" />).similar(<span class="dig">0.69</span>) <span class="cmt">#music_img_unselected</span>
+    gda_utils.d_gda_settings[<span class="str">"MUSIC_LIST_ITEM_LOCKED_UNSELECTED"</span>] = Pattern(<img src="music_img_locked-unselected.png" />).similar(<span class="dig">0.68</span>)  <span class="cmt">#gda_utils.d_gda_settings["MUSIC_LIST_ITEMS_LOCKED"]=True</span>
+    <span class="kw">print</span> <span class="str">"MUSIC_LIST_ITEM_UNSELECTED=%s"</span> % str(gda_utils.d_gda_settings[<span class="str">"MUSIC_LIST_ITEM_UNSELECTED"</span>])
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="cmt">#def selectsong(REGION,png,do_play=True):</span>
+<span class="cmt">#    if EXISTS(REGION,Pattern(png).similar(0.80)):</span>
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################        </span>
+<span class="kw">def</span> setnextsong(REGION,png):
+    rc=False
+    rx=REGION.getX()+<span class="dig">20</span>
+    ry=REGION.getY()+<span class="dig">30</span>
+    rw=<span class="dig">200</span>
+    rh=<span class="dig">100</span>
+    r1=Region(rx,ry,rw,rh)
+    r1.highlight(<span class="dig">1</span>)
+    <span class="kw">if</span> gda_utils.FIND(r1,Pattern(<img src="music_btn_music-selected.png" />).similar(<span class="dig">0.71</span>)):
+        <span class="kw">if</span> png:
+            <span class="kw">if</span> EXISTS(REGION,Pattern(png).similar(<span class="dig">0.69</span>)):
+                <span class="skw">wait</span>(<span class="dig">5</span>)
+                addtovideo(REGION)
+                <span class="kw">return</span> True
+    <span class="kw">return</span> rc
+
+
+
+<span class="cmt">################################################</span>
+<span class="cmt"># Music selection and beats chart preview screen.</span>
+<span class="cmt"># Iterate all songs from GDA_music.sortedsonglist</span>
+<span class="cmt"># Assumes the proper duration is set in view screen</span>
+<span class="cmt"># regression flag true validates and false records </span>
+<span class="cmt"># new song beats charts</span>
+<span class="cmt"># Auto finds in record mode the last song and continues</span>
+<span class="cmt"># validates the song list, new, removed songs and sort order.</span>
+<span class="cmt"># sets song list scroll to top and detects the last </span>
+<span class="cmt"># song based on the sorted list</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> testsongs(ap,r,duration,regression=True,testmode=<span class="str">"music"</span>):
+    failed=[]
+    passed=[]
+    <span class="kw">if</span> <span class="kw">not</span> r:
+        r=getGDARegion()
+        <span class="kw">if</span> <span class="kw">not</span> r:
+            <span class="kw">print</span> <span class="str">"Error: Invalid region"</span>
+            <span class="kw">return</span>
+    set_MUSIC_SCREEN_regions(r)
+    gda_utils.failexit=<span class="dig">10</span>
+    msongs = GDA_music()
+    <span class="kw">if</span> <span class="kw">not</span> msongs:
+        <span class="kw">print</span> <span class="str">"Failed testsongs: msongs = GDA_music()"</span>
+        <span class="kw">return</span> False
+    testmusic_init(msongs)
+    png=object
+    counter = <span class="dig">0</span>
+    lastpng = None
+    <span class="kw">print</span> str(r)
+    <span class="kw">if</span> regression:
+        resetscrolltotop(r)
+    <span class="cmt">#getsongbeatsregion(r)</span>
+    <span class="cmt">#return</span>
+    imgdir = os.path.join(gda_utils.d_gda_settings[<span class="str">"HOME"</span>], <span class="str">"gda_music_images"</span>)
+    loopstart=False
+    <span class="kw">while</span> png:
+        <span class="kw">try</span>:
+            <span class="cmt">#if counter&gt;10:</span>
+            <span class="cmt">#    break</span>
+            title, png, t15, t30, t60 = msongs.getsortednextsong()
+            counter += <span class="dig">1</span>
+
+            <span class="kw">if</span> <span class="kw">not</span> png:
+                <span class="kw">print</span> <span class="str">"%d. Song in list is not Found"</span> % counter
+                <span class="kw">break</span>
+            lastpng = png
+
+            found,imgpath = getbeatsfilename(png,duration,imgdir)
+            <span class="cmt"># |-regression-|-png found-|--action-----|</span>
+            <span class="cmt"># |------------|-----------|-------------|</span>
+            <span class="cmt"># |   true     | true      | can verify  |</span>
+            <span class="cmt"># |   true     | false     |  skip       |</span>
+            <span class="cmt"># |   false    | true      |  skip       |</span>
+            <span class="cmt"># |   false    | false     |do screenshot|</span>
+
+            <span class="kw">if</span> <span class="kw">not</span> found: <span class="cmt">#or loopstart:</span>
+                <span class="kw">print</span> <span class="str">"============================================================================="</span>
+                <span class="kw">print</span> <span class="str">"%d. TEST: 15s=%d 30s=%d 60s=%d PNG:%s TITLE:%s"</span> % (counter,t15,t30,t60, png, title)
+                <span class="kw">print</span> <span class="str">"============================================================================="</span>
+
+                <span class="cmt">#loopstart = False # find first item for scrolling</span>
+                <span class="kw">if</span> EXISTS(r,Pattern(png).similar(<span class="dig">0.80</span>)):
+                    twait = eval_duration(duration,t15,t30,t60)
+
+                    <span class="skw">wait</span>((duration+<span class="dig">10</span>))
+                    <span class="kw">if</span> <span class="kw">not</span> regression:
+                        <span class="kw">if</span> <span class="kw">not</span> savebeatsscreenshot(r,imgpath):
+                            <span class="kw">print</span> <span class="str">"FAILED save beats screenshot:###########################################################################"</span>
+                            failed.append(imgpath)
+                    <span class="kw">else</span>:
+                        <span class="kw">print</span> <span class="str">"FAILED beats screenshot regression test:###########################################################################"</span>
+                        failed.append(imgpath)
+                    <span class="cmt">#break</span>
+                <span class="kw">else</span>:
+                    <span class="kw">print</span> <span class="str">"FAILED to find MUSIC title: %s ###########################################################################"</span> % png
+                    exit(<span class="dig">1</span>)
+            <span class="kw">else</span>:
+                <span class="kw">if</span> regression:
+                    <span class="kw">print</span> <span class="str">"============================================================================="</span>
+                    <span class="kw">print</span> <span class="str">"%d. REGRESSION TEST: 15s=%d 30s=%d 60s=%d PNG:%s TITLE:%s"</span> % (counter,t15,t30,t60, png, title)
+                    <span class="kw">print</span> <span class="str">"============================================================================="</span>
+                    <span class="kw">if</span> EXISTS(r,Pattern(png).similar(<span class="dig">0.80</span>)):
+                        twait = eval_duration(duration,t15,t30,t60)
+                        <span class="skw">wait</span>((duration+<span class="dig">10</span>))
+                        <span class="kw">if</span> <span class="kw">not</span> verifybeatsscreenshot(r,imgpath):
+                            failed.append(imgpath)
+                            <span class="kw">print</span> <span class="str">"TEST FAILED: %s"</span> % imgpath
+                            <span class="kw">print</span> <span class="str">"###########################################################################"</span>
+                        <span class="kw">else</span>:
+                            passed.append(str(imgpath))
+                            <span class="kw">print</span> <span class="str">"TEST PASSED: %s"</span> % str(imgpath)
+                            <span class="kw">print</span> <span class="str">"============================================================================="</span>
+                    <span class="kw">else</span>:
+                        <span class="kw">print</span> <span class="str">"FAILED to find MUSIC title: %s ###########################################################################"</span> % png
+                        exit(<span class="dig">1</span>)
+                <span class="kw">else</span>:
+                    <span class="kw">print</span> <span class="str">"%d. SKIP TEST: 15s=%d 30s=%d 60s=%d PNG:%s TITLE:%s"</span> % (counter,t15,t30,t60, png, title)
+        <span class="kw">except</span> Exception <span class="kw">as</span> e:
+            <span class="kw">print</span> <span class="str">"testsongs #################################################################"</span>
+            <span class="kw">print</span> <span class="str">"FAILED: At png %s&gt;&gt;%s"</span> % (lastpng,png)
+            <span class="kw">print</span> <span class="str">"ERROR: %s"</span> % str(e)
+            <span class="kw">print</span> <span class="str">"testsongs #################################################################"</span>
+            exit(<span class="dig">1</span>)
+
+    resetscrolltotop(r)
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################         </span>
+<span class="kw">def</span> getGDARegion():
+    ap=switchApp(<span class="str">"Quik"</span>)
+    <span class="kw">if</span> <span class="kw">not</span> ap:
+        <span class="kw">print</span> <span class="str">"Error: APP"</span>
+        <span class="kw">return</span> None,None
+    r = ap.focusedWindow()
+    <span class="kw">if</span> <span class="kw">not</span> r:
+        <span class="kw">print</span> <span class="str">"Error: Window"</span>
+        <span class="kw">return</span> None,ap
+    r.highlight(<span class="dig">2</span>)
+    <span class="kw">return</span> r,ap
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################ </span>
+<span class="kw">def</span> getunselectedsongicon():
+    r=gda_utils.getregion(<span class="str">"MUSIC"</span>,<span class="str">"MUSICLIST"</span>)
+    <span class="kw">if</span> <span class="kw">not</span> r:
+        <span class="kw">print</span> <span class="str">"ERROR: MUSIC-MUSICLIST region not found"</span>
+        <span class="kw">return</span> None
+
+    icon=gda_utils.d_gda_settings[<span class="str">"MUSIC_LIST_ITEM_UNSELECTED"</span>]
+    <span class="kw">if</span> gda_utils.d_gda_settings[<span class="str">"MUSIC_LIST_ITEMS_LOCKED"</span>]==True:
+        icon=gda_utils.d_gda_settings[<span class="str">"MUSIC_LIST_ITEM_LOCKED_UNSELECTED"</span>]
+    <span class="kw">return</span> gda_utils.EXISTS2(r,icon ,<span class="dig">5</span>)
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################ </span>
+<span class="kw">def</span> getsongitemregion(songMATCH):
+    rx=songMATCH.getX()-<span class="dig">55</span>
+    ry=songMATCH.getY()-<span class="dig">10</span>
+    rw=<span class="dig">410</span>
+    rh=<span class="dig">50</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="kw">return</span> r
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################ </span>
+<span class="kw">def</span> goto_top_songlist():
+    m2=getunselectedsongicon()
+    <span class="kw">if</span> <span class="kw">not</span> m2:
+        <span class="kw">return</span> False
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    m2.<span class="skw">doubleClick</span>()
+    <span class="skw">wait</span>(<span class="dig">0.5</span>)
+    m2.keyDown(gda_utils.d_gda_settings[<span class="str">"PLATFORM_KEY_CTRL"</span>])
+    <span class="skw">wait</span>(<span class="dig">0.5</span>)
+    m2.<span class="skw">type</span>(Key.UP)
+    m2.keyUp(gda_utils.d_gda_settings[<span class="str">"PLATFORM_KEY_CTRL"</span>])
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    m2.keyDown(gda_utils.d_gda_settings[<span class="str">"PLATFORM_KEY_CTRL"</span>])
+    <span class="skw">wait</span>(<span class="dig">0.5</span>)
+    m2.<span class="skw">type</span>(Key.UP)
+    m2.keyUp(gda_utils.d_gda_settings[<span class="str">"PLATFORM_KEY_CTRL"</span>])
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    m2=gda_utils.EXISTS3(<span class="str">"MUSIC"</span>,<span class="str">"MUSICLIST"</span>,gda_utils.d_gda_settings[<span class="str">"FIRST_SONG"</span>],<span class="dig">5</span>)
+    <span class="kw">if</span> m2:
+        <span class="kw">return</span> True
+    <span class="kw">return</span> False
+
+<span class="cmt">###########################################</span>
+<span class="cmt"># finds the song item region, plays song, adds to video</span>
+<span class="cmt"># GUI goes back to CREATE screen</span>
+<span class="cmt">###########################################</span>
+<span class="kw">def</span> selectsong_addtovideo(REGION,png,retrycount=<span class="dig">0</span>, playsong=<span class="dig">1</span>,song_similarity=<span class="dig">0.59</span>):
+    rc=False
+    <span class="kw">print</span> <span class="str">"selectsong_addtovideo &gt;&gt;&gt;&gt;&gt; %s"</span> % png
+    <span class="kw">if</span> gda_utils.d_gda_settings[<span class="str">"isMac"</span>]==<span class="str">"True"</span>:
+        song_similarity=<span class="dig">0.80</span>
+    <span class="kw">elif</span> gda_utils.d_gda_settings[<span class="str">"isWindows"</span>]==<span class="str">"True"</span>:
+        song_similarity=<span class="dig">0.52</span> <span class="cmt">#asus vivo</span>
+    p=gda_utils.PATTERN(png,song_similarity)
+    songitem=findsongregion(p) <span class="cmt">#return the song title song item region</span>
+
+    <span class="kw">if</span> <span class="kw">not</span> songitem:
+        <span class="kw">print</span> <span class="str">"FAILED: song %s is not found in list."</span> % png
+        <span class="kw">print</span> <span class="str">"return back to CREATE screen"</span>
+        mback=gda_utils.EXISTS3(<span class="str">"MUSIC"</span>,<span class="str">"BOTTOM"</span>,Pattern(<img src="music_btn_back.png" />).similar(<span class="dig">0.69</span>))
+        <span class="kw">if</span> mback:
+            mback.<span class="skw">click</span>()
+            <span class="kw">print</span> <span class="str">"selectsong_addtovideo: song region NOT FOUND &lt;&lt;&lt;&lt;&lt;"</span>
+            <span class="kw">return</span> rc
+    <span class="kw">print</span> <span class="str">"song region found"</span>
+    songitem.highlight(<span class="dig">1</span>)
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    <span class="cmt">#songitem.mouseMove(p)</span>
+    <span class="cmt">#wait(2)</span>
+    <span class="cmt">#we need the song region to highlight to show blue play button</span>
+    <span class="cmt">#songitem.highlight(2)</span>
+    <span class="kw">if</span> gda_utils.CLICK2(songitem,Pattern(<img src="music_btn_play-selected.png" />).similar(<span class="dig">0.50</span>),<span class="dig">10</span>,True):
+        r=gda_utils.getregion(<span class="str">"MUSIC"</span>,<span class="str">"BOTTOM"</span>)
+        <span class="cmt">#r.highlight(1)</span>
+        <span class="skw">wait</span>(playsong)
+        r.<span class="skw">click</span>(Pattern(<img src="music_btn_addtovideo.png" />).similar(<span class="dig">0.69</span>))
+        <span class="kw">print</span> <span class="str">"selectsong_addtovideo: OK &lt;&lt;&lt;&lt;&lt;"</span>
+        rc=True
+<span class="cmt">#        else:</span>
+<span class="cmt">#            print "selectsong_addtovideo: ADD TO VIDEO button NOT FOUND &lt;&lt;&lt;&lt;&lt;"</span>
+<span class="cmt">#        if r and gda_utils.CLICK2(r,Pattern("music_btn_addtovideo.png").similar(0.69).targetOffset(1,1),5):</span>
+<span class="cmt">#            print "selectsong_addtovideo: OK &lt;&lt;&lt;&lt;&lt;"</span>
+<span class="cmt">#            rc=True</span>
+<span class="cmt">#        else:</span>
+<span class="cmt">#            print "selectsong_addtovideo: ADD TO VIDEO button NOT FOUND &lt;&lt;&lt;&lt;&lt;"</span>
+    <span class="kw">else</span>: <span class="cmt"># no play button found, have song region but no play must be partial covered</span>
+        songitem.<span class="skw">click</span>()
+        songitem.<span class="skw">type</span>(Key.DOWN)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+<span class="cmt">#        songitem=findsongregion(p)</span>
+<span class="cmt">#        if gda_utils.CLICK2(songitem,Pattern("music_btn_play-unselected.png").similar(0.69),10,True):#try non selected</span>
+<span class="cmt">#            r=gda_utils.getregion("MUSIC","BOTTOM")</span>
+            <span class="cmt">#r.highlight(1)</span>
+<span class="cmt">#            r.click(Pattern("music_btn_addtovideo.png").similar(0.69))</span>
+<span class="cmt">#            print "selectsong_addtovideo: OK &lt;&lt;&lt;&lt;&lt;"</span>
+<span class="cmt">#            rc=True</span>
+<span class="cmt">#        else:</span>
+        <span class="kw">print</span> <span class="str">"selectsong_addtovideo: song region PLAY icon button NOT FOUND &lt;&lt;&lt;&lt;&lt;"</span>
+        retrycount += <span class="dig">1</span>
+        <span class="kw">if</span> retrycount&gt;<span class="dig">3</span>:
+            <span class="kw">return</span> False
+            <span class="cmt">#songitem.click()</span>
+            <span class="cmt">#songitem.type(Key.DOWN)</span>
+            <span class="cmt">#songitem.type(Key.DOWN)</span>
+            <span class="cmt">#songitem.type(Key.DOWN)</span>
+            <span class="cmt"># need new song region after scroll</span>
+        <span class="kw">return</span> selectsong_addtovideo(REGION,png,retrycount)
+    <span class="kw">return</span> rc
+<span class="cmt">################################################</span>
+<span class="cmt"># with songPATTERN will find through the song list</span>
+<span class="cmt"># auto detects the last song and reset to top and continues searching</span>
+<span class="cmt"># will exit after 1 full iteration</span>
+<span class="cmt"># starts at current song list position</span>
+<span class="cmt">################################################     </span>
+<span class="kw">def</span> findsongregion(songPATTERN,endcount=<span class="dig">0</span>,loopcount=<span class="dig">0</span>,count=<span class="dig">0</span>):
+    count+=<span class="dig">1</span>
+    <span class="kw">print</span> <span class="str">"%d findsongregion &gt;&gt;&gt;&gt;"</span> % count
+    rsonglist=gda_utils.getregion(<span class="str">"MUSIC"</span>,<span class="str">"MUSICLIST"</span>)
+
+    <span class="kw">if</span> <span class="kw">not</span> rsonglist:
+        <span class="kw">print</span> <span class="str">"ERROR: MUSIC-MUSICLIST region not found"</span>
+        <span class="kw">print</span> <span class="str">"%d findsongregion &lt;&lt;&lt;&lt;"</span> % count
+        <span class="kw">return</span> None
+    <span class="cmt">#r.highlight(1)</span>
+    m1=gda_utils.EXISTS2(rsonglist,songPATTERN,<span class="dig">5</span>)
+    <span class="kw">if</span> m1: <span class="cmt"># song is visible in list</span>
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        m1.<span class="skw">click</span>()
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        m1.<span class="skw">click</span>()
+<span class="cmt">#        m1.type(Key.DOWN)#assume at bottom of list should bump up 1 so the whole region can show with the play button</span>
+<span class="cmt">#        wait(1)</span>
+        m1=gda_utils.EXISTS2(rsonglist,songPATTERN,<span class="dig">5</span>)
+        <span class="kw">if</span> m1:
+            m2=getsongitemregion(m1)
+            <span class="kw">if</span> m2:
+                <span class="cmt">#m2.highlight(1)</span>
+                <span class="kw">print</span> <span class="str">"%d findsongregion &lt;&lt;&lt;&lt;"</span> % count
+                <span class="kw">return</span> m2
+            <span class="kw">else</span>:
+                m1.<span class="skw">click</span>()
+                m1.<span class="skw">type</span>(Key.DOWN)
+                <span class="kw">return</span> findsongregion(songPATTERN,endcount,loopcount,count)
+        <span class="kw">else</span>:
+            <span class="kw">return</span> findsongregion(songPATTERN,endcount,loopcount,count)
+
+    <span class="kw">else</span>: <span class="cmt"># do scroll and check if at end of list then repeat from top</span>
+        <span class="kw">if</span> loopcount&gt;<span class="dig">1</span>:
+            <span class="kw">print</span> <span class="str">"ERROR: failed to find song item after 1 full iteration"</span>
+            <span class="kw">print</span> <span class="str">"%d findsongregion &lt;&lt;&lt;&lt;"</span> % count
+            <span class="kw">return</span> None
+        m2=getunselectedsongicon()
+        <span class="kw">if</span> m2:
+            m2.<span class="skw">click</span>()
+            m2.<span class="skw">type</span>(Key.DOWN)
+            m2.<span class="skw">type</span>(Key.DOWN)
+            m2.<span class="skw">type</span>(Key.DOWN)
+            m2.<span class="skw">type</span>(Key.DOWN)
+            m2.<span class="skw">type</span>(Key.DOWN)
+            m2.<span class="skw">type</span>(Key.DOWN)
+            m1=gda_utils.EXISTS2(rsonglist,gda_utils.d_gda_settings[<span class="str">"LAST_SONG"</span>],<span class="dig">5</span>)
+            <span class="kw">if</span> m1:
+                endcount+=<span class="dig">1</span>
+                <span class="kw">if</span> endcount&gt;<span class="dig">1</span>:
+                    <span class="kw">if</span> <span class="kw">not</span> goto_top_songlist():
+                        <span class="kw">print</span> <span class="str">"ERROR: failed to reset to top of song list. stuck at end of list"</span>
+                        <span class="kw">print</span> <span class="str">"%d findsongregion &lt;&lt;&lt;&lt;"</span> % count
+                        <span class="kw">return</span> None
+                    loopcount+=<span class="dig">1</span>
+                    endcount=<span class="dig">0</span>
+            <span class="kw">return</span> findsongregion(songPATTERN,endcount,loopcount,count)
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"ERROR: failed to find unselected song item"</span>
+            <span class="kw">print</span> <span class="str">"%d findsongregion &lt;&lt;&lt;&lt;"</span> % count
+            <span class="kw">return</span> None
+
+
+<span class="cmt">######################################</span>
+<span class="cmt"># Assumes automation window size Mac{x35,y35,w1280, h836}</span>
+<span class="cmt"># for windows using Autoit we need to identify the inner region w,h relative to mac and set the win size accordingly</span>
+<span class="cmt"># Win,Mac window container border widths are different</span>
+<span class="cmt"># this is global region list for more accurate image query</span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> set_MUSIC_SCREEN_regions(REGION):
+    <span class="kw">print</span> <span class="str">"==============================="</span>
+    <span class="kw">print</span> <span class="str">"IMAGE PATHS"</span>
+    imgPath = getImagePath() <span class="cmt"># get the list</span>
+    <span class="cmt"># to loop through</span>
+    <span class="kw">for</span> p <span class="kw">in</span> imgPath:
+        <span class="kw">print</span> p
+    <span class="kw">print</span> <span class="str">"==============================="</span>
+    <span class="kw">if</span> gda_utils.d_gda_settings[<span class="str">"isWindows"</span>]==<span class="str">"True"</span>:
+        set_MUSIC_SCREEN_Win_regions(REGION)
+        <span class="kw">return</span> True
+    <span class="kw">elif</span> gda_utils.d_gda_settings[<span class="str">"isMac"</span>]==<span class="str">"True"</span>:
+        set_MUSIC_SCREEN_Mac_regions(REGION)
+        <span class="kw">return</span> True
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"ERROR: Invalid platform not Mac or Win"</span>
+    <span class="kw">return</span> False
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> set_MUSIC_SCREEN_Win_regions(REGION):
+    screenregion=<span class="str">"MUSIC"</span>
+    subregion=<span class="str">"MUSICLIST"</span>
+    rx=REGION.getX()
+    ry=REGION.getY()+<span class="dig">168</span>
+    rw=<span class="dig">470</span>
+    rh=<span class="dig">640</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(10)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+    <span class="cmt">#return</span>
+    subregion=<span class="str">"TITLE"</span>
+    rx=REGION.getX()+ <span class="dig">5</span>
+    ry=REGION.getY()+<span class="dig">110</span>
+    rw=<span class="dig">460</span>
+    rh=<span class="dig">60</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(10)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+    <span class="cmt">#return</span>
+    subregion=<span class="str">"BOTTOM"</span>
+    rx=REGION.getX()+<span class="dig">8</span>
+    ry=REGION.getY()+REGION.getH()-<span class="dig">60</span>
+    rw=REGION.getW()-<span class="dig">8</span>
+    rh=<span class="dig">60</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(10)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+    <span class="cmt">#return</span>
+    subregion=<span class="str">"TOP"</span>
+    rx=REGION.getX()
+    ry=REGION.getY()+<span class="dig">48</span><span class="cmt">#+REGION.getH()-80</span>
+    rw=REGION.getW()
+    rh=<span class="dig">60</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(10)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+    <span class="cmt">#return</span>
+    subregion=<span class="str">"PLAYER"</span>
+    rx=REGION.getX()+<span class="dig">470</span>
+    ry=REGION.getY()+<span class="dig">120</span>
+    rw=REGION.getW()-<span class="dig">480</span>
+    rh=REGION.getH()-<span class="dig">330</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(10)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+    subregion=<span class="str">"BEATS"</span>
+    rx=REGION.getX()+<span class="dig">480</span>
+    ry=REGION.getY()+REGION.getH()-<span class="dig">180</span>
+    rw=REGION.getW()-<span class="dig">510</span>
+    rh=<span class="dig">60</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(10)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+    subregion=<span class="str">"MENU"</span>
+    rx=REGION.getX()+<span class="dig">5</span>
+    ry=REGION.getY()+<span class="dig">30</span>
+    rw=<span class="dig">300</span>
+    rh=<span class="dig">16</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(10)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################    </span>
+<span class="kw">def</span> set_MUSIC_SCREEN_Mac_regions(REGION):
+    <span class="cmt">#MENUBAR x:0 y:0 w:1280 h: 22  #close win,min win, max/norm win</span>
+    <span class="cmt">#TOP x:0 y:22 w:1280 h:56   #view/create button, alerts,settings, user, account/logout</span>
+    <span class="cmt">#TITLE x:0 y:78 w:590 h:55</span>
+    <span class="cmt">#PLAYER x:602 y:78 w:650 h:420   #play/pause/stop</span>
+    <span class="cmt">#4VIDEOS x:0 y:132 w:590 h:380   #video moments selections</span>
+    <span class="cmt">#EDITCTRL x:0 y:512 w:1280 h:40   #music title, edit length, clip count, clear editor thumbs and moments selection</span>
+    <span class="cmt">#MOMENTS: x:0 y:552 w:1280 h:107  #moments thumb clips</span>
+    <span class="cmt">#BEATS:  x:0 y:659 w:1280 h:95  #music beats wave graph</span>
+    <span class="cmt">#BOTTOM:   x:0 y:754 w:1280 h:80 #music, outro, start over back to media, save export to mp4</span>
+    h1=<span class="dig">1</span>
+    screenregion=<span class="str">"MUSIC"</span>
+    <span class="cmt">#--------------------------------------------</span>
+    subregion=<span class="str">"MENUBAR"</span>
+    rx=REGION.getX()
+    ry=REGION.getY() <span class="cmt">#relative from top</span>
+    rw=<span class="dig">1280</span>
+    rh=<span class="dig">22</span>
+    r=Region(rx,ry,rw,rh)
+    r.highlight(h1)
+    gda_utils.add_region(screenregion,subregion,r)
+
+    <span class="cmt">#--------------------------------------------</span>
+    subregion=<span class="str">"TITTLE"</span>
+    rx=REGION.getX()
+    ry=REGION.getY() + <span class="dig">69</span> + <span class="dig">22</span> <span class="cmt">#relative from top</span>
+    rw=<span class="dig">642</span>
+    rh=<span class="dig">52</span>
+    r=Region(rx,ry,rw,rh)
+    r.highlight(h1)
+    gda_utils.add_region(screenregion,subregion,r)
+
+    <span class="cmt">#--------------------------------------------</span>
+    subregion=<span class="str">"MUSICLIST"</span>
+    rx=REGION.getX()
+    ry=REGION.getY() + <span class="dig">148</span> <span class="cmt">#relative from top</span>
+    rw=<span class="dig">642</span>
+    rh=<span class="dig">612</span>
+    r=Region(rx,ry,rw,rh)
+    r.highlight(h1)
+    gda_utils.add_region(screenregion,subregion,r)
+
+    <span class="cmt">#--------------------------------------------</span>
+    subregion=<span class="str">"PLAYER"</span>
+    rx=REGION.getX()+<span class="dig">646</span>
+    ry=REGION.getY() + <span class="dig">106</span> <span class="cmt">#relative from top</span>
+    rw=<span class="dig">620</span>
+    rh=<span class="dig">398</span>
+    r=Region(rx,ry,rw,rh)
+    r.highlight(h1)
+    gda_utils.add_region(screenregion,subregion,r)
+
+    <span class="cmt">#--------------------------------------------</span>
+    subregion=<span class="str">"SELECTEDTITLE"</span>
+    rx=REGION.getX() + <span class="dig">644</span>
+    ry=REGION.getY() + REGION.getH() - <span class="dig">342</span> <span class="cmt">#relative from bottom</span>
+    rw=<span class="dig">615</span>
+    rh=<span class="dig">52</span>
+    r=Region(rx,ry,rw,rh)
+    r.highlight(h1)
+    gda_utils.add_region(screenregion,subregion,r)
+
+    <span class="cmt">#--------------------------------------------</span>
+    subregion=<span class="str">"BEATS"</span>
+    rx=REGION.getX() + <span class="dig">644</span>
+    ry=REGION.getY() + REGION.getH() - <span class="dig">288</span> <span class="cmt">#relative from bottom</span>
+    rw=<span class="dig">630</span>
+    rh=<span class="dig">208</span>
+    r=Region(rx,ry,rw,rh)
+    r.highlight(h1)
+    gda_utils.add_region(screenregion,subregion,r)
+
+    <span class="cmt">#--------------------------------------------</span>
+    subregion=<span class="str">"BOTTOM"</span>
+    rx=REGION.getX()
+    ry=REGION.getY() + REGION.getH() - <span class="dig">77</span> <span class="cmt">#relative from bottom</span>
+    rw=<span class="dig">1280</span>
+    rh=<span class="dig">77</span>
+    r=Region(rx,ry,rw,rh)
+    r.highlight(h1)
+    gda_utils.add_region(screenregion,subregion,r)
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> findsongs(ap,r):
+    <span class="kw">if</span> <span class="kw">not</span> r:
+        r,ap = getGDARegion()<span class="cmt">#this works only on mac, TODO: optimize for win</span>
+    <span class="kw">if</span> <span class="kw">not</span> r:
+        <span class="kw">print</span> <span class="str">"Error: Invalid region"</span>
+        <span class="kw">return</span>
+
+    EXISTS(r,Pattern(<img src="song_THENIGHTWEDANCED.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt">#song_THENIGHTWEDANCED</span>
+    EXISTS(r,Pattern(<img src="song_AFTERGLOW.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_AFTERGLOW</span>
+    EXISTS(r,Pattern(<img src="song_BRINGIT.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BRINGIT</span>
+    EXISTS(r,Pattern(<img src="song_COMETHRU.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_COMETHRU</span>
+    EXISTS(r,Pattern(<img src="song_DAFTCRUNK.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DAFTCRUNK</span>
+    EXISTS(r,Pattern(<img src="song_FEELTHELOVE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_FEELTHELOVE</span>
+    EXISTS(r,Pattern(<img src="song_GUILTYMAN.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HIDEANDFREAK</span>
+    EXISTS(r,Pattern(<img src="song_HIDEANDFREAK.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HIDEANDFREAK  </span>
+    EXISTS(r,Pattern(<img src="song_RAINDOWN.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_RAINDOWN</span>
+    EXISTS(r,Pattern(<img src="song_RISEUP.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_RISEUP            </span>
+    EXISTS(r,Pattern(<img src="song_AWONDERFULSACRIFICE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_AWONDERFULSACRIFICE</span>
+    EXISTS(r,Pattern(<img src="song_AINTNOWAY.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_AINTNOWAY</span>
+    EXISTS(r,Pattern(<img src="song_ALLIKNOW.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ALLIKNOW</span>
+    EXISTS(r,Pattern(<img src="song_AMAZEBALLS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_AMAZEBALLS</span>
+    EXISTS(r,Pattern(<img src="song_AMIGOS4LIFE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_AMIGOS4LIFE</span>
+    EXISTS(r,Pattern(<img src="song_BFF.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BFF</span>
+    EXISTS(r,Pattern(<img src="song_BIPOLAR.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BIPOLAR</span>
+    EXISTS(r,Pattern(<img src="song_BIGBOY.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BIGBOY</span>
+    EXISTS(r,Pattern(<img src="song_BITEME.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BITEME</span>
+    EXISTS(r,Pattern(<img src="song_BLAME.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BLAME</span>
+    EXISTS(r,Pattern(<img src="song_BLINDEDBYTHESUN.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BLINDEDBYTHESUN</span>
+    EXISTS(r,Pattern(<img src="song_BLOODFEUD.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BLOODFEUD</span>
+    EXISTS(r,Pattern(<img src="song_BRINGMEBACKTOLIFE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BRINGMEBACKTOLIFE</span>
+    EXISTS(r,Pattern(<img src="song_BURYMYLOVE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BURYMYLOVE</span>
+    EXISTS(r,Pattern(<img src="song_CARRYMEBACKHOME.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_CARRYMEBACKHOME</span>
+    EXISTS(r,Pattern(<img src="song_CHOKINCHICKENS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_CHOKINCHICKENS</span>
+    EXISTS(r,Pattern(<img src="song_COLDFEET.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_COLDFEET</span>
+    EXISTS(r,Pattern(<img src="song_COMBATREADY.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_COMBATREADY</span>
+    EXISTS(r,Pattern(<img src="song_CRANKIT.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_CRANKIT</span>
+    EXISTS(r,Pattern(<img src="song_DJBLOWUPTHESPEAKERS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DJBLOWUPTHESPEAKERS</span>
+    EXISTS(r,Pattern(<img src="song_DARKFADER.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DARKFADER</span>
+    EXISTS(r,Pattern(<img src="song_DEADANDGONE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DEADANDGONE</span>
+    EXISTS(r,Pattern(<img src="song_DOYOUFEELALIVE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DOYOUFEELALIVE</span>
+    EXISTS(r,Pattern(<img src="song_DOPEDELUXE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DOPEDELUXE</span>
+    EXISTS(r,Pattern(<img src="song_DROPPINDIMES.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DROPPINDIMES</span>
+    EXISTS(r,Pattern(<img src="song_EVERYTHING.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_EVERYTHING</span>
+    EXISTS(r,Pattern(<img src="song_FEELSLIKEIMADEIT.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_FEELSLIKEIMADEIT</span>
+    EXISTS(r,Pattern(<img src="song_FIFTEENWAYS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_FIFTEENWAYS</span>
+    EXISTS(r,Pattern(<img src="song_FRETCOLLECTOR.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_FRETCOLLECTOR</span>
+    EXISTS(r,Pattern(<img src="song_GETTINGBUZZED.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_GETTINGBUZZED</span>
+    EXISTS(r,Pattern(<img src="song_GLASSDARKLY.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_GLASSDARKLY</span>
+    EXISTS(r,Pattern(<img src="song_GLOCKNROLL.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_GLOCKNROLL</span>
+    EXISTS(r,Pattern(<img src="song_GODWILLCUTYOUDOWN.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_GODWILLCUTYOUDOWN</span>
+    EXISTS(r,Pattern(<img src="song_GOOD4THAHOOD.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_GOOD4THAHOOD</span>
+    EXISTS(r,Pattern(<img src="song_HALLOWEDGROUND.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HALLOWEDGROUND</span>
+    EXISTS(r,Pattern(<img src="song_HEAVYWEATHER.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HEAVYWEATHER</span>
+    EXISTS(r,Pattern(<img src="song_HEROESDRESSINBLACK.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HEROESDRESSINBLACK</span>
+    EXISTS(r,Pattern(<img src="song_HOLDYOURHEADUP.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HOLDYOURHEADUP</span>
+    EXISTS(r,Pattern(<img src="song_HUNDREDDOLLAGIRLZ.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HUNDREDDOLLAGIRLZ</span>
+    EXISTS(r,Pattern(<img src="song_IDAREYOU.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_IDAREYOU</span>
+    EXISTS(r,Pattern(<img src="song_INAROW.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_INAROW</span>
+    EXISTS(r,Pattern(<img src="song_INTHAMAISON.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_INTHAMAISON</span>
+    EXISTS(r,Pattern(<img src="song_ITSOURS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ITSOURS</span>
+    EXISTS(r,Pattern(<img src="song_JOYRIDE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_JOYRIDE</span>
+    EXISTS(r,Pattern(<img src="song_JUSTALITTLE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_JUSTALITTLE</span>
+    EXISTS(r,Pattern(<img src="song_KEEPTHEFAITHALIVE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_KEEPTHEFAITHALIVE</span>
+    EXISTS(r,Pattern(<img src="song_KILLINFLOOR.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_KILLINFLOOR</span>
+    EXISTS(r,Pattern(<img src="song_KNUCKLEDRAGGER.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_KNUCKLEDRAGGER</span>
+    EXISTS(r,Pattern(<img src="song_LIGHTEMUP.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_LIGHTEMUP</span>
+    EXISTS(r,Pattern(<img src="song_MEADOWMIND.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_MEADOWMIND</span>
+    EXISTS(r,Pattern(<img src="song_MOONSHINEANDGASOLINE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_MOONSHINEANDGASOLINE</span>
+    EXISTS(r,Pattern(<img src="song_NEWDAY.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_NEWDAY</span>
+    EXISTS(r,Pattern(<img src="song_NOTLOOKINBACK.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_NOTLOOKINBACK</span>
+    EXISTS(r,Pattern(<img src="song_NUCLEAR.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_NUCLEAR</span>
+    EXISTS(r,Pattern(<img src="song_ONTHEDL.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ONTHEDL</span>
+    EXISTS(r,Pattern(<img src="song_ONEOFAKIND.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ONEOFAKIND</span>
+    EXISTS(r,Pattern(<img src="song_PALESAND.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_PALESAND</span>
+    EXISTS(r,Pattern(<img src="song_PARTYWILLCOMEALIVE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_PARTYWILLCOMEALIVE</span>
+    EXISTS(r,Pattern(<img src="song_PUNCHING.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_PUNCHING</span>
+    EXISTS(r,Pattern(<img src="song_PUSHUPTHEBEAT.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_PUSHUPTHEBEAT</span>
+    EXISTS(r,Pattern(<img src="song_REASONS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_REASONS</span>
+    EXISTS(r,Pattern(<img src="song_ROCKYOURWORLD.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ROCKYOURWORLD</span>
+    EXISTS(r,Pattern(<img src="song_RUSHES.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_RUSHES</span>
+    EXISTS(r,Pattern(<img src="song_SCREENDOORSLAM.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SCREENDOORSLAM</span>
+    EXISTS(r,Pattern(<img src="song_SHAKE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SHAKE</span>
+    EXISTS(r,Pattern(<img src="song_SHAKEITOUT.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SHAKEITOUT</span>
+    EXISTS(r,Pattern(<img src="song_SMOKINFIRE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SMOKINFIRE</span>
+    EXISTS(r,Pattern(<img src="song_SOUNDBOI.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SOUNDBOI</span>
+    EXISTS(r,Pattern(<img src="song_STRANGECONDITION.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_STRANGECONDITION</span>
+    EXISTS(r,Pattern(<img src="song_STRINGOFTRUTH.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_STRINGOFTRUTH</span>
+    EXISTS(r,Pattern(<img src="song_SUGARGIRL.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SUGARGIRL</span>
+    EXISTS(r,Pattern(<img src="song_SURGE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SURGE</span>
+    EXISTS(r,Pattern(<img src="song_SWINGOVER.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SWINGOVER</span>
+    EXISTS(r,Pattern(<img src="song_TALIGADO.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_TALIGADO</span>
+    EXISTS(r,Pattern(<img src="song_THEBOARDERLANDS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_THEBORDERLANDS</span>
+    EXISTS(r,Pattern(<img src="song_THERIODEAL.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_THERIODEAL</span>
+    EXISTS(r,Pattern(<img src="song_THRILLSWITCH.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_THRILLSWITCH</span>
+    EXISTS(r,Pattern(<img src="song_THUNDERDROME.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_THUNDERDOME</span>
+    EXISTS(r,Pattern(<img src="song_TOYDIVISION.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_TOYDIVISION</span>
+    EXISTS(r,Pattern(<img src="song_TRYSOHARD.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_TRYSOHARD</span>
+    EXISTS(r,Pattern(<img src="song_TWERKINPROGRESS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_TWERKINPROGRESS</span>
+    EXISTS(r,Pattern(<img src="song_WALKINTALL.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WAIKINTALL</span>
+    EXISTS(r,Pattern(<img src="song_WANTEDMAN.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WANTEDMAN</span>
+    EXISTS(r,Pattern(<img src="song_WHATWESTARTED.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WHATWESTARTED</span>
+    EXISTS(r,Pattern(<img src="song_WHITEGIRLS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WHITEGIRLS</span>
+    EXISTS(r,Pattern(<img src="song_WHITEWASHEDTOMB.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WHITEWASHEDTOMB</span>
+    EXISTS(r,Pattern(<img src="song_WHYDOI.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WHYDOI</span>
+    EXISTS(r,Pattern(<img src="song_YANGBANG.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_YANGBANG</span>
+    EXISTS(r,Pattern(<img src="song_ZEROHOUR.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ZEROHOUR</span>
+    EXISTS(r,Pattern(<img src="song_ZOMBIEDROP.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ZOMBIEDROP</span>
+
+<span class="cmt">########################################################</span>
+<span class="cmt"># List of all the songs text images</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">########################################################</span>
+<span class="kw">def</span> music_img_list():
+    <span class="skw">find</span>(Pattern(<img src="music_img_selected.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># music_img_selected.png</span>
+    <span class="skw">find</span>(Pattern(<img src="music_img_unselected.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># music_img_unselected</span>
+    <span class="skw">find</span>(Pattern(<img src="music_img_playing.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># music_img_playing</span>
+    <span class="skw">find</span>(Pattern(<img src="music_btn_play-selected.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># music_btn_play-selected.png</span>
+    <span class="skw">find</span>(Pattern(<img src="music_btn_play-unselected.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># music_btn_play-unselected.png</span>
+    <span class="skw">find</span>(Pattern(<img src="music_btn_songplaying.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt">#  music_btn_songplaying</span>
+    <span class="skw">find</span>(Pattern(<img src="music_btn_back.png" />).similar(<span class="dig">0.69</span>)) <span class="cmt"># music_btn_back</span>
+    <span class="skw">find</span>(Pattern(<img src="music_btn_musiclist.png" />).similar(<span class="dig">0.69</span>))<span class="cmt"># music_btn_musiclist</span>
+    <span class="skw">find</span>(Pattern(<img src="music_btn_addtovideo.png" />).similar(<span class="dig">0.69</span>))<span class="cmt">#  music_btn_addtovideo</span>
+    <span class="skw">find</span>(Pattern(<img src="song_THENIGHTWEDANCED.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt">#song_THENIGHTWEDANCED</span>
+    <span class="skw">find</span>(Pattern(<img src="song_AFTERGLOW.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_AFTERGLOW</span>
+    <span class="skw">find</span>(Pattern(<img src="song_BRINGIT.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BRINGIT</span>
+    <span class="skw">find</span>(Pattern(<img src="song_COMETHRU.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_COMETHRU</span>
+    <span class="skw">find</span>(Pattern(<img src="song_DAFTCRUNK.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DAFTCRUNK</span>
+    <span class="skw">find</span>(Pattern(<img src="song_FEELTHELOVE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_FEELTHELOVE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_GUILTYMAN.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HIDEANDFREAK</span>
+    <span class="skw">find</span>(Pattern(<img src="song_HIDEANDFREAK.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HIDEANDFREAK  </span>
+    <span class="skw">find</span>(Pattern(<img src="song_RAINDOWN.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_RAINDOWN</span>
+    <span class="skw">find</span>(Pattern(<img src="song_RISEUP.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_RISEUP</span>
+    <span class="skw">find</span>(Pattern(<img src="song_AWONDERFULSACRIFICE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_AWONDERFULSACRIFICE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_AINTNOWAY.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_AINTNOWAY</span>
+    <span class="skw">find</span>(Pattern(<img src="song_ALLIKNOW.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ALLIKNOW</span>
+    <span class="skw">find</span>(Pattern(<img src="song_AMAZEBALLS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_AMAZEBALLS</span>
+    <span class="skw">find</span>(Pattern(<img src="song_AMIGOS4LIFE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_AMIGOS4LIFE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_BFF.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BFF</span>
+    <span class="skw">find</span>(Pattern(<img src="song_BIPOLAR.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BIPOLAR</span>
+    <span class="skw">find</span>(Pattern(<img src="song_BIGBOY.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BIGBOY</span>
+    <span class="skw">find</span>(Pattern(<img src="song_BITEME.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BITEME</span>
+    <span class="skw">find</span>(Pattern(<img src="song_BLAME.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BLAME</span>
+    <span class="skw">find</span>(Pattern(<img src="song_BLINDEDBYTHESUN.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BLINDEDBYTHESUN</span>
+    <span class="skw">find</span>(Pattern(<img src="song_BLOODFEUD.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BLOODFEUD</span>
+    <span class="skw">find</span>(Pattern(<img src="song_BRINGMEBACKTOLIFE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BRINGMEBACKTOLIFE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_BURYMYLOVE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_BURYMYLOVE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_CARRYMEBACKHOME.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_CARRYMEBACKHOME</span>
+    <span class="skw">find</span>(Pattern(<img src="song_CHOKINCHICKENS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_CHOKINCHICKENS</span>
+    <span class="skw">find</span>(Pattern(<img src="song_COLDFEET.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_COLDFEET</span>
+    <span class="skw">find</span>(Pattern(<img src="song_COMBATREADY.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_COMBATREADY</span>
+    <span class="skw">find</span>(Pattern(<img src="song_CRANKIT.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_CRANKIT</span>
+    <span class="skw">find</span>(Pattern(<img src="song_DJBLOWUPTHESPEAKERS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DJBLOWUPTHESPEAKERS</span>
+    <span class="skw">find</span>(Pattern(<img src="song_DARKFADER.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DARKFADER</span>
+    <span class="skw">find</span>(Pattern(<img src="song_DEADANDGONE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DEADANDGONE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_DOYOUFEELALIVE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DOYOUFEELALIVE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_DOPEDELUXE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DOPEDELUXE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_DROPPINDIMES.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_DROPPINDIMES</span>
+    <span class="skw">find</span>(Pattern(<img src="song_EVERYTHING.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_EVERYTHING</span>
+    <span class="skw">find</span>(Pattern(<img src="song_FEELSLIKEIMADEIT.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_FEELSLIKEIMADEIT</span>
+    <span class="skw">find</span>(Pattern(<img src="song_FIFTEENWAYS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_FIFTEENWAYS</span>
+    <span class="skw">find</span>(Pattern(<img src="song_FRETCOLLECTOR.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_FRETCOLLECTOR</span>
+    <span class="skw">find</span>(Pattern(<img src="song_GETTINGBUZZED.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_GETTINGBUZZED</span>
+    <span class="skw">find</span>(Pattern(<img src="song_GLASSDARKLY.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_GLASSDARKLY</span>
+    <span class="skw">find</span>(Pattern(<img src="song_GLOCKNROLL.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_GLOCKNROLL</span>
+    <span class="skw">find</span>(Pattern(<img src="song_GODWILLCUTYOUDOWN.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_GODWILLCUTYOUDOWN</span>
+    <span class="skw">find</span>(Pattern(<img src="song_GOOD4THAHOOD.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_GOOD4THAHOOD</span>
+    <span class="skw">find</span>(Pattern(<img src="song_HALLOWEDGROUND.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HALLOWEDGROUND</span>
+    <span class="skw">find</span>(Pattern(<img src="song_HEAVYWEATHER.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HEAVYWEATHER</span>
+    <span class="skw">find</span>(Pattern(<img src="song_HEROESDRESSINBLACK.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HEROESDRESSINBLACK</span>
+    <span class="skw">find</span>(Pattern(<img src="song_HOLDYOURHEADUP.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HOLDYOURHEADUP</span>
+    <span class="skw">find</span>(Pattern(<img src="song_HUNDREDDOLLAGIRLZ.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_HUNDREDDOLLAGIRLZ</span>
+    <span class="skw">find</span>(Pattern(<img src="song_IDAREYOU.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_IDAREYOU</span>
+    <span class="skw">find</span>(Pattern(<img src="song_INAROW.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_INAROW</span>
+    <span class="skw">find</span>(Pattern(<img src="song_INTHAMAISON.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_INTHAMAISON</span>
+    <span class="skw">find</span>(Pattern(<img src="song_ITSOURS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ITSOURS</span>
+    <span class="skw">find</span>(Pattern(<img src="song_JOYRIDE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_JOYRIDE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_JUSTALITTLE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_JUSTALITTLE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_KEEPTHEFAITHALIVE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_KEEPTHEFAITHALIVE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_KILLINFLOOR.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_KILLINFLOOR</span>
+    <span class="skw">find</span>(Pattern(<img src="song_KNUCKLEDRAGGER.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_KNUCKLEDRAGGER</span>
+    <span class="skw">find</span>(Pattern(<img src="song_LIGHTEMUP.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_LIGHTEMUP</span>
+    <span class="skw">find</span>(Pattern(<img src="song_MEADOWMIND.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_MEADOWMIND</span>
+    <span class="skw">find</span>(Pattern(<img src="song_MOONSHINEANDGASOLINE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_MOONSHINEANDGASOLINE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_NEWDAY.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_NEWDAY</span>
+    <span class="skw">find</span>(Pattern(<img src="song_NOTLOOKINBACK.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_NOTLOOKINBACK</span>
+    <span class="skw">find</span>(Pattern(<img src="song_NUCLEAR.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_NUCLEAR</span>
+    <span class="skw">find</span>(Pattern(<img src="song_ONTHEDL.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ONTHEDL</span>
+    <span class="skw">find</span>(Pattern(<img src="song_ONEOFAKIND.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ONEOFAKIND</span>
+    <span class="skw">find</span>(Pattern(<img src="song_PALESAND.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_PALESAND</span>
+    <span class="skw">find</span>(Pattern(<img src="song_PARTYWILLCOMEALIVE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_PARTYWILLCOMEALIVE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_PUNCHING.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_PUNCHING</span>
+    <span class="skw">find</span>(Pattern(<img src="song_PUSHUPTHEBEAT.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_PUSHUPTHEBEAT</span>
+    <span class="skw">find</span>(Pattern(<img src="song_REASONS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_REASONS</span>
+    <span class="skw">find</span>(Pattern(<img src="song_ROCKYOURWORLD.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ROCKYOURWORLD</span>
+    <span class="skw">find</span>(Pattern(<img src="song_RUSHES.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_RUSHES</span>
+    <span class="skw">find</span>(Pattern(<img src="song_SCREENDOORSLAM.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SCREENDOORSLAM</span>
+    <span class="skw">find</span>(Pattern(<img src="song_SHAKE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SHAKE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_SHAKEITOUT.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SHAKEITOUT</span>
+    <span class="skw">find</span>(Pattern(<img src="song_SMOKINFIRE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SMOKINFIRE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_SOUNDBOI.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SOUNDBOI</span>
+    <span class="skw">find</span>(Pattern(<img src="song_STRANGECONDITION.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_STRANGECONDITION</span>
+    <span class="skw">find</span>(Pattern(<img src="song_STRINGOFTRUTH.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_STRINGOFTRUTH</span>
+    <span class="skw">find</span>(Pattern(<img src="song_SUGARGIRL.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SUGARGIRL</span>
+    <span class="skw">find</span>(Pattern(<img src="song_SURGE.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SURGE</span>
+    <span class="skw">find</span>(Pattern(<img src="song_SWINGOVER.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_SWINGOVER</span>
+    <span class="skw">find</span>(Pattern(<img src="song_TALIGADO.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_TALIGADO</span>
+    <span class="skw">find</span>(Pattern(<img src="song_THEBOARDERLANDS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_THEBORDERLANDS</span>
+    <span class="skw">find</span>(Pattern(<img src="song_THERIODEAL.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_THERIODEAL</span>
+    <span class="skw">find</span>(Pattern(<img src="song_THRILLSWITCH.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_THRILLSWITCH</span>
+    <span class="skw">find</span>(Pattern(<img src="song_THUNDERDROME.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_THUNDERDOME</span>
+    <span class="skw">find</span>(Pattern(<img src="song_TOYDIVISION.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_TOYDIVISION</span>
+    <span class="skw">find</span>(Pattern(<img src="song_TRYSOHARD.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_TRYSOHARD</span>
+    <span class="skw">find</span>(Pattern(<img src="song_TWERKINPROGRESS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_TWERKINPROGRESS</span>
+    <span class="skw">find</span>(Pattern(<img src="song_WALKINTALL.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WAIKINTALL</span>
+    <span class="skw">find</span>(Pattern(<img src="song_WANTEDMAN.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WANTEDMAN</span>
+    <span class="skw">find</span>(Pattern(<img src="song_WHATWESTARTED.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WHATWESTARTED</span>
+    <span class="skw">find</span>(Pattern(<img src="song_WHITEGIRLS.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WHITEGIRLS</span>
+    <span class="skw">find</span>(Pattern(<img src="song_WHITEWASHEDTOMB.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WHITEWASHEDTOMB</span>
+    <span class="skw">find</span>(Pattern(<img src="song_WHYDOI.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_WHYDOI</span>
+    <span class="skw">find</span>(Pattern(<img src="song_YANGBANG.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_YANGBANG</span>
+    <span class="skw">find</span>(Pattern(<img src="song_ZEROHOUR.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ZEROHOUR</span>
+    <span class="skw">find</span>(Pattern(<img src="song_ZOMBIEDROP.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt"># song_ZOMBIEDROP</span>
+
+<span class="cmt"># --------------------------------------------------------------------------</span>
+<span class="cmt">#</span>
+<span class="cmt"># --------------------------------------------------------------------------    </span>
+
+<span class="cmt">#m = GDA_music()</span>
+<span class="cmt">#m.testclass()</span>
+<span class="cmt">#testsongs()                </span>
+
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################    </span>
+<span class="kw">def</span> test_music_15(gpa,gpr):
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: CAPTURE GDA_MUSIC_TESTS 15"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    testsongs(gpa,gpr,<span class="dig">6</span>, False)
+    gda_utils.putDictToFile(gda_utils.d_similarity)
+    gda_utils.printreport(<span class="str">"CAPTURE GDA_MUSIC_TESTS 15"</span>)
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> test_music_30(gpa,gpr):
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: CAPTURE GDA_MUSIC_TESTS 30"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    testsongs(gpa,gpr,<span class="dig">30</span>, False)
+    gda_utils.putDictToFile(gda_utils.d_similarity)
+    gda_utils.printreport(<span class="str">"CAPTURE GDA_MUSIC_TESTS 30"</span>)
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> test_music_60(gpa,gpr):
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: CAPTURE GDA_MUSIC_TESTS 60"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    testsongs(gpa,gpr,<span class="dig">60</span>, False)
+    gda_utils.putDictToFile(gda_utils.d_similarity)
+    gda_utils.printreport(<span class="str">"CAPTURE GDA_MUSIC_TESTS 60"</span>)
+<span class="cmt">################################################</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">#</span>
+<span class="cmt">################################################</span>
+<span class="kw">def</span> record_moments_beats(gpa,gpr):
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="kw">print</span> <span class="str">"RUN TEST: CAPTURE GDA_MUSIC_MOMENTS &amp; BEATS"</span>
+    <span class="kw">print</span> <span class="str">"++++++++++++++++++++++++++++++++++"</span>
+    <span class="cmt">#gda_create_tests.select_moment_to_music(gpr)</span>
+    <span class="cmt">#testsongs(gpa,gpr,6, False)</span>
+    gda_utils.putDictToFile(gda_utils.d_similarity)
+    gda_utils.printreport(<span class="str">"CAPTURE GDA_MUSIC_TESTS 15"</span>)
+
+<span class="kw">def</span> selectNonPremiumMusic(REGION,song,action=<span class="str">"close"</span>):
+    rc=False
+    png=Pattern(song).similar(<span class="dig">0.69</span>)
+    <span class="cmt">#selectsong_addtovideo(REGION,png,retrycount=0, playsong=1,song_similarity=0.59):</span>
+    rsong=selectsong_addtovideo(REGION,png,<span class="dig">1</span>,<span class="dig">0.69</span>)
+    <span class="kw">if</span> rsong:
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+        pop=Pattern(<img src="popup_txt_unlockthistrack.png" />).similar(<span class="dig">0.69</span>)
+        mpop=gda_utils.EXISTS2(REGION,pop)
+        <span class="kw">if</span> mpop:
+            mpop.highlight(<span class="dig">1</span>)
+            ptry=Pattern(<img src="popup_txt_TRYGOPROPLUS.png" />).similar(<span class="dig">0.69</span>)
+            mtry=gda_utils.EXISTS2(REGION,ptry)
+            <span class="kw">if</span> mtry:
+                <span class="kw">if</span> action==<span class="str">"close"</span>:
+                    mtry.highlight(<span class="dig">1</span>)
+                    mclose=mpop.above(<span class="dig">20</span>)
+                    mclose.highlight(<span class="dig">1</span>)
+                    mclose.<span class="skw">click</span>()
+                    rc=True
+                <span class="kw">elif</span> action==<span class="str">"try"</span>:
+                    mtry.<span class="skw">click</span>()
+                    rc=True
+            <span class="cmt">#pclose=Pattern("popup_txt_close.png").similar(0.69)</span>
+    <span class="kw">return</span> rc
+
+<span class="kw">def</span> generate_Testrail_songs_regression_suite():
+    msongs = GDA_music()
+    testlist=[]
+    testnames=[<span class="str">" - 1.Select Song"</span>,
+               <span class="str">" - 2.Moments Select Max 60"</span>,
+               <span class="str">" - 3.Output MP4 60 Sec"</span>,
+               <span class="str">" - 4.Output MP4 30 Sec"</span>,
+               <span class="str">" - 5.Output MP4 15 Sec"</span>,
+               <span class="str">" - 6.MP4 in Edits-Scene Detect-60 Sec"</span>,
+               <span class="str">" - 7.MP4 in Edits-Scene Detect-30 Sec"</span>,
+               <span class="str">" - 8.MP4 in Edits-Scene Detect-15 Sec"</span>,
+               <span class="str">" - 9.MP4 in Edits-Song Analysis-60 Sec"</span>,
+               <span class="str">" - 10.MP4 in Edits-Song Analysis-30 Sec"</span>,
+               <span class="str">" - 11.MP4 in Edits-Song Analysis-15 Sec"</span>]
+
+    <span class="kw">for</span> song <span class="kw">in</span> msongs.sortedsonglist:
+        name = song.replace(<img src=".png" />,<span class="str">""</span>).replace(<span class="str">"song_"</span>,<span class="str">""</span>)
+        <span class="kw">for</span> test <span class="kw">in</span> testnames:
+            tr = <span class="str">"%s%s"</span>  % (name, test)
+            testlist.append(tr)
+    sout = <span class="str">""</span>
+    <span class="kw">for</span> test <span class="kw">in</span> testlist:
+        sout+=<span class="str">"%s\n"</span> % test
+    gda_utils.filewrite(<span class="str">"/Automation/songs_testrail_suite.txt"</span>,sout)
+    <span class="cmt">#print sout</span>
+<span class="cmt">######################################</span>
+<span class="cmt"># Simple music selection analytics test:</span>
+<span class="cmt"># select each song in list and try to add music</span>
+<span class="cmt"># The popup dialog will block the song</span>
+<span class="cmt"># First attempt will close dialog</span>
+<span class="cmt"># Second attempt will try to go to browser, browser tab is ignored so they accumulate</span>
+<span class="cmt"># Mara validates the analytics</span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> test_analytics(song=<img src="song_AMIGOS4LIFE.png" />):
+    gda_utils.GetEnvInfo()
+    gpa,gpr=gda_utils.AppStart(<span class="str">"GoPro Quik"</span>)
+    <span class="kw">if</span> <span class="kw">not</span> gpr:
+        <span class="kw">return</span>
+    set_MUSIC_SCREEN_regions(gpr)
+    msongs=GDA_music()
+    testmusic_init(msongs)
+    gda_utils.d_gda_settings[<span class="str">"MUSIC_LIST_ITEMS_LOCKED"</span>]=True <span class="cmt">#Assume select NON-plus account music list</span>
+    resultlist=[]
+    id = msongs.findsortedsongindex(song)
+    pclose=<span class="dig">0</span>
+    ptry=<span class="dig">0</span>
+    fclose=<span class="dig">0</span>
+    ftry=<span class="dig">0</span>
+    counter=<span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(id,len(msongs.sortedsonglist),<span class="dig">1</span>):
+        counter+=<span class="dig">1</span>
+        png = msongs.sortedsonglist[i]
+        resultlist.append(<span class="str">"====================================="</span>)
+        <span class="kw">print</span> <span class="str">"====================================="</span>
+        msg= <span class="str">"%d. %d=TEST SONG %s"</span> % (counter,i,png)
+        resultlist.append(msg)
+        <span class="kw">print</span> msg
+        <span class="kw">if</span> selectNonPremiumMusic(gpr,png,<span class="str">"close"</span>):
+            msg= <span class="str">"%d. PASSED: Close, %s"</span> % (counter,png)
+            pclose+=<span class="dig">1</span>
+        <span class="kw">else</span>:
+            msg= <span class="str">"%d. FAILED: Close, %s"</span> % (counter,png)
+            fclose+=<span class="dig">1</span>
+        resultlist.append(msg)
+
+        <span class="kw">if</span> selectNonPremiumMusic(gpr,png,<span class="str">"try"</span>):
+            msg= <span class="str">"%d. PASSED: Try, %s"</span> % (counter,png)
+            ptry+=<span class="dig">1</span>
+        <span class="kw">else</span>:
+            msg= <span class="str">"%d. FAILED: Try, %s"</span> % (counter,png)
+            ftry+=<span class="dig">1</span>
+        resultlist.append(msg)
+        msg= <span class="str">"Counts: PASSED Tests [close=%d, try=%d]"</span> % (pclose,ptry)
+        resultlist.append(msg)
+        msg= <span class="str">"Counts: FAILED Tests [close=%d, try=%d]"</span> % (fclose,ftry)
+        resultlist.append(msg)
+        <span class="kw">print</span> <span class="str">"====================================="</span>
+        <span class="kw">for</span> s <span class="kw">in</span> resultlist:
+            <span class="kw">print</span> s
+
+<span class="cmt">######################################</span>
+<span class="cmt"># for debugging in sikuli ide</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> test_module():
+    gda_utils.d_gda_settings[<span class="str">"NO-TestRail"</span>]=True
+    gda_utils.GetEnvInfo()
+    gpa,gpr=gda_utils.AppStart(<span class="str">"GoPro Quik"</span>)
+    set_MUSIC_SCREEN_regions(gpr)
+    <span class="kw">return</span>
+    msongs=GDA_music()
+    testmusic_init(msongs)
+    findsongregion(Pattern(<img src="song_RISEUP.png" />).similar(<span class="dig">0.69</span>))
+
+<span class="kw">def</span> test1():
+    generate_Testrail_songs_regression_suite()
+
+<span class="cmt">######################################</span>
+<span class="cmt"># for debugging in sikuli ide</span>
+<span class="cmt"># </span>
+<span class="cmt"># KEEP THIS COMMENTED when checking in to GIT</span>
+<span class="cmt">######################################    </span>
+test_module()
+<span class="cmt">#test_analytics("song_AMIGOS4LIFE.png")    </span>
+<span class="cmt">#test1()</span>
+
+</pre>
+</body>
+</html>

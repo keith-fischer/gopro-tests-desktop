@@ -1,0 +1,200 @@
+console.log(qgoproapp)
+QtRuntimeObject {objectName: "", modal: false, windowModality: 0, enabled: true, geometry: ""…}
+EnableMenuItem(QString,bool): function EnableMenuItem(QString,bool)() {
+MenuSelected(QString): function MenuSelected(QString)() {
+MenusCreated(QString): function MenusCreated(QString)() {
+ParseExportsDirectory(QString): function ParseExportsDirectory(QString)() {
+_q_styleSheetWidgetFont: ".SF NS Text,13,-1,5,50,0,0,0,0,0"
+acceptDrops: false
+accessibleDescription: ""
+accessibleName: ""
+alert(int): function alert(int)() {
+analyticSessionIdResponse(QString): function analyticSessionIdResponse(QString)() {
+animated: true
+autoFillBackground: false
+baseSize: null
+childrenRect: ""
+childrenRegion: ""
+close(): function close()() {
+closePopup(): function closePopup()() {
+closeWindow(): function closeWindow()() {
+contextMenuPolicy: 1
+createMenus(QString,QString): function createMenus(QString,QString)() {
+cursor: ""
+customContextMenuRequested(QPoint): function customContextMenuRequested(QPoint)() {
+delayedShowPlugin(): function delayedShowPlugin()() {
+deleteLater(): function deleteLater()() {
+destroyed(): function destroyed()() {
+destroyed(QObject*): function destroyed(QObject*)() {
+dockNestingEnabled: false
+dockOptions: 5
+documentMode: false
+dpiScalingChanged(): function dpiScalingChanged()() {
+dpiScalingX: 1
+dpiScalingY: 1
+enabled: true
+executeTestProcess(QString,QStringList): function executeTestProcess(QString,QStringList)() {
+executeTestProgram(QString): function executeTestProgram(QString)() {
+flushLog(): function flushLog()() {
+flushLog(bool): function flushLog(bool)() {
+focus: false
+focusPolicy: 0
+font: ".SF NS Text,13,-1,5,50,0,0,0,0,0"
+frameGeometry: ""
+frameSize: ""
+fullScreen: false
+geometry: ""
+getAnalyticSessionID(): function getAnalyticSessionID()() {
+getAppVersion(): function getAppVersion()() {
+getNotifyHtmlContents(): function getNotifyHtmlContents()() {
+getOffloadFolder(): function getOffloadFolder()() {
+getPlugin(QString): function getPlugin(QString)() {
+getSettingsOffloadFolder(): function getSettingsOffloadFolder()() {
+getSourceFile(): function getSourceFile()() {
+getWatchFolder(bool): function getWatchFolder(bool)() {
+gotoTestLabel(QString): function gotoTestLabel(QString)() {
+grab(): function grab()() {
+grab(QRect): function grab(QRect)() {
+handleMenuItem(int): function handleMenuItem(int)() {
+height: 720
+hide(): function hide()() {
+hidePopOverPluginWidget(QString): function hidePopOverPluginWidget(QString)() {
+iconSize: ""
+iconSizeChanged(QSize): function iconSizeChanged(QSize)() {
+inputMethodHints: 0
+isActiveWindow: false
+isNetworkAvailable(): function isNetworkAvailable()() {
+isOnline(): function isOnline()() {
+layoutDirection: 0
+locale: ""
+logMessage(QString): function logMessage(QString)() {
+lower(): function lower()() {
+maximized: false
+maximumHeight: 16777215
+maximumSize: ""
+maximumWidth: 16777215
+minimizeWindow(): function minimizeWindow()() {
+minimized: false
+minimumHeight: 720
+minimumSize: ""
+minimumSizeHint: ""
+minimumWidth: 1280
+modal: false
+mouseTracking: false
+networkAvailabilityChanged(bool): function networkAvailabilityChanged(bool)() {
+normalGeometry: ""
+objectName: ""
+objectNameChanged(QString): function objectNameChanged(QString)() {
+onFocusChanged(QWidget*,QWidget*): function onFocusChanged(QWidget*,QWidget*)() {
+onWebSelectionChanged(): function onWebSelectionChanged()() {
+openPopup(QString): function openPopup(QString)() {
+openPopup(QString,int): function openPopup(QString,int)() {
+openPopup(QString,int,int): function openPopup(QString,int,int)() {
+openPopup(QString,int,int,bool): function openPopup(QString,int,int,bool)() {
+openStudio(QString): function openStudio(QString)() {
+openUrl(QString): function openUrl(QString)() {
+osName(): function osName()() {
+palette: ""
+pauseTest(bool): function pauseTest(bool)() {
+pluginPreferences(QString): function pluginPreferences(QString)() {
+pluginWidgetConfigurationJSONSchema(QString): function pluginWidgetConfigurationJSONSchema(QString)() {
+popupClosed(): function popupClosed()() {
+popupLinkClicked(QUrl): function popupLinkClicked(QUrl)() {
+popupLoadError(int,QString): function popupLoadError(int,QString)() {
+popupUrlChanged(QUrl): function popupUrlChanged(QUrl)() {
+pos: ""
+preloadViews(): function preloadViews()() {
+qrc(QString): function qrc(QString)() {
+quitApp(): function quitApp()() {
+raise(): function raise()() {
+readFile(QString,QString): function readFile(QString,QString)() {
+readFileResult(QString): function readFileResult(QString)() {
+rect: ""
+refreshAuthTokens(): function refreshAuthTokens()() {
+repaint(): function repaint()() {
+requestAnalyticSessionIdAsync(): function requestAnalyticSessionIdAsync()() {
+restoreWindowPositionSettings(): function restoreWindowPositionSettings()() {
+saveWindowPositionSettings(): function saveWindowPositionSettings()() {
+sendAnalytic(QString): function sendAnalytic(QString)() {
+sendAnalytic(QString,QString): function sendAnalytic(QString,QString)() {
+setAnimated(bool): function setAnimated(bool)() {
+setBadgeLabelText(QString): function setBadgeLabelText(QString)() {
+setDisabled(bool): function setDisabled(bool)() {
+setDockMenu(QObject*): function setDockMenu(QObject*)() {
+setDockNestingEnabled(bool): function setDockNestingEnabled(bool)() {
+setEnabled(bool): function setEnabled(bool)() {
+setFocus(): function setFocus()() {
+setGeometryPopOverPluginWidget(QString,int,int,int,int): function setGeometryPopOverPluginWidget(QString,int,int,int,int)() {
+setHidden(bool): function setHidden(bool)() {
+setPluginPreferences(QString,QString): function setPluginPreferences(QString,QString)() {
+setPopOverDialogDone(int): function setPopOverDialogDone(int)() {
+setPopOverDialogTitle(QString): function setPopOverDialogTitle(QString)() {
+setStyleSheet(QString): function setStyleSheet(QString)() {
+setTestMediaSourceFile(QString): function setTestMediaSourceFile(QString)() {
+setTestOffloadFolder(QString): function setTestOffloadFolder(QString)() {
+setTestTimerInterval(int): function setTestTimerInterval(int)() {
+setTestWatchFolder(QString): function setTestWatchFolder(QString)() {
+setTrayMenu(QString,QObject*): function setTrayMenu(QString,QObject*)() {
+setUnifiedTitleAndToolBarOnMac(bool): function setUnifiedTitleAndToolBarOnMac(bool)() {
+setVisible(bool): function setVisible(bool)() {
+setWatchFolder(GoProFileURI,bool): function setWatchFolder(GoProFileURI,bool)() {
+setWindowModified(bool): function setWindowModified(bool)() {
+setWindowTitle(QString): function setWindowTitle(QString)() {
+show(): function show()() {
+showFullScreen(): function showFullScreen()() {
+showInFolder(QString): function showInFolder(QString)() {
+showMaximized(): function showMaximized()() {
+showMinimized(): function showMinimized()() {
+showNormal(): function showNormal()() {
+showNotifyMessage(float,QString,int,int,int,int,int,int): function showNotifyMessage(float,QString,int,int,int,int,int,int)() {
+showPluginWidget(QString): function showPluginWidget(QString)() {
+showPluginWidget(QString,QString): function showPluginWidget(QString,QString)() {
+showPluginWidget(QString,QString,bool): function showPluginWidget(QString,QString,bool)() {
+showPopOverPluginWidget(QString,bool,int,int,int,int): function showPopOverPluginWidget(QString,bool,int,int,int,int)() {
+showPopOverPluginWidget(QString,bool,int,int,int,int,QString): function showPopOverPluginWidget(QString,bool,int,int,int,int,QString)() {
+showTestMessage(QString): function showTestMessage(QString)() {
+shutDown(): function shutDown()() {
+size: ""
+sizeHint: ""
+sizeIncrement: null
+sizePolicy: ""
+statusTip: ""
+styleSheet: "QWebView {background-color: rgb(2, 2, 2);}"
+systemTrayMessage(QString,QString,int): function systemTrayMessage(QString,QString,int)() {
+tabShape: 0
+teardownShareService(): function teardownShareService()() {
+testResult(bool,QString,QString): function testResult(bool,QString,QString)() {
+toggleFullScreenMode(): function toggleFullScreenMode()() {
+toggleFullscreen(): function toggleFullscreen()() {
+toolButtonStyle: 0
+toolButtonStyleChanged(Qt::ToolButtonStyle): function toolButtonStyleChanged(Qt::ToolButtonStyle)() {
+toolTip: ""
+toolTipDuration: -1
+triggerMenuItem(QString): function triggerMenuItem(QString)() {
+uiReady(QString): function uiReady(QString)() {
+unifiedTitleAndToolBarOnMac: false
+update(): function update()() {
+updateMenus(QString): function updateMenus(QString)() {
+updateMicroFocus(): function updateMicroFocus()() {
+updatesEnabled: true
+useDebugMenu(): function useDebugMenu()() {
+visible: true
+waitTest(int): function waitTest(int)() {
+whatsThis: ""
+width: 1337
+windowFilePath: ""
+windowIcon: null
+windowIconChanged(QIcon): function windowIconChanged(QIcon)() {
+windowIconText: ""
+windowIconTextChanged(QString): function windowIconTextChanged(QString)() {
+windowMaximize(): function windowMaximize()() {
+windowMinimize(): function windowMinimize()() {
+windowModality: 0
+windowModified: false
+windowOpacity: 1
+windowTitle: "Automation Quik"
+windowTitleChanged(QString): function windowTitleChanged(QString)() {
+x: 1165
+y: 23
+zoomWindow(): function zoomWindow()() {
+__proto__: Object

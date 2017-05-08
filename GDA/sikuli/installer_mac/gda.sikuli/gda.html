@@ -1,0 +1,182 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>gda.sikuli</h2> <a href="gda.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt">#import org.sikuli.basics.SikulixForJython</span>
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">import</span> org.sikuli.script.ImagePath
+<span class="cmt">#import HelperLib</span>
+<span class="cmt">#from guide import *</span>
+
+<span class="kw">global</span> settings{}
+
+<span class="kw">def</span> GetEnvInfo():
+    settings[<span class="str">"sikuli_ver"</span>]=Env.getSikuliVersion()
+    <span class="cmt">#print "OS:"+getOS()</span>
+    <span class="cmt">#print "OSUtil:"+Env.getOSUtil()</span>
+    <span class="cmt">#print "OSVersion:"+getOSVersion()</span>
+    <span class="kw">print</span> <span class="str">"DataPath:"</span>+Env.getSikuliDataPath()
+    <span class="cmt">#print "Mac:"+En.isMac()</span>
+    <span class="cmt">#print "Win:"+En.isWindows()</span>
+    <span class="kw">print</span> <span class="str">"BundleFolder="</span>+getBundleFolder()
+    <span class="kw">print</span> <span class="str">"ParentPath="</span>+getParentPath()
+
+<span class="kw">def</span> getmactitle():
+    <span class="kw">print</span> <span class="str">"getmactitle"</span>
+    cmd = <span class="str">"""
+    tell application "Finder"
+            activate
+        
+            delay 1
+        get title of front window
+    end tell
+    """</span>
+    txt = runScript(cmd)
+    <span class="kw">return</span> txt
+
+<span class="kw">def</span> AppStart(appname):
+    <span class="kw">print</span> <span class="str">"openApp&gt;"</span>
+
+    a1 = App(appname)
+    <span class="kw">if</span> <span class="kw">not</span> a1:
+        a1 = openApp(appname+<span class="str">".app"</span>)
+        <span class="kw">print</span> <span class="str">"openApp"</span>
+
+        a1 = App(appname)
+        <span class="kw">if</span> a1:
+            <span class="kw">if</span> <span class="kw">not</span> a1.isRunning():
+                waitcount =<span class="dig">10</span>
+                <span class="kw">while</span> <span class="kw">not</span> a1.isRunning():
+                    waitcount = waitcount - <span class="dig">1</span>
+                    <span class="kw">if</span> waitcount == <span class="dig">0</span>:
+                        <span class="kw">print</span> <span class="str">"failed startup timeout"</span>
+                        exit(<span class="dig">1</span>)
+                    <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"App "</span> + appname + <span class="str">" failed to startup"</span>
+            exit(<span class="dig">1</span>)
+<span class="cmt">#    if not a1.isRunning():</span>
+<span class="cmt">#        print "App " + appname + " is not running"</span>
+<span class="cmt">#        exit(1) </span>
+
+    <span class="skw">wait</span>(<span class="dig">5</span>)
+    a1.focus()
+    r0 =a1.focusedWindow()
+    <span class="kw">if</span> <span class="kw">not</span> r0:
+        <span class="kw">print</span> <span class="str">"Failed: Window region not found"</span>
+        <span class="kw">return</span> r0
+
+    r0.highlight(<span class="dig">1</span>)
+    <span class="kw">print</span> <span class="str">"&lt;openApp"</span>
+    <span class="kw">return</span> a1, r0
+
+
+
+<span class="kw">def</span> Test_Welcome(r0):
+
+
+    <span class="cmt">#wait("GoProDesktopApp_GPLogo.png").find("Welcome_GDA_Title.png")</span>
+    r1 = r0.<span class="skw">find</span>(<img src="Welcome_getstarted.png" />)
+    r1.<span class="skw">find</span>(<img src="GoproLogo.png" />)
+
+    r1.<span class="skw">find</span>(<img src="Welcome GDA.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Manage.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Edit.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Share.png" />)
+
+    r2 = r1.<span class="skw">find</span>(Pattern(<img src="Welcome_AutoLaunch.png" />).similar(<span class="dig">0.80</span>))
+    <span class="cmt"># enable</span>
+    r2.<span class="skw">find</span>(Pattern(<img src="Welcome_UnChecked_AutoLaunch.png" />).similar(<span class="dig">0.90</span>)).<span class="skw">click</span>(<img src="Welcome_Unchecked_btn.png" />)
+
+    <span class="cmt"># disable</span>
+    r2.<span class="skw">find</span>(Pattern(<img src="Welcome_UnChecked_AutoLaunch.png" />).similar(<span class="dig">0.90</span>)).<span class="skw">click</span>(<img src="Welcome_Checked_btn.png" />)
+
+    r1.<span class="skw">click</span>(<img src="Welcome_GetStarted_btn.png" />)
+
+
+
+
+
+
+
+GetEnvInfo()
+gp,gpr=AppStart(<span class="str">"GoPro."</span>)
+<span class="kw">if</span> <span class="kw">not</span> gp:
+    <span class="kw">print</span> <span class="str">"AppStart Failed"</span>
+    exit(<span class="dig">1</span>)
+<span class="kw">print</span> getmactitle()
+gp.focus()
+<span class="kw">print</span> gp.getWindow()
+<span class="kw">print</span> gp.getPID()
+<span class="kw">print</span> gp.getName()
+</pre>
+</body>
+</html>

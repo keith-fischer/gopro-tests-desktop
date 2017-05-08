@@ -1,0 +1,233 @@
+https://wiki.gopro.com/display/SST/gpscm%3A+git+repository+dependency+management+tool
+https://testrail.gopro.lcl/index.php?/suites/overview/86
+https://github.com/generalthings/gopro-tests-desktop
+Jenkins dashboard
+https://jenkinssd.gopro-platform.com/view/Desktop/
+
+MacMiniGDA-01 - newer mac with i5
+MacMiniGDA-02 -  older 2009 with duocore
+
+-------------------------------------------
+1.0 browser post javascript test
+1.1 differentiate post types types like: run js & reset result list
+2.0 node routes to post handler
+2.1 response obj is placed on websocket server
+3.0 place javascript test into queue
+4.0 gda requests next test
+5.0 websocket server gets queued javascript test sent to GDA
+6.0 GDA websocket loop gets javascript test and runs eval()
+7.0 eval returns result to gda websocket send()
+8.0 node websocket server get result
+9.0 node websocket ontext parses and sends back result to response obj
+
+---------------------------------
+gda realtime javascript test
+---------------------------------
+browser............node..........websocket...........gda
+1. post js>------->synchronous
+2.                     >----------->js queue
+3.                                  request js<---------<server loop
+4.                                  js result<----------<eval(js)
+5.                     <------------result calback
+6. <-------------<postback
+
+-----------------------------
+State Chart https://www.websequencediagrams.com/#
+----------------------------
+
+title GDA Automation Web/Socket Tool
+
+alt GDA Startup
+Browser->Node.router: Start GDA Request
+note left of Browser: User invokes\nGDA to launch
+Node.router->Node.Spawn: Invoke GDA
+note right of Node.Spawn: arg of\nwebsocket\nscript
+Node.Spawn->Node.AsysnchWait: yield thread to stdout
+note right of Node.AsysnchWait: asynch\nsleep
+Node.stdout->Node.AsysnchWait: callback
+GDA.Send_START->Node.WS.Listener: New GDA instance
+Node.WS.Listener->Node.WS.MsgHandle_Start:
+Node.WS.MsgHandle_Start->Node.AsysnchWait:
+Node.AsysnchWait->Node.WS.Send: Next_Test
+Node.AsysnchWait->Node.Spawn:
+Node.Spawn->Browser: Response show GDA started
+end
+
+alt GDA Debug
+Browser->Node.router: GDA JS\nDebug Request
+note left of Browser: User sends\nGDA js
+Node.router->Node.WS.MsgHandle_DebugJS: debug GDA
+Node.WS.MsgHandle_DebugJS->Node.WS.Send: Test JS:\nyield thread\n to stdout
+Node.WS.Send->Node.AsysnchWait: asynch\nsleep
+GDA.WSServer->GDA_Test: Eval(js)
+GDA_Test->Node.WS.Listener
+Node.WS.Listener->Node.WS.MsgHandle_Result: callback
+
+end
+
+
+alt GDA Test
+Node.stdout->Node.AsysnchWait: callback
+GDA.Send_START->Node.WS.Listener: New GDA instance
+Node.WS.Listener->Node.WS.MsgHandle_Start:
+Node.WS.MsgHandle_Start->Node.AsysnchWait:
+Node.AsysnchWait->Node.WS.Send: Next_Test
+Node.AsysnchWait->Node.Spawn:
+Node.Spawn->Browser: Response show GDA started
+end
+
+
+alt GDA Test
+Node.WS.Listener->Node.WS.MsgHandle_Test:
+Node.WS.MsgHandle_Test->Node.test.step:
+Node.test.step->Node.WS.Send: Test JS
+Node.WS.Listener->Node.WS.MsgHandle_Result:
+end
+----------------------
+S S H autogda pw: access4auto
+ifconfig |grep inet
+
+
+
+MacMiniGDA-01 - newer mac with i5
+ssh autogda@10.11.202.84
+MacMiniGDA-02 -  older 2009 with duocore
+ssh autogda@10.11.202.67
+
+____________________________
+OSX
+homebrew
+ruby
+ bundler
+python
+ pip
+Node
+java jdk7
+http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+java jdk8
+http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+-----------------------------------------------------
+jenkins
+https://jenkinssd.gopro-platform.com/user/kfischer/my-views/view/All/
+
+
+-----------------------
+package installer
+sudo visudo
+# Uncommenter can run installer as root without inputting password
+"autogda" ALL=(root) NOPASSWD: /usr/local/bin/installpkg
+esc  :wq  save and exit
+this works>>sudo installpkg -i /Users/keithfisher/Downloads/GoPro-MacInstaller-0.1.0.2020.dmg
+
+In order to install *.pkg file silently, it needs to have administrator privileges.
+Just run my command below if you have administrator password:
+echo "your_admin_pwd" | sudo -S installer -allowUntrusted -verboseR -pkg "path/to/your.pkg" -target /
+sudo installer -pkg /path/to/package.pkg -target /
+
+https://github.com/henri/installpkg
+sudo installpkg -i -h -q /Users/keithfisher/Downloads/GoPro-MacInstaller-0.1.0.1957.dmg
+
+
+MBP-25710:~ keithfisher$ sudo visudo
+visudo: /etc/sudoers busy, try again later
+MBP-25710:~ keithfisher$ sudo visudo
+MBP-25710:~ keithfisher$ sudo installpkg -i -h -q /Users/keithfisher/Downloads/GoPro-MacInstaller-0.1.0.1957.dmg
+Mounting Item : /Users/keithfisher/Downloads/GoPro-MacInstaller-0.1.0.1957.dmg
+Installing Item : /tmp/installpkg_mountpoints/dmg.IpU8iA/GoPro.pkg
+installer: Package name is GoPro
+installer: Upgrading at base path /
+installer: The upgrade was successful.
+Item unmounted.
+MBP-25710:~ keithfisher$ sudo installpkg -i /Users/keithfisher/Downloads/GoPro-MacInstaller-0.1.0.1957.dmg
+
+
+Mounting Item : /Users/keithfisher/Downloads/GoPro-MacInstaller-0.1.0.1957.dmg
+Installing Item : /Volumes/GoPro-MacInstaller/GoPro.pkg
+installer: Package name is GoPro
+installer: Upgrading at base path /
+installer: The upgrade was successful.
+Item unmounted.
+
+
+----------------------------------------------------------------------------
+Summary :
+
+If any of these packages required reboots, then you should restart your computer.
+To restart the machine type : sudo shutdown -r now
+MBP-25710:~ keithfisher$
+
+
+---------------------------
+<script src="js/toolkit/Toolkit.js"></script>
+<script src="js/toolkit/Viewable.js"></script>
+<script src="js/toolkit/Overlay.js"></script>
+<link rel="stylesheet" href="/css/main.css" />
+    <title>Document Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/style1.css" media="screen,projection">
+    <link rel="stylesheet" type="text/css" href="/css/style2.css" media="screen,projection">
+    <link rel="stylesheet" type="text/css" href="/css/style3.css" media="screen,projection">
+    <link rel="stylesheet" type="text/css" href="/css/print.css" media="print">
+<link rel="import" href="import/doc.html">
+
+<RCC>
+    <qresource prefix="/gopro">
+        <file>css/login.css</file>
+        <file>html/gpUILoginBypass.html</file>
+        <file>html/gpUILoginContainer.html</file>
+        <file>html/gpUILoginPassword.html</file>
+        <file>html/gpUILoginForgotPassword.html</file>
+        <file>html/gpUILoginRequestConfirm.html</file>
+        <file>html/gpUILoginStatus.html</file>
+        <file>html/gpUILoginSubmit.html</file>
+        <file>html/gpUILoginToggle.html</file>
+        <file>html/gpUILoginUsername.html</file>
+        <file>html/gpUISignupContainer.html</file>
+        <file>html/gpUISignupTermsOfServiceLink.html</file>
+        <file>html/gpUISignupPrivacyPolicyLink.html</file>
+        <file>html/gpUISignupFirstname.html</file>
+        <file>html/gpUISignupLastname.html</file>
+        <file>html/gpUISignupNewsletterCheckbox.html</file>
+        <file>html/gpUISignupReadAndAgreeCheckbox.html</file>
+        <file>html/gpUISignupPassword.html</file>
+        <file>html/gpUISignupPasswordConfirm.html</file>
+        <file>html/gpUISignupStatus.html</file>
+        <file>html/gpUISignupSubmit.html</file>
+        <file>html/gpUISignupToggle.html</file>
+        <file>html/gpUISignupUsername.html</file>
+        <file>html/gpUIValuePropAutoLaunchCheckbox.html</file>
+        <file>html/gpUIValuePropContainer.html</file>
+        <file>html/gpUIValuePropStartButton.html</file>
+        <file>html/login.html</file>
+        <file>images/gopro-logo.svg</file>
+        <file>images/gopro-logo-reverse.svg</file>
+        <file>images/welcome_screen-min.png</file>
+        <file>js/gpLoginController.js</file>
+        <file>js/gpLoginModel.js</file>
+        <file>js/gpLoginView.js</file>
+        <file>js/gpUILoginBypass.js</file>
+        <file>js/gpUILoginContainer.js</file>
+        <file>js/gpUILoginPassword.js</file>
+        <file>js/gpUILoginForgotPassword.js</file>
+        <file>js/gpUILoginRequestConfirm.js</file>
+        <file>js/gpUILoginStatus.js</file>
+        <file>js/gpUILoginSubmit.js</file>
+        <file>js/gpUILoginToggle.js</file>
+        <file>js/gpUILoginUsername.js</file>
+        <file>js/gpUISignupFirstname.js</file>
+        <file>js/gpUISignupLastname.js</file>
+        <file>js/gpUISignupNewsletterCheckbox.js</file>
+        <file>js/gpUISignupReadAndAgreeCheckbox.js</file>
+        <file>js/gpUISignupPassword.js</file>
+        <file>js/gpUISignupPasswordConfirm.js</file>
+        <file>js/gpUISignupStatus.js</file>
+        <file>js/gpUISignupSubmit.js</file>
+        <file>js/gpUISignupToggle.js</file>
+        <file>js/gpUISignupUsername.js</file>
+        <file>js/gpUISignupContainer.js</file>
+        <file>js/gpUISignupTermsOfServiceLink.js</file>
+        <file>js/gpUISignupPrivacyPolicyLink.js</file>
+        <file>js/gpUIValuePropAutoLaunchCheckbox.js</file>
+        <file>js/gpUIValuePropContainer.js</file>
+        <file>js/gpUIValuePropStartButton.js</file>
+    </qresource>
+</RCC>

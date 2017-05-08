@@ -1,0 +1,15 @@
+.widget-fullpie {
+  background-color: #47bbb3; }
+  .widget-fullpie .title {
+    color: rgba(255, 255, 255, 0.7); }
+  .widget-fullpie .value {
+    color: white; }
+  .widget-fullpie .h1 {
+    color: #000; }
+  .widget-fullpie .more-info {
+    color: rgba(255, 255, 255, 0.7); }
+  .widget-fullpie .updated-at {
+    color: rgba(0, 0, 0, 0.3); }
+  .widget-fullpie .chart_label {
+    font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px; }

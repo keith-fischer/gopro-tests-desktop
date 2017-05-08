@@ -1,0 +1,204 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>gda.sikuli</h2> <a href="gda.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> imagerepo():
+    <span class="skw">find</span>(<img src="camsettings_btn_h4blacksettings.png" />) <span class="cmt">#camsettings_btn_h4blacksettings.png</span>
+    <span class="skw">find</span>(<img src="camsettings_btn_h4sessionsettings.png" />) <span class="cmt">#camsettings_btn_h4sessionsettings.png</span>
+    <span class="skw">find</span>(<img src="camsettings_btn_h4silversettings.png" />) <span class="cmt">#camsettings_btn_h4silversettings.png</span>
+    <span class="skw">find</span>(<img src="camsettings_img_h4black.png" />) <span class="cmt">#camsettings_img_h4black.png</span>
+    <span class="skw">find</span>(<img src="camsettings_img_h4session.png" />) <span class="cmt">#camsettings_img_h4session.png</span>
+    <span class="skw">find</span>(<img src="camsettings_img_h4silver.png" />) <span class="cmt">#camsettings_img_h4silver.png</span>
+    <span class="skw">find</span>(<img src="camsettings_txt_title.png" />) <span class="cmt">#camsettings_txt_title.png</span>
+    <span class="skw">find</span>(<img src="conncam_btn_getsupport.png" />) <span class="cmt">#conncam_btn_getsupport.png</span>
+    <span class="skw">find</span>(<img src="conncam_btn_gotit.png" />) <span class="cmt">#conncam_btn_gotit.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_camon.png" />) <span class="cmt">#conncam_txt_camon.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_plugcam.png" />) <span class="cmt">#conncam_txt_plugcam.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_selectimport.png" />) <span class="cmt">#conncam_txt_selectimport.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_title.png" />) <span class="cmt">#conncam_txt_title.png</span>
+    <span class="skw">find</span>(<img src="createacct_btn_getacct.png" />) <span class="cmt">#createacct_btn_getacct.png</span>
+    <span class="skw">find</span>(<img src="createacct_btn_signin.png" />) <span class="cmt">#createacct_btn_signin.png</span>
+    <span class="skw">find</span>(<img src="createacct_checked_getnews.png" />) <span class="cmt">#createacct_checked_getnews.png</span>
+    <span class="skw">find</span>(<img src="createacct_checked_iacknowledge.png" />) <span class="cmt">#createacct_checked_iacknowledge.png</span>
+    <span class="skw">find</span>(<img src="createacct_txt_subtitle.png" />) <span class="cmt">#createacct_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="createacct_txt_title.png" />) <span class="cmt">#createacct_txt_title.png</span>
+    <span class="skw">find</span>(<img src="createacct_txtbox_email.png" />) <span class="cmt">#createacct_txtbox_email.png</span>
+    <span class="skw">find</span>(<img src="createacct_txtbox_password.png" />) <span class="cmt">#createacct_txtbox_password.png</span>
+    <span class="skw">find</span>(<img src="createacct_unchecked_getnews.png" />) <span class="cmt">#createacct_unchecked_getnews.png</span>
+    <span class="skw">find</span>(<img src="createacct_unchecked_iacknowledge.png" />) <span class="cmt">#createacct_unchecked_iacknowledge.png</span>
+    <span class="skw">find</span>(<img src="edits_btn_createedit.png" />) <span class="cmt">#edits_btn_createedit.png</span>
+    <span class="skw">find</span>(<img src="edits_img_edits.png" />) <span class="cmt">#edits_img_edits.png</span>
+    <span class="skw">find</span>(<img src="edits_txt_info.png" />) <span class="cmt">#edits_txt_info.png</span>
+    <span class="skw">find</span>(<img src="edits_txt_noedits.png" />) <span class="cmt">#edits_txt_noedits.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_addfolder.png" />) <span class="cmt">#findmedia_btn_addfolder.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_cancel.png" />) <span class="cmt">#findmedia_btn_cancel.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_close.png" />) <span class="cmt">#findmedia_btn_close.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_managefoldersettings.png" />) <span class="cmt">#findmedia_btn_managefoldersettings.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_save.png" />) <span class="cmt">#findmedia_btn_save.png</span>
+    <span class="skw">find</span>(<img src="findmedia_txt_subtitle.png" />) <span class="cmt">#findmedia_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="findmedia_txt_title.png" />) <span class="cmt">#findmedia_txt_title.png</span>
+    <span class="skw">find</span>(<img src="gensettings_btn_addnew.png" />) <span class="cmt">#gensettings_btn_addnew.png</span>
+    <span class="skw">find</span>(<img src="gensettings_btn_importlocation.png" />) <span class="cmt">#gensettings_btn_importlocation.png</span>
+    <span class="skw">find</span>(<img src="gensettings_btn_mediafoldersscan.png" />) <span class="cmt">#gensettings_btn_mediafoldersscan.png</span>
+    <span class="skw">find</span>(<img src="gensettings_selected_autodownload.png" />) <span class="cmt">#gensettings_selected_autodownload.png</span>
+    <span class="skw">find</span>(<img src="gensettings_selected_autolaunchapp.png" />) <span class="cmt">#gensettings_selected_autolaunchapp.png</span>
+    <span class="skw">find</span>(<img src="gensettings_selected_autoplay.png" />) <span class="cmt">#gensettings_selected_autoplay.png</span>
+    <span class="skw">find</span>(<img src="gensettings_selected_autosync.png" />) <span class="cmt">#gensettings_selected_autosync.png</span>
+    <span class="skw">find</span>(<img src="gensettings_txt_importlocation.png" />) <span class="cmt">#gensettings_txt_importlocation.png</span>
+    <span class="skw">find</span>(<img src="gensettings_txt_mediafolders.png" />) <span class="cmt">#gensettings_txt_mediafolders.png</span>
+    <span class="skw">find</span>(<img src="gensettings_txt_title.png" />) <span class="cmt">#gensettings_txt_title.png</span>
+    <span class="skw">find</span>(<img src="gensettings_unseleted_autodownload.png" />) <span class="cmt">#gensettings_unseleted_autodownload.png</span>
+    <span class="skw">find</span>(<img src="gensettings_unseleted_autolaunchapp.png" />) <span class="cmt">#gensettings_unseleted_autolaunchapp.png</span>
+    <span class="skw">find</span>(<img src="gensettings_unseleted_autoplay.png" />) <span class="cmt">#gensettings_unseleted_autoplay.png</span>
+    <span class="skw">find</span>(<img src="gensettings_unseleted_autosync.png" />) <span class="cmt">#gensettings_unseleted_autosync.png</span>
+    <span class="skw">find</span>(<img src="media_btn_choosefolder.png" />) <span class="cmt">#media_btn_choosefolder.png</span>
+    <span class="skw">find</span>(<img src="media_btn_connectcam.png" />) <span class="cmt">#media_btn_connectcam.png</span>
+    <span class="skw">find</span>(<img src="media_btn_settings.png" />) <span class="cmt">#media_btn_settings.png</span>
+    <span class="skw">find</span>(<img src="media_img_addmedia.png" />) <span class="cmt">#media_img_addmedia.png</span>
+    <span class="skw">find</span>(<img src="media_img_alerts.png" />) <span class="cmt">#media_img_alerts.png</span>
+    <span class="skw">find</span>(<img src="media_selected_edits.png" />) <span class="cmt">#media_selected_edits.png</span>
+    <span class="skw">find</span>(<img src="media_selected_hero4black.png" />) <span class="cmt">#media_selected_hero4black.png</span>
+    <span class="skw">find</span>(<img src="media_selected_hero4session.png" />) <span class="cmt">#media_selected_hero4session.png</span>
+    <span class="skw">find</span>(<img src="media_selected_hero4silver.png" />) <span class="cmt">#media_selected_hero4silver.png</span>
+    <span class="skw">find</span>(<img src="media_selected_media.png" />) <span class="cmt">#media_selected_media.png</span>
+    <span class="skw">find</span>(<img src="media_selected_recentlyadd.png" />) <span class="cmt">#media_selected_recentlyadd.png</span>
+    <span class="skw">find</span>(<img src="media_txt_title.png" />) <span class="cmt">#media_txt_title.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_edits.png" />) <span class="cmt">#media_unselected_edits.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_hero4black.png" />) <span class="cmt">#media_unselected_hero4black.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_hero4session.png" />) <span class="cmt">#media_unselected_hero4session.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_hero4silver.png" />) <span class="cmt">#media_unselected_hero4silver.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_media.png" />) <span class="cmt">#media_unselected_media.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_recentlyadd.png" />) <span class="cmt">#media_unselected_recentlyadd.png</span>
+    <span class="skw">find</span>(<img src="mediacam_btn_importfiles.png" />) <span class="cmt">#mediacam_btn_importfiles.png</span>
+    <span class="skw">find</span>(<img src="mediacam_txt_spaceused.png" />) <span class="cmt">#mediacam_txt_spaceused.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_btn_cancel.png" />) <span class="cmt">#mediacamsettings_btn_cancel.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_btn_close.png" />) <span class="cmt">#mediacamsettings_btn_close.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_btn_save.png" />) <span class="cmt">#mediacamsettings_btn_save.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_checked_autodelete.png" />) <span class="cmt">#mediacamsettings_checked_autodelete.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_checked_autoimport.png" />) <span class="cmt">#mediacamsettings_checked_autoimport.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_unchecked_autodelete.png" />) <span class="cmt">#mediacamsettings_unchecked_autodelete.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_unchecked_autoimport.png" />) <span class="cmt">#mediacamsettings_unchecked_autoimport.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_img_logo.png" />) <span class="cmt">#mediah4black_img_logo.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_available.png" />) <span class="cmt">#mediah4black_txt_available.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_capacity.png" />) <span class="cmt">#mediah4black_txt_capacity.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_subtitle.png" />) <span class="cmt">#mediah4black_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_title.png" />) <span class="cmt">#mediah4black_txt_title.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_used.png" />) <span class="cmt">#mediah4black_txt_used.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_img_logo.png" />) <span class="cmt">#mediah4session_img_logo.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_available.png" />) <span class="cmt">#mediah4session_txt_available.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_capacity.png" />) <span class="cmt">#mediah4session_txt_capacity.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_subtitle.png" />) <span class="cmt">#mediah4session_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_title.png" />) <span class="cmt">#mediah4session_txt_title.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_used.png" />) <span class="cmt">#mediah4session_txt_used.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_img_logo.png" />) <span class="cmt">#mediah4silver_img_logo.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_available.png" />) <span class="cmt">#mediah4silver_txt_available.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_capacity.png" />) <span class="cmt">#mediah4silver_txt_capacity.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_subtitle.png" />) <span class="cmt">#mediah4silver_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_title.png" />) <span class="cmt">#mediah4silver_txt_title.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_used.png" />) <span class="cmt">#mediah4silver_txt_used.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4black_txt_cammodel.png" />) <span class="cmt">#mediasettingsh4black_txt_cammodel.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4black_txtbox_camfolder.png" />) <span class="cmt">#mediasettingsh4black_txtbox_camfolder.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4session_txt_cammodel.png" />) <span class="cmt">#mediasettingsh4session_txt_cammodel.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4session_txtbox_camfolder.png" />) <span class="cmt">#mediasettingsh4session_txtbox_camfolder.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4silver_txt_cammodel.png" />) <span class="cmt">#mediasettingsh4silver_txt_cammodel.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4silver_txtbox_camfolder.png" />) <span class="cmt">#mediasettingsh4silver_txtbox_camfolder.png</span>
+    <span class="skw">find</span>(<img src="popup_btn_indexinfo.png" />) <span class="cmt">#popup_btn_indexinfo.png</span>
+    <span class="skw">find</span>(<img src="recentlyadd_btn_addmedia.png" />) <span class="cmt">#recentlyadd_btn_addmedia.png</span>
+    <span class="skw">find</span>(<img src="recentlyadd_btn_connectcam.png" />) <span class="cmt">#recentlyadd_btn_connectcam.png</span>
+    <span class="skw">find</span>(<img src="recentlyadd_txt_title.png" />) <span class="cmt">#recentlyadd_txt_title.png</span>
+    <span class="skw">find</span>(<img src="settings_btn_backtomedia.png" />) <span class="cmt">#settings_btn_backtomedia.png</span>
+    <span class="skw">find</span>(<img src="settings_selected_camsettings.png" />) <span class="cmt">#settings_selected_camsettings.png</span>
+    <span class="skw">find</span>(<img src="settings_selected_gensettings.png" />) <span class="cmt">#settings_selected_gensettings.png</span>
+    <span class="skw">find</span>(<img src="settings_unselected_camsettings.png" />) <span class="cmt">#settings_unselected_camsettings.png</span>
+    <span class="skw">find</span>(<img src="settings_unselected_gensettings.png" />) <span class="cmt">#settings_unselected_gensettings.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_forgot.png" />) <span class="cmt">#signin_btn_forgot.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_needacct.png" />) <span class="cmt">#signin_btn_needacct.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_resendemail.png" />) <span class="cmt">#signin_btn_resendemail.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_signin.png" />) <span class="cmt">#signin_btn_signin.png</span>
+    <span class="skw">find</span>(<img src="signin_img_logo.png" />) <span class="cmt">#signin_img_logo.png</span>
+    <span class="skw">find</span>(<img src="signin_txt_title.png" />) <span class="cmt">#signin_txt_title.png</span>
+    <span class="skw">find</span>(<img src="signin_txtbox_emailpw.png" />) <span class="cmt">#signin_txtbox_emailpw.png</span>
+    <span class="skw">find</span>(<img src="startup_btn_continue.png" />) <span class="cmt">#startup_btn_continue.png</span>
+    <span class="skw">find</span>(<img src="startup_checked_autolaunchcam.png" />) <span class="cmt">#startup_checked_autolaunchcam.png</span>
+    <span class="skw">find</span>(<img src="startup_img_camhappy.png" />) <span class="cmt">#startup_img_camhappy.png</span>
+    <span class="skw">find</span>(<img src="startup_img_findmoments.png" />) <span class="cmt">#startup_img_findmoments.png</span>
+    <span class="skw">find</span>(<img src="startup_img_importmedia.png" />) <span class="cmt">#startup_img_importmedia.png</span>
+    <span class="skw">find</span>(<img src="startup_img_logo.png" />) <span class="cmt">#startup_img_logo.png</span>
+    <span class="skw">find</span>(<img src="startup_txt_title.png" />) <span class="cmt">#startup_txt_title.png</span>
+    <span class="skw">find</span>(<img src="startup_unchecked_autolaunchcam.png" />) <span class="cmt">#startup_unchecked_autolaunchcam.png</span>
+    <span class="skw">find</span>(<img src="user_btn_select.png" />) <span class="cmt">#user_btn_select.png</span>
+    <span class="skw">find</span>(<img src="user_btn_signoff.png" />) <span class="cmt">#user_btn_signoff.png</span>
+</pre>
+</body>
+</html>

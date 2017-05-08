@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    h1= title
+    form(name="gda-js-tester", method="post")
+        div.actions
+            input(type="submit", value="Start GDA", name="whichpost")
+            h3= GDA_status
+        div.input
+            span.label Test
+            input(type="text", name="test")
+        div.input
+            span.label Javascript
+            textarea(name="javascript", cols="140", rows="15")
+        div.actions
+            input(type="submit", value="Test Javascript in GDA", name="whichpost")
+
+        h1= 'Test List Results'
+        div.actions
+            input(type="submit", value="Reset Results List", name="whichpost")
+        ul(class="resultslist")
+            each testjs in testresults
+                li #{testjs.id} #{testjs.test}
+                    p(style="margin-left:5px")=testjs.js
+                    p(style="margin-left:5px")=testjs.result
+
+

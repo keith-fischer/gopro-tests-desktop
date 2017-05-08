@@ -1,0 +1,921 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>ScriptInit.sikuli</h2> <a href="ScriptInit.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt">##########################################</span>
+<span class="cmt">#IMPORT Start  ----&gt;</span>
+<span class="cmt">##########################################</span>
+<span class="kw">import</span> os
+
+<span class="cmt">#Set the current test path</span>
+CurrentTestCase = <span class="str">"GDA_OSX"</span>
+
+<span class="cmt"># get the directory containing your running .sikuli</span>
+zRootProjectDir = os.path.dirname(getBundlePath())
+
+<span class="kw">print</span> <span class="str">"RootProjectDir:"</span>,zRootProjectDir
+<span class="kw">if</span> <span class="kw">not</span> zRootProjectDir <span class="kw">in</span> sys.path:
+    sys.path.append(zRootProjectDir)
+
+<span class="cmt">#Set the framework path</span>
+LibPath = zRootProjectDir + <span class="str">"/HelperLib.sikuli"</span>
+
+<span class="kw">print</span> <span class="str">"LibPath:"</span>,LibPath
+<span class="kw">if</span> <span class="kw">not</span> LibPath <span class="kw">in</span> sys.path:
+    sys.path.append(LibPath)
+
+ThisTestCase = zRootProjectDir+ <span class="str">"/"</span> + CurrentTestCase+<span class="str">".sikuli"</span>
+
+<span class="kw">print</span> <span class="str">"ThisTestCase:"</span>,ThisTestCase
+<span class="kw">if</span> <span class="kw">not</span> ThisTestCase <span class="kw">in</span> sys.path:
+    sys.path.append(ThisTestCase)
+
+<span class="cmt"># all systems</span>
+<span class="kw">print</span> <span class="str">"SYS="</span>,sys.path
+<span class="cmt"># now you can import every .sikuli in the same directory</span>
+<span class="cmt">#from Lib import *</span>
+
+<span class="kw">import</span> HelperLib
+reload(HelperLib)
+HelperLib.Log(CurrentTestCase +<span class="str">" Startup"</span>)
+<span class="cmt">##########################################</span>
+<span class="cmt">#IMPORT End</span>
+<span class="cmt">##########################################</span>
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#START Test Suite Script Functions  ----&gt;</span>
+<span class="cmt">##########################################</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#SetVideoResolution</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> SetVideoResolution(Res):
+    <span class="kw">global</span> Pattern_Similar_Value
+    <span class="kw">global</span> debug
+    <span class="kw">global</span> printReport
+    <span class="kw">global</span> vncregion
+    <span class="kw">try</span>:
+
+        HelperLib.Log(<span class="str">"SetVideoResolution_"</span> + Res)
+        <span class="cmt">#click the video setting</span>
+
+        <span class="cmt">#Cam setting top icon and camera title settings header</span>
+        <span class="cmt">#VerifyLabelSetting="CamSettings_Label_Camera.png"</span>
+        <span class="cmt">#VerifyLabelSettingP = HelperLib.PATTERN(VerifyLabelSetting)</span>
+        <span class="cmt">#HelperLib.debugPrint(VerifyLabelSetting)</span>
+        <span class="cmt">#Camera Settings Title</span>
+        <span class="cmt">#printReport = False</span>
+        <span class="cmt">#FindCamSetting("CamSettings_Title",vncregion,VerifyLabelSettingP)  </span>
+
+        <span class="cmt">#HelperLib.debugPrint("CamSettings_Title"+VerifyLabelSetting)</span>
+        Pattern_Similar_Value=<span class="dig">0.90</span>
+        <span class="cmt">#Video Res label</span>
+
+        selectVideoResolution=<img src="CamSettings_Button_VideoResolution.png" />
+        selectVideoResolutionP =HelperLib.PATTERN(selectVideoResolution)
+        <span class="cmt">#Video Resolution Settings Label</span>
+        foundImg = FindCamSetting(<span class="str">"CamSettings_Button_VideoResolution"</span>,vncregion,selectVideoResolutionP)
+
+        <span class="kw">if</span> foundImg:
+            HelperLib.Log(<span class="str">"SetVideoResolution FOUND:"</span>+selectVideoResolution)
+            <span class="skw">wait</span>(<span class="dig">2</span>)
+            <span class="kw">if</span> HelperLib.CLICK(vncregion,selectVideoResolutionP) == True:
+                HelperLib.Log(<span class="str">"SetVideoResolution CLICKED: "</span>+selectVideoResolution)
+                <span class="cmt">#wait(2)</span>
+
+                <span class="cmt">#video  res dialog title</span>
+                VidResTitle = <img src="CamSettings_SetVideoRes_Title.png" />
+                <span class="cmt">#VidResTitleP = HelperLib.PATTERN(VidResTitle)</span>
+                HelperLib.Log(<span class="str">"SetVideoResolution: "</span>+VidResTitle)
+                <span class="cmt">#foundImg = HelperLib.WAIT(vncregion,VidResTitle)</span>
+                foundImg = AutoThresholdWait(vncregion,VidResTitle)
+                <span class="kw">if</span> foundImg:
+                    HelperLib.Log(<span class="str">"SetVideoResolution FOUND: "</span>+VidResTitle)
+
+                    <span class="cmt">#Res dialog value to select</span>
+                    setVidRes = <span class="str">"CamSettings_SetVideoRes_"</span> + Res  +<img src=".png" />
+                    setVidResP = HelperLib.PATTERN(setVidRes)
+                    HelperLib.Log(<span class="str">"SetVideoResolution FindCamSetting:"</span>+setVidRes)
+                    <span class="kw">if</span> Res == <span class="str">"4K-17-9"</span>:
+                        HelperLib.SwipeDown(vncregion)
+                        <span class="skw">wait</span>(<span class="dig">2</span>)
+                    <span class="kw">elif</span> Res == <span class="str">"WVGA"</span>:
+                        HelperLib.SwipeUp(vncregion)
+                        <span class="skw">wait</span>(<span class="dig">2</span>)
+                    foundImg = FindCamSetting(<span class="str">"SetVideoResolution-"</span>+Res,vncregion,setVidResP)
+                    <span class="kw">if</span> foundImg:
+                        HelperLib.Log(<span class="str">"SetVideoResolution FOUND:"</span>+setVidRes)
+                        <span class="skw">wait</span>(<span class="dig">2</span>)
+                        <span class="kw">if</span> HelperLib.CLICK(vncregion,setVidRes) == True:
+                            HelperLib.Log(<span class="str">"SetVideoResolution Clicked:"</span>+setVidRes)
+
+                            <span class="cmt">#foundImg.hightlight(1)</span>
+                            <span class="skw">wait</span>(<span class="dig">3</span>)
+
+                            <span class="cmt">#Verify Video Res label and value</span>
+                            verifyVidRes = <span class="str">"CamSettings_Selected_VideoResolution_"</span> + Res + <img src=".png" />
+                            <span class="cmt">#verifyVidResP = HelperLib.PATTERN(verifyVidRes)</span>
+                            <span class="cmt">#HelperLib.debugPrint("foundImg")</span>
+
+                            foundImg = HelperLib.WAIT(vncregion,verifyVidRes)
+                            <span class="kw">if</span> foundImg:
+                                HelperLib.Log(<span class="str">"SetVideoResolution FOUND:"</span>+verifyVidRes)
+                                <span class="cmt">#foundImg.hightlight(1)</span>
+                                <span class="kw">return</span> True
+                            <span class="kw">else</span>:
+                                HelperLib.Log(<span class="str">"SetVideoResolution FAILED:"</span>+verifyVidRes)
+                                vncregion.hightlight(<span class="dig">1</span>)
+                                <span class="kw">return</span> False
+
+                        <span class="kw">else</span>:
+                            HelperLib.Log(<span class="str">"SetVideoResolution FAILED CLICK:"</span>+setVidRes)
+                            vncregion.hightlight(<span class="dig">1</span>)
+                            HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />)
+                            <span class="kw">return</span> False
+                    <span class="kw">else</span>:
+                        vncregion.hightlight(<span class="dig">1</span>)
+                        HelperLib.Log(<span class="str">"SetVideoResolution NOT FOUND:"</span>+setVidRes)
+                        <span class="kw">if</span> HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />) == True:
+                            <span class="kw">return</span> False
+                        <span class="kw">else</span>:
+                            HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />)
+                            <span class="kw">return</span> False
+                <span class="kw">else</span>:
+                    HelperLib.Log(<span class="str">"SetVideoResolution NOT FOUND::"</span>+VidResTitle)
+                    vncregion.hightlight(<span class="dig">1</span>)
+                    HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />)
+                    vncregion.hightlight(<span class="dig">1</span>)
+                    <span class="kw">return</span> False
+            <span class="kw">else</span>:
+                vncregion.hightlight(<span class="dig">1</span>)
+                HelperLib.Log(<span class="str">"SetVideoResolution NOT CLICKED:"</span>+selectVideoResolution)
+                <span class="kw">return</span> False
+        <span class="kw">else</span>:
+            vncregion.hightlight(<span class="dig">1</span>)
+            HelperLib.Log(<span class="str">"SetVideoResolution NOT FOUND:"</span>+selectVideoResolution)
+            <span class="kw">return</span> False
+    <span class="kw">except</span> Exception, err:
+        HelperLib.Log(<span class="str">"SetVideoResolution ===&gt;ERROR: "</span> +str(err))
+        HelperLib.Log(<span class="str">"===&gt;SetVideoResolution ERROR:"</span>+<span class="str">"SetVideoResolution_"</span> + Res)
+        vncregion.hightlight(<span class="dig">1</span>)
+        HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />)
+        <span class="kw">return</span> False
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#SetVideoResolution</span>
+<span class="cmt">##########################################</span>
+<span class="cmt">#def SetVideoResolutionOLD(Res):</span>
+<span class="cmt">#    global Pattern_Similar_Value</span>
+<span class="cmt">#    HelperLib.Log("SetVideoResolution_" + Res)</span>
+
+<span class="cmt">#    #click the video setting</span>
+<span class="cmt">#    Pattern_Similar_Value=0.90</span>
+<span class="cmt">#    setVidRes=HelperLib.PATTERN("CamSettings_Button_VideoResolution.png")</span>
+<span class="cmt">#    FindCamSetting("CamSettings_Button_VideoResolution",vncregion,setVidRes)</span>
+
+<span class="cmt">#    #Pattern_Similar_Value=0.95</span>
+
+<span class="cmt">#    #wait for dialog title </span>
+<span class="cmt">#    VidResTitleP=HelperLib.PATTERN("CamSettings_SetVideoRes_Title.png")</span>
+<span class="cmt">#    vncregion.wait(VidResTitleP)</span>
+
+<span class="cmt">#    setVidRes = "CamSettings_SetVideoRes_" + Res  +".png"</span>
+<span class="cmt">#    setVidResP =HelperLib.PATTERN(setVidRes)</span>
+<span class="cmt">#    FindCamSetting("CamSettings_Button_VideoResolution",vncregion,setVidResP)</span>
+
+<span class="cmt">#    setVidCancel = HelperLib.PATTERN( "CamSettings_SetVideoRes_Cancel.png")</span>
+<span class="cmt">#    setVidCancelP =HelperLib.PATTERN(setVidCancel)</span>
+<span class="cmt">#    try:</span>
+<span class="cmt">#        vncregion.click(setVidResP)</span>
+<span class="cmt">#    except:</span>
+<span class="cmt">#        vncregion.click(setVidCancelP)</span>
+<span class="cmt">#    FindCamSetting("CamSettings_Button_VideoResolution",vncregion,setVidRes)</span>
+
+<span class="cmt">#    #Verify</span>
+<span class="cmt">#    verifyVidRes="CamSettings_Selected_VideoResolution_" + Res + ".png"</span>
+<span class="cmt">#    verifyVidResP =HelperLib.PATTERN(verifyVidRes)</span>
+
+<span class="cmt">#    VerifyLabelSetting="CamSettings_Label_Camera.png"</span>
+<span class="cmt">#    VerifyLabelSettingP =HelperLib.PATTERN(VerifyLabelSetting)</span>
+
+<span class="cmt">##    FindCamSetting("CamSettings_Title",vncregion,VidResTitleP)</span>
+<span class="cmt">#    VidResSettingP =HelperLib.PATTERN(verifyVidRes)</span>
+<span class="cmt">##    FindCamSetting("CamSettings_Button_VideoResolution",vncregion,setVidRes)</span>
+<span class="cmt">#    wait(3)</span>
+
+
+
+
+<span class="cmt">#    Pattern_Similar_Value=0.95  </span>
+<span class="cmt">#    vncregion.wait(setVidRes)</span>
+
+    <span class="cmt">#return True</span>
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#VerifyFPS</span>
+<span class="cmt">##########################################</span>
+<span class="cmt">#def VerifyFPS2(Res):</span>
+<span class="cmt">#    HelperLib.Log("VerifyFPS2" + Res)</span>
+<span class="cmt">#    VerifyFPS2(Res,False,False)</span>
+
+
+<span class="kw">def</span> VerifyFPS(Res):
+    <span class="kw">global</span> Pattern_Similar_Value
+    <span class="kw">try</span>:
+        Pattern_Similar_Value = <span class="dig">0.90</span>
+        HelperLib.Log(<span class="str">"VerifyFPS"</span> + Res +<span class="str">" - "</span>+ str(IsProTune) + <span class="str">" - "</span>+str(IsPAL))
+        selectFPS = <img src="CamSettings_Button_FrameRate.png" />
+        setFPSCancel =  <img src="CamSettings_DefaultDialog_Button_FrameRate_Cancel.png" />
+        protune = <span class="str">""</span>
+        NTSCPAL = <span class="str">""</span>
+
+        <span class="kw">if</span> IsProTune == True:
+            protune = <span class="str">"_ProTune"</span>
+
+        <span class="cmt">#default is NTSC not labeled. PAL is labeled as "PAL" for images</span>
+        <span class="kw">if</span> IsPAL == True:
+            NTSCPAL = <span class="str">"_PAL"</span>
+
+        verifyfpsImg = <span class="str">"CamSettings_DefaultDialog_FrameRate_"</span>+Res+protune+NTSCPAL+<img src=".png" />
+        verifyfpsImgP = HelperLib.PATTERN( verifyfpsImg)
+
+
+        verifyfpsTitleImg = <img src="CamSettings_SetFPS_Title.png" />
+        verifyfpsTitleImgP = HelperLib.PATTERN( verifyfpsTitleImg)
+
+        HelperLib.Log(<span class="str">"VerifyFPS image file = "</span> + str(verifyfpsImg))
+
+        <span class="cmt">#click the FPS setting to show FPS select list</span>
+        <span class="kw">if</span> HelperLib.CLICK(vncregion,selectFPS) == True:
+            <span class="cmt">#Verify FPS Title visible</span>
+            foundImg = AutoThresholdWait(vncregion,verifyfpsTitleImg)
+            <span class="kw">if</span> foundImg:
+                <span class="cmt">#Verify all FPS are visible</span>
+                foundImg = HelperLib.WAIT(vncregion,verifyfpsImgP)
+                <span class="kw">if</span> foundImg:
+                    HelperLib.Log(<span class="str">"VerifyFPS image file = "</span> + str(setFPSCancel))
+                    <span class="kw">if</span> HelperLib.CLICK(vncregion,setFPSCancel) == True:
+                        <span class="kw">return</span> True
+                    <span class="kw">else</span>:
+                        HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />)
+                        <span class="kw">return</span> False
+                <span class="kw">else</span>:
+                    HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />)
+                    <span class="kw">return</span> False
+            <span class="kw">else</span>:
+                HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />)
+                <span class="kw">return</span> False
+        <span class="kw">else</span>:
+            <span class="kw">return</span> False
+    <span class="kw">except</span> Exception, err:
+        HelperLib.Log(<span class="str">"===&gt;ERROR: "</span> +str(err))
+        HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />)
+        <span class="kw">return</span> False
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#AutoThresholdWait</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> AutoThresholdWait(imgRegion,imageName):
+    <span class="kw">global</span> Pattern_Similar_Value
+    HelperLib.Log(<span class="str">"AutoThresholdWait: "</span> + imageName)
+    Pattern_Similar_Value = <span class="dig">0.99</span>
+    imageP = HelperLib.PATTERN( imageName)
+    foundImg = HelperLib.WAIT(imgRegion,imageP)
+    <span class="kw">while</span> <span class="kw">not</span> foundImg:
+        <span class="kw">if</span> Pattern_Similar_Value &lt; <span class="dig">0.60</span>:
+            <span class="kw">break</span>
+        HelperLib.Log(<span class="str">"AutoThresholdWait: "</span> + str(Pattern_Similar_Value))
+        Pattern_Similar_Value = Pattern_Similar_Value -<span class="dig">0.5</span>
+        imageP = HelperLib.PATTERN( imageName)
+        foundImg = HelperLib.WAIT(imgRegion,imageP)
+
+    HelperLib.Log(<span class="str">"AutoThresholdWait: EXIT"</span> + str(Pattern_Similar_Value))
+    Pattern_Similar_Value = <span class="dig">0.90</span>
+    <span class="kw">if</span> foundImg:
+        HelperLib.Log(<span class="str">"AutoThresholdWait: FOUND"</span> + str(foundImg))
+        <span class="kw">return</span> foundImg
+    <span class="kw">else</span>:
+        <span class="kw">return</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#SetFPS</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> SetFPS(Res,FPS):
+    <span class="kw">global</span> Pattern_Similar_Value
+    <span class="kw">try</span>:
+        Pattern_Similar_Value = <span class="dig">0.90</span>
+        HelperLib.Log(<span class="str">"SetFPS"</span> + FPS +<span class="str">" - "</span>+ str(IsProTune) + <span class="str">" - "</span>+str(IsPAL))
+
+        selectFPS = HelperLib.PATTERN( <img src="CamSettings_Button_FrameRate.png" />)
+        setFPSCancel = HelperLib.PATTERN( <img src="CamSettings_DefaultDialog_Button_FrameRate_Cancel.png" />)
+
+        protune = <span class="str">""</span>
+        NTSCPAL = <span class="str">""</span>
+
+        <span class="kw">if</span> IsProTune == True:
+            protune = <span class="str">"_ProTune"</span>
+
+        <span class="cmt">#default is NTSC not labeled. PAL is labeled as "PAL" for images</span>
+        <span class="kw">if</span> IsPAL == True:
+            NTSCPAL = <span class="str">"_PAL"</span>
+
+        verifyfpsImg = <span class="str">"CamSettings_DefaultDialog_FrameRate_"</span>+Res+protune+NTSCPAL+<img src=".png" />
+        <span class="cmt">#verifyfpsImgP = HelperLib.PATTERN( verifyfpsImg) </span>
+
+        verifyIsfpsImg = <span class="str">"CamSettings_Selected_FrameRate_"</span>+FPS+<img src="FPS.png" />
+        <span class="cmt">#verifyIsfpsImgP = HelperLib.PATTERN( verifyIsfpsImg) </span>
+
+        Pattern_Similar_Value = <span class="dig">0.80</span>
+        clickfpsImg = <span class="str">"CamSettings_SetFPS_"</span>+FPS+<img src=".png" />
+        <span class="cmt">#clickfpsImgP = HelperLib.PATTERN( clickfpsImg) </span>
+        Pattern_Similar_Value = <span class="dig">0.90</span>
+
+        HelperLib.Log(<span class="str">"SetFPS image file = "</span> + str(verifyfpsImg))
+
+        <span class="cmt">#click the FPS setting to show FPS select list</span>
+        IsFound = HelperLib.CLICK(vncregion,selectFPS)
+
+        <span class="kw">if</span> IsFound == True:
+            <span class="cmt">#Verify all FPS are visible</span>
+            foundImg = HelperLib.WAIT(vncregion,verifyfpsImg)
+            <span class="kw">if</span> foundImg:
+                <span class="cmt">#click FPS</span>
+                foundImg = AutoThresholdWait(vncregion,clickfpsImg)
+                <span class="kw">if</span> foundImg:
+                    foundImg.<span class="skw">click</span>()
+                    <span class="skw">wait</span>(<span class="dig">3</span>)
+                    <span class="cmt">#Verify FPS is set</span>
+                    foundImg = HelperLib.WAIT(vncregion,verifyIsfpsImg)
+                    <span class="kw">if</span> foundImg:
+                        <span class="kw">return</span> True
+                    <span class="kw">else</span>:
+                        HelperLib.Log(<span class="str">"SetFPS Failed:  image file = "</span> + verifyIsfpsImg)
+                        <span class="kw">return</span> False
+                <span class="kw">else</span>:
+                    HelperLib.Log(<span class="str">"SetFPS Failed:  image file = "</span> + clickfpsImg)
+                    <span class="kw">if</span> HelperLib.CLICK(vncregion,setFPSCancel) == True:
+                        <span class="kw">return</span> False
+                    <span class="kw">else</span>:
+                        HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />)
+                        <span class="kw">return</span> False
+            <span class="kw">else</span>:
+                HelperLib.Log(<span class="str">"SetFPS Failed:  image file = "</span> + verifyfpsImg)
+                <span class="kw">if</span> HelperLib.CLICK(vncregion,setFPSCancel) == True:
+                    <span class="kw">return</span> False
+                <span class="kw">else</span>:
+                    HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />)
+                    <span class="kw">return</span> False
+        <span class="kw">else</span>:
+            <span class="kw">return</span> False
+    <span class="kw">except</span> Exception, err:
+        HelperLib.Log(<span class="str">"SetFPS Error:"</span> + str(err))
+        <span class="cmt">#Try to back out of fps dialog</span>
+        HelperLib.CLICK(vncregion,<img src="Android_Menu_Back.png" />)
+        <span class="kw">return</span> False
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#SetCameraSettingOnOff</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> SetCamSettingOnOff(SettingName, vncregion, SettingLabel, TargetSetting, CurrentSetting):
+    HelperLib.Log(CurrentTestCase +<span class="str">".SetCamSettingOnOff"</span>)
+    SettingLabelP = HelperLib.PATTERN(SettingLabel)
+    imgFound = FindCamSetting(SettingName,vncregion,SettingLabelP)
+    CurrentSettingP = HelperLib.PATTERN(CurrentSetting)
+    TargetSettingP = HelperLib.PATTERN(TargetSetting)
+    <span class="skw">wait</span>(<span class="dig">4</span>)
+    imgFound = vncregion.exists(SettingLabelP)
+
+    <span class="kw">if</span> imgFound:
+        <span class="cmt">#imgFound = vncregion.find(SettingLabel)</span>
+        <span class="cmt">#wait(2)</span>
+
+        imgFound = vncregion.<span class="skw">find</span>(SettingLabelP)
+        imgFound.highlight(<span class="dig">1</span>)
+        <span class="cmt">#wait(4)</span>
+        <span class="kw">if</span> imgFound.right().exists(CurrentSettingP):
+            <span class="cmt">#wait(2)</span>
+            imgButton = imgFound.right().<span class="skw">find</span>(CurrentSettingP)
+            imgButton.highlight(<span class="dig">1</span>)
+            <span class="cmt">#wait(2)</span>
+            imgButton.<span class="skw">click</span>()
+            <span class="cmt">#wait(3)</span>
+            <span class="cmt">#imgFound = vncregion.wait(SettingLabelP)</span>
+
+            <span class="cmt">#if imgFound:</span>
+            <span class="skw">wait</span>(<span class="dig">3</span>)
+            <span class="cmt">#imgFound.highlight(1) </span>
+            <span class="kw">if</span> imgFound.right().exists(TargetSettingP):
+                imgButton = imgFound.right().<span class="skw">find</span>(TargetSettingP)
+                <span class="kw">if</span> imgButton:
+                    <span class="skw">wait</span>(<span class="dig">2</span>)
+                    HelperLib.Log(SettingName+<span class="str">" ENABLED"</span>+TargetSetting)
+                    HelperLib.Report(<span class="str">"PASSED: "</span>+SettingName)
+
+            <span class="kw">else</span>:
+                HelperLib.Log(<span class="str">"****FAILED "</span>+SettingName+ <span class="str">" Switch NOT SET*****"</span>+TargetSetting)
+                HelperLib.Report(<span class="str">"FAILED: "</span>+SettingName)
+
+            <span class="cmt">#else:</span>
+            <span class="cmt">#    HelperLib.Log("****FAILED "+SettingName+ " NOT FOUND*****")</span>
+            <span class="cmt">#    HelperLib.Report("FAILED: "+SettingName)</span>
+
+        <span class="kw">elif</span> imgFound.right().exists(TargetSettingP):
+            <span class="skw">wait</span>(<span class="dig">2</span>)
+            imgFound.right().<span class="skw">find</span>(TargetSettingP).highlight(<span class="dig">1</span>)
+            HelperLib.Log(SettingName+<span class="str">" ENABLED"</span>+TargetSetting)
+            HelperLib.Report(<span class="str">"PASSED: "</span>+SettingName)
+
+        <span class="kw">else</span>:
+            HelperLib.Log(<span class="str">"****FAILED "</span>+SettingName+ <span class="str">" Switch NOT FOUND*****"</span>)
+            HelperLib.Report(<span class="str">"FAILED: "</span>+SettingName)
+
+    <span class="kw">else</span>:
+        HelperLib.Log(<span class="str">"****FAILED "</span>+SettingName+ <span class="str">" NOT FOUND*****"</span>)
+        HelperLib.Report(<span class="str">"FAILED: "</span>+SettingName)
+
+    <span class="kw">return</span> imgFound
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#FindCamSetting</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> AssertFindCamSetting(SettingName, vncregion, SettingLabel):
+    HelperLib.Log(CurrentTestCase +<span class="str">".AssertFindCamSetting:"</span>+SettingName)
+    <span class="cmt">#imgFound = HelperLib.SwipeFind(vncregion,SettingLabel,6)</span>
+    imgFound = FindCamSetting(SettingName, vncregion, SettingLabel)
+    <span class="kw">if</span> imgFound:
+        HelperLib.Report(<span class="str">"PASSED: "</span>+SettingName)
+    <span class="kw">else</span>:
+        HelperLib.Report(<span class="str">"FAILED: "</span>+SettingName)
+    <span class="kw">return</span> imgFound
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#FindCamSetting</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> FindCamSetting(SettingName, vncregion, SettingLabel):
+    HelperLib.Log(CurrentTestCase +<span class="str">".FindCamSetting:"</span>+SettingName)
+    imgFound = HelperLib.SwipeFind(vncregion,SettingLabel,<span class="dig">6</span>)
+
+    <span class="kw">if</span> imgFound:
+        HelperLib.Log(CurrentTestCase +<span class="str">".FindCamSetting:FOUND - "</span>+SettingName)
+        imgFound.highlight(<span class="dig">1</span>)
+        HelperLib.Log(<span class="str">"FindCameraSetting:"</span>+SettingName+ <span class="str">" FOUND "</span>+str(SettingLabel))
+    <span class="kw">else</span>:
+        HelperLib.Log(<span class="str">"****FAILED:"</span>+CurrentTestCase +<span class="str">".FindCamSetting: "</span>+SettingName+ <span class="str">" NOT FOUND "</span>+str(SettingLabel))
+    <span class="kw">return</span> imgFound
+
+<span class="cmt">##########################################</span>
+<span class="cmt">### TestProTune</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> TestProTune():
+    HelperLib.Log(CurrentTestCase +<span class="str">".TestProTune"</span>)
+
+
+    AssertFindCamSetting(<span class="str">"Protune_WhiteBalance"</span>,vncregion,<img src="CamSettings_Label_Adv_WhiteBalance.png" />)
+    AssertFindCamSetting(<span class="str">"Protune_Color"</span>,vncregion,<img src="CamSettings_Label_Adv_Color.png" />)
+    AssertFindCamSetting(<span class="str">"Protune_ISOLimit"</span>,vncregion,<img src="CamSettings_Label_Adv_ISOLimit.png" />)
+    AssertFindCamSetting(<span class="str">"Protune_Sharpness"</span>,vncregion,<img src="CamSettings_Label_Adv_Sharpness.png" />)
+    AssertFindCamSetting(<span class="str">"Protune_ExposureComp"</span>,vncregion,<img src="CamSettings_Label_Adv_ExposureComp.png" />)
+    AssertFindCamSetting(<span class="str">"Protune_ResetDefault"</span>,vncregion,<img src="CamSettings_Label_Adv_ResetDefault.png" />)
+
+<span class="cmt">#    SetProTuneOFF()</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt">### SetProTuneON</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> SetProTuneON():
+    HelperLib.Log(CurrentTestCase +<span class="str">".SetProTuneON"</span>)
+    imgFound = SetCamSettingOnOff(<span class="str">"Advanced:ProTune:ON"</span>,vncregion,<img src="CamSettings_Label_Adv_ProTune.png" />,<img src="CamSettings_Button_ON.png" />,<img src="CamSettings_Button_OFF.png" />)
+    <span class="kw">if</span> imgFound:
+        IsProTune = True
+        <span class="cmt">#HelperLib.Report("PASSED: SetProTuneON")</span>
+ <span class="cmt">#   else:</span>
+        <span class="cmt">#HelperLib.Report("FAILED: SetProTuneON")</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt">### SetProTuneOFF</span>
+<span class="cmt">##########################################    </span>
+<span class="kw">def</span> SetProTuneOFF():
+    HelperLib.Log(CurrentTestCase +<span class="str">".SetProTuneOFF"</span>)
+    imgFound = SetCamSettingOnOff(<span class="str">"Advanced:ProTune:OFF"</span>,vncregion,<img src="CamSettings_Label_Adv_ProTune.png" />,<img src="CamSettings_Button_OFF.png" />,<img src="CamSettings_Button_ON.png" />)
+    <span class="kw">if</span> imgFound:
+        IsProTune = False
+        <span class="cmt">#HelperLib.Report("PASSED: SetProTuneOFF")</span>
+ <span class="cmt">#   else:</span>
+        <span class="cmt">#HelperLib.Report("FAILED: SetProTuneOFF")</span>
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">### TestToggleSettings</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> TestToggleSettings():
+    HelperLib.Log(CurrentTestCase +<span class="str">".TestToggleSettings"</span>)
+
+    SetCamSettingOnOff(<span class="str">"Capture Settings:Upside Down:ON"</span> ,vncregion,<img src="CamSettings_Label_Capture_UpsideDown.png" />,<img src="CamSettings_Button_ON.png" />, <img src="CamSettings_Button_OFF.png" />)
+    SetCamSettingOnOff(<span class="str">"Capture Settings:Upside Down:OFF"</span>,vncregion,<img src="CamSettings_Label_Capture_UpsideDown.png" />,<img src="CamSettings_Button_OFF.png" />,<img src="CamSettings_Button_ON.png" />)
+
+    SetCamSettingOnOff(<span class="str">"Capture Settings:Spot Meter:ON"</span>,vncregion,<img src="CamSettings_Label_Capture_SpotMeter.png" />,<img src="CamSettings_Button_ON.png" />,<img src="CamSettings_Button_OFF.png" />)
+    SetCamSettingOnOff(<span class="str">"Capture Settings:Spot Meter:OFF"</span>,vncregion,<img src="CamSettings_Label_Capture_SpotMeter.png" />,<img src="CamSettings_Button_OFF.png" />,<img src="CamSettings_Button_ON.png" />)
+
+    SetCamSettingOnOff(<span class="str">"Setup:Preview:ON"</span>,vncregion,<img src="CamSettings_Label_Setup_Preview.png" />,<img src="CamSettings_Button_ON.png" />,<img src="CamSettings_Button_OFF.png" />)
+    SetCamSettingOnOff(<span class="str">"Setup:Preview:OFF"</span>,vncregion,<img src="CamSettings_Label_Setup_Preview.png" />,<img src="CamSettings_Button_OFF.png" />,<img src="CamSettings_Button_ON.png" />)
+
+    SetCamSettingOnOff(<span class="str">"CamSettings_CamInfo_Loacation:ON"</span>,vncregion,<img src="CamSettings_Label_CamInfo_Location.png" />,<img src="CamSettings_Button_ON.png" />,<img src="CamSettings_Button_OFF.png" />)
+    SetCamSettingOnOff(<span class="str">"CamSettings_CamInfo_Loacation:OFF"</span>,vncregion,<img src="CamSettings_Label_CamInfo_Location.png" />,<img src="CamSettings_Button_OFF.png" />,<img src="CamSettings_Button_ON.png" />)
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">### TestResolution_FPS_ProTune</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> TestResolution_FPS_ProTune():
+    <span class="kw">global</span> IsProTune
+    <span class="kw">global</span> IsPAL
+    IsProTune = True
+    IsPAL = False
+    HelperLib.Log(CurrentTestCase+ <span class="str">".TestResolution_FPS_ProTune:"</span>)
+    <span class="cmt">#HelperLib.SwipeDownCount(vncregion,2)</span>
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+
+
+    setRes = <span class="str">"1080SuperView"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+        <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"30"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"24"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"60"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"48"</span>)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+
+    setRes = <span class="str">"4K-17-9"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+        <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionSetting(setRes)
+        TestResolutionFPSSetting(setRes,<span class="str">"12"</span>)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+
+
+    setRes = <span class="str">"4K"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"15"</span>)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+
+
+    setRes = <span class="str">"27K-17-9"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+        <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"24"</span>)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+
+    setRes = <span class="str">"27K"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"30"</span>)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+
+    setRes = <span class="str">"1440"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"48"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"30"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"24"</span>)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+
+
+    setRes = <span class="str">"1080"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"60"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"48"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"30"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"24"</span>)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+
+    setRes = <span class="str">"960"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"100"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"60"</span>)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+
+    setRes = <span class="str">"720SuperView"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"100"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"60"</span>)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+
+    setRes = <span class="str">"720"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"60"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"120"</span>)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+
+<span class="cmt">##########################################</span>
+<span class="cmt">### TestResolution_FPS</span>
+<span class="cmt">##########################################    </span>
+<span class="kw">def</span> TestResolution_FPS():
+    <span class="kw">global</span> IsProTune
+    <span class="kw">global</span> IsPAL
+    IsProTune = False
+    IsPAL = False
+    HelperLib.Log(<span class="str">""</span>+CurrentTestCase+ <span class="str">".TestResolution_FPS:"</span>)
+
+    <span class="cmt">#HelperLib.SwipeDownCount(vncregion,1)</span>
+    <span class="skw">wait</span>(<span class="dig">2</span>)
+    setRes = <span class="str">"4K-17-9"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"12"</span>)
+
+    setRes = <span class="str">"4K"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"15"</span>)
+
+    setRes = <span class="str">"960"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"60"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"48"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"100"</span>)
+
+    setRes = <span class="str">"27K-17-9"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"24"</span>)
+
+    setRes = <span class="str">"27K"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"30"</span>)
+
+    setRes = <span class="str">"1440"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"48"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"30"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"24"</span>)
+
+    setRes = <span class="str">"1080SuperView"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"60"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"48"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"30"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"24"</span>)
+
+    setRes = <span class="str">"1080"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"60"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"48"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"30"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"24"</span>)
+
+
+
+    setRes = <span class="str">"720SuperView"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"60"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"48"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"100"</span>)
+
+
+    setRes = <span class="str">"720"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"60"</span>)
+        TestResolutionFPSSetting(setRes,<span class="str">"120"</span>)
+
+
+    setRes = <span class="str">"WVGA"</span>
+    <span class="kw">if</span> TestResolutionSetting(setRes) == True:
+    <span class="cmt">#if TestVerifyFPS(setRes) == True:</span>
+        TestResolutionFPSSetting(setRes,<span class="str">"240"</span>)
+
+
+
+<span class="kw">def</span> TestResolutionSetting(setRes):
+    <span class="kw">global</span> failCount
+    <span class="kw">global</span> passCount
+    HelperLib.Log(CurrentTestCase+ <span class="str">".TestResolutionSetting:"</span>+setRes)
+    <span class="kw">try</span>:
+        <span class="kw">if</span> SetVideoResolution(setRes) == True:
+            passCount+=<span class="dig">1</span>
+            HelperLib.Report(<span class="str">"PASSED: TestResolutionSetting - "</span>+setRes)
+            <span class="kw">return</span> True
+        <span class="kw">else</span>:
+            HelperLib.Report(<span class="str">"FAILED: TestResolutionSetting - "</span>+setRes)
+            HelperLib.Log(<span class="str">"**** FAILED "</span>+CurrentTestCase+ <span class="str">".TestResolutionSetting:"</span>+setRes+<span class="str">" *****"</span>)
+            HelperLib.TakeScreenShot(<span class="str">"FAILED_TestResolutionSetting"</span>+setRes+<img src=".png" />)
+            <span class="kw">return</span> False
+
+    <span class="kw">except</span> Exception, err:
+        HelperLib.Log(<span class="str">"===&gt;ERROR: "</span> +str(err))
+        failCount+=<span class="dig">1</span>
+        HelperLib.Report(<span class="str">"FAILED: TestResolutionSetting - "</span>+setRes)
+        HelperLib.Log(<span class="str">"**** FAILED "</span>+CurrentTestCase+ <span class="str">".TestResolutionSetting:"</span>+setRes+<span class="str">" *****"</span>)
+        HelperLib.TakeScreenShot(<span class="str">"FAILED_TestResolutionSetting"</span>+setRes+<img src=".png" />)
+        <span class="kw">return</span> False
+
+<span class="kw">def</span> TestVerifyFPS(Res):
+    <span class="kw">global</span> failCount
+    <span class="kw">global</span> passCount
+    HelperLib.Log(CurrentTestCase+ <span class="str">".TestVerifyFPS:"</span>+Res)
+    <span class="kw">try</span>:
+        printReport = True
+        <span class="kw">if</span> VerifyFPS(Res) == True:
+            passCount+=<span class="dig">1</span>
+            HelperLib.Report(<span class="str">"PASSED: TestVerifyFPS - "</span>+Res)
+            <span class="kw">return</span> True
+        <span class="kw">else</span>:
+            HelperLib.Report(<span class="str">"FAILED: TestVerifyFPS - "</span>+Res)
+            failCount+=<span class="dig">1</span>
+            HelperLib.Log(<span class="str">"**** FAILED "</span>+CurrentTestCase+ <span class="str">".TestVerifyFPS:"</span>+Res+<span class="str">" *****"</span>)
+            HelperLib.TakeScreenShot(<span class="str">"FAILED_TestVerifyFPS"</span>+Res+<img src=".png" />)
+            <span class="kw">return</span> False
+    <span class="kw">except</span> Exception, err:
+        HelperLib.Log(<span class="str">"===&gt;ERROR: "</span> +str(err))
+        failCount+=<span class="dig">1</span>
+        HelperLib.Report(<span class="str">"FAILED: TestVerifyFPS - "</span>+Res)
+        HelperLib.Log(<span class="str">"**** FAILED "</span>+CurrentTestCase+ <span class="str">".TestVerifyFPS:"</span>+Res+<span class="str">" *****"</span>)
+        HelperLib.TakeScreenShot(<span class="str">"FAILED_TestVerifyFPS"</span>+Res+<img src=".png" />)
+        <span class="kw">return</span> False
+
+
+<span class="kw">def</span> TestResolutionFPSSetting(Res,FPS):
+    <span class="kw">global</span> failCount
+    <span class="kw">global</span> passCount
+
+    HelperLib.Log(CurrentTestCase+ <span class="str">".TestResolutionFPSSetting:"</span>+Res+<span class="str">" - "</span> +FPS)
+    <span class="kw">try</span>:
+        <span class="kw">if</span> SetFPS(Res,FPS) == True:
+            passCount+=<span class="dig">1</span>
+            HelperLib.Report(<span class="str">"PASSED: TestResolutionFPSSetting - "</span>+Res+<span class="str">" - "</span> +FPS)
+            <span class="kw">return</span> True
+        <span class="kw">else</span>:
+            HelperLib.Report(<span class="str">"FAILED: TestResolutionFPSSetting - "</span>+Res+<span class="str">" - "</span> +FPS)
+            failCount+=<span class="dig">1</span>
+            HelperLib.Log(<span class="str">"**** FAILED "</span>+CurrentTestCase+ <span class="str">".SetFPS:"</span>+Res+<span class="str">"_"</span>+FPS+<span class="str">" *****"</span>)
+            HelperLib.TakeScreenShot(<span class="str">"FAILED_TestResolutionFPSSetting"</span>+Res+<span class="str">"_"</span>+FPS+<img src=".png" />)
+            <span class="kw">return</span> False
+    <span class="kw">except</span> Exception, err:
+        HelperLib.Log(<span class="str">"===&gt;ERROR: "</span> +str(err))
+        failCount+=<span class="dig">1</span>
+        HelperLib.Report(<span class="str">"FAILED: TestResolutionFPSSetting - "</span>+Res+<span class="str">" - "</span> +FPS)
+        HelperLib.Log(<span class="str">"**** FAILED "</span>+CurrentTestCase+ <span class="str">".TestResolutionFPSSetting:"</span>+Res+<span class="str">"_"</span>+FPS+<span class="str">" *****"</span>)
+        HelperLib.TakeScreenShot(<span class="str">"FAILED_TestResolutionFPSSetting"</span>+Res+<span class="str">"_"</span>+FPS+<img src=".png" />)
+        <span class="kw">return</span> False
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#END Script Functions  &lt;----</span>
+<span class="cmt">##########################################</span>
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#Start Framework Init Start  ----&gt;</span>
+<span class="cmt">##########################################</span>
+
+
+HelperLib.SetTestResultsPath(None,CurrentTestCase, zRootProjectDir)
+
+HelperLib.getEnvironment()
+<span class="cmt">#VNCTitle = "adb:Android_Samsung_Galaxy_S3_412"</span>
+VNCTitle = <span class="str">"GoPro Gesktop App"</span>
+vncregion = HelperLib.SetVNCAppRegion(VNCTitle)
+
+
+<span class="kw">if</span> <span class="kw">not</span> vncregion:
+    <span class="kw">print</span> <span class="str">"FAILED"</span>,<span class="str">"vncregion is not defined"</span>
+    exit(<span class="dig">1</span>)
+<span class="cmt">#MobileAppsLib.TakeScreenShot("Test_Start.png")</span>
+HelperLib.OCR(True)
+HelperLib.Log(<span class="str">"****Framework Init Complete*****"</span>)
+
+<span class="cmt">### GLOBALS</span>
+IsProTune = False
+IsPAL = False
+setRes = <span class="str">""</span>
+failCount=<span class="dig">0</span>
+passCount=<span class="dig">0</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#END Framework Init  &lt;----</span>
+<span class="cmt">##########################################</span>
+
+
+<span class="cmt">#########################################################</span>
+<span class="cmt">### START Script Suite  ----&gt;</span>
+<span class="cmt">#########################################################</span>
+HelperLib.Log(<span class="str">"****START Script Suite "</span>+CurrentTestCase +<span class="str">"*****"</span>)
+HelperLib.Report(<span class="str">"*************************"</span>)
+HelperLib.Report(<span class="str">"START TEST "</span>+CurrentTestCase)
+HelperLib.Report(<span class="str">"*************************"</span>)
+HelperLib.TakeScreenShot(CurrentTestCase+<img src="_Start.png" />)
+
+
+<span class="cmt">#ocrtext = vncregion.text()</span>
+<span class="cmt">#if ocrtext:</span>
+<span class="cmt">#    print ocrtext</span>
+<span class="cmt">#HelperLib.Log("OCR------\n" + ocrtext +"\n---------\n")</span>
+
+
+
+HelperLib.Report(<span class="str">"*************************"</span>)
+HelperLib.Report(<span class="str">"END TEST "</span>+CurrentTestCase)
+HelperLib.Report(<span class="str">"*************************"</span>)
+
+HelperLib.Report(<span class="str">"*************************"</span>)
+HelperLib.Report(<span class="str">"PASSED: "</span>+str(passCount))
+HelperLib.Report(<span class="str">"FAILED: "</span>+str(failCount))
+HelperLib.Report(<span class="str">"-------------------------"</span>)
+HelperLib.Report(<span class="str">"Total : "</span>+str((failCount+passCount)))
+
+HelperLib.Report(<span class="str">"*************************"</span>)
+
+
+<span class="cmt">#########################################################</span>
+<span class="cmt">### END Script Suite  &lt;----</span>
+<span class="cmt">#########################################################</span>
+
+</pre>
+</body>
+</html>

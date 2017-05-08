@@ -1,0 +1,129 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>GDA_Installer_Mac.sikuli</h2> <a href="GDA_Installer_Mac.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">import</span> org.sikuli.script.ImagePath
+<span class="kw">import</span> shlex
+<span class="kw">from</span> subprocess <span class="kw">import</span> Popen, PIPE
+
+
+
+
+<span class="cmt">#Uninstall GDA</span>
+<span class="cmt">#Cleanup</span>
+<span class="cmt">#Install GDA</span>
+
+
+<span class="cmt">#hdiutil mount cotvnc-20b4.dmg</span>
+
+<span class="cmt"># todo -----------------</span>
+<span class="cmt"># mount dmg</span>
+<span class="cmt"># run gopro.pkg</span>
+<span class="cmt"># get process window handle</span>
+<span class="cmt"># set window region</span>
+<span class="cmt"># move window to center</span>
+<span class="cmt"># run sikuli headless on jython</span>
+<span class="cmt"># cmdline args for dmg path</span>
+<span class="cmt"># copy to local</span>
+<span class="cmt"># aquire the build number/version</span>
+<span class="cmt"># cleanup of local dmg</span>
+<span class="cmt"># config property data structure</span>
+<span class="cmt"># </span>
+<span class="cmt">#------------------------</span>
+<span class="kw">def</span> RunProc(proc,arg):
+    process = Popen(shlex.split(cmd), stdout=PIPE)
+    process.communicate()
+    exit_code = process.<span class="skw">wait</span>()
+
+<span class="kw">def</span> AppStart(appname):
+
+    a1 = App(appname)
+    <span class="kw">if</span> <span class="kw">not</span> a1.isRunning():
+        <span class="kw">print</span> <span class="str">"FAILED: App not running"</span>
+        exit(<span class="dig">1</span>)
+    a1.focus()
+    r0 = a1.window(<span class="dig">0</span>)
+    <span class="kw">if</span> <span class="kw">not</span> r0:
+        <span class="kw">print</span> <span class="str">"Failed: Window region not found"</span>
+        <span class="kw">print</span> r0
+        <span class="kw">return</span> r0
+    r0.highlight(<span class="dig">1</span>)
+    <span class="cmt">#r0.wait("Welcome_GDA_Title.png")</span>
+    <span class="cmt">#text("Welcome_GDA_Title.png","Passed")</span>
+    <span class="kw">return</span> r0
+
+r0=AppStart(<span class="str">"Installer"</span>)
+<span class="kw">if</span> <span class="kw">not</span> r0:
+    exit(<span class="dig">1</span>)
+</pre>
+</body>
+</html>

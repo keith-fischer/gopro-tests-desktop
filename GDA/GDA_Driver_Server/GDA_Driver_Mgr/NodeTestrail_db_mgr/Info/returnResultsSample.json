@@ -1,0 +1,452 @@
+{
+  "id": 2961782,
+  "case_id": 539177,
+  "status_id": 3,
+  "assignedto_id": 87,
+  "run_id": 11891,
+  "title": "BAWA_SettingsTest_VideoMode_NTSC_4K17_12FPS_WIDE_notplayable_HighRes_plus1_lastthumbnail_",
+  "type_id": 2,
+  "priority_id": 4,
+  "estimate": null,
+  "estimate_forecast": null,
+  "refs": null,
+  "milestone_id": null,
+  "custom_preconds": null,
+  "custom_steps": [
+    "# TestSuite:P1:|Camera:BAWA|TestName:Settings Test|Image mode:Video Mode|Protune:OFF|NTSC/PAL:NTSC|Video Resolution:4K 17:9|Frame Rate:12 FPS|Field of View:WIDE|Spot Meter:ON|Upside Down:ON|select:Verify|select:1|select:1|select:1|CameraRoll:not playable|CameraRoll:High Res|thumbnails:plus \"1\"|last thumbnail:last thumbnail|last thumbnail:last thumbnail|",
+    "Scenario:P1:|BAWASettingsTestVideoModeOFFNTSC4K17912FPSWIDEONVerify1notplayableHighRespluslastthumbnail",
+    "#COMMENTS:settings test",
+    "And In \"Advanced Settings\" switch \"Protune\" to \"OFF\"",
+    "And In \"Setup\" set \"NTSC/PAL\" to \"NTSC\"",
+    "And In \"Camera Settings\" set \"Video Resolution\" to \"4K 17:9\"",
+    "And In \"Camera Settings\" set \"Frame Rate\" to \"12 FPS\"",
+    "And In \"Camera Settings\" set \"Field of View\" to \"WIDE\"",
+    "And In \"Capture Settings\" switch \"Spot Meter\" to \"ON\"",
+    "And In \"Capture Settings\" switch \"Upside Down\" to \"ON\"",
+    "Then Verify, that the Mode Label displays \"4K 17:9 / 12 FPS / W Â°\"",
+    "And record for \"1\" seconds ",
+    "Then verify from the CameraRoll count of thumbnails is \"1\"",
+    "Then select from the CameraRoll the last thumbnail",
+    "Then verify thumbnail is not playable",
+    "Then verify thumbnail \"High Res\" can download",
+    "Then verify from Album the count of thumbnails is plus \"1\"",
+    "Then select from Album the last thumbnail",
+    "Then Delete from Album the last thumbnail"
+  ],
+  "custom_expected": null,
+  "test_results": [
+    [
+      {
+        "keyword": "Feature",
+        "name": "lkdfjgldjkglkdj",
+        "line": 1,
+        "description": "",
+        "id": "lkdfjgldjkglkdj",
+        "uri": "features/attach_cameraios.feature",
+        "elements": [
+          {
+            "comments": [
+              {
+                "value": "##########",
+                "line": 2
+              },
+              {
+                "value": "######Given Delete all Album thumbnails",
+                "line": 3
+              },
+              {
+                "value": "###Given Delete all CameraRoll thumbnails",
+                "line": 4
+              },
+              {
+                "value": "##########",
+                "line": 5
+              },
+              {
+                "value": "#############################",
+                "line": 6
+              },
+              {
+                "value": "### TEST 1",
+                "line": 7
+              },
+              {
+                "value": "#############################",
+                "line": 8
+              },
+              {
+                "value": "# sections [[Camera - BAWA|TestName - Settings Test|Image mode - Video Mode|NTSC/PAL - NTSC|Video Resolution - 4K 17:9|Frame Rate - 12 FPS|Field of View - WIDE]]",
+                "line": 9
+              },
+              {
+                "value": "# TestSuite:P1:|Camera:BAWA|TestName:Settings Test|Image mode:Video Mode|Protune:OFF|NTSC/PAL:NTSC|Video Resolution:4K 17:9|Frame Rate:12 FPS|Field of View:WIDE|Spot Meter:OFF|Upside Down:OFF|select:Verify|select:1|select:1|select:1|CameraRoll:not playable|CameraRoll:High Res|thumbnails:plus \"1\"|last thumbnail:last thumbnail|last thumbnail:last thumbnail|Delete all Files from SD Card:Delete All Files|",
+                "line": 10
+              }
+            ],
+            "keyword": "Scenario",
+            "name": "P1:|BAWASettingsTestVideoModeOFFNTSC4K17912FPSWIDEVerify1notplayableHighRespluslastthumbnailDeleteAllFiles",
+            "line": 11,
+            "description": "",
+            "id": "lkdfjgldjkglkdj;p1:|bawasettingstestvideomodeoffntsc4k17912fpswideverify1notplayablehighrespluslastthumbnaildeleteallfiles",
+            "type": "scenario",
+            "steps": [
+              {
+                "comments": [
+                  {
+                    "value": "#COMMENTS:settings test",
+                    "line": 12
+                  }
+                ],
+                "keyword": "And ",
+                "name": "In \"Advanced Settings\" switch \"Protune\" to \"OFF\"",
+                "line": 13,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 4,
+                      "val": "Advanced Settings"
+                    },
+                    {
+                      "offset": 31,
+                      "val": "Protune"
+                    },
+                    {
+                      "offset": 44,
+                      "val": "OFF"
+                    }
+                  ],
+                  "location": "features/android/settings_steps.rb:8"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 28283136000
+                }
+              },
+              {
+                "keyword": "And ",
+                "name": "In \"Setup\" set \"NTSC/PAL\" to \"NTSC\"",
+                "line": 14,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 4,
+                      "val": "Setup"
+                    },
+                    {
+                      "offset": 16,
+                      "val": "NTSC/PAL"
+                    },
+                    {
+                      "offset": 30,
+                      "val": "NTSC"
+                    }
+                  ],
+                  "location": "features/android/settings_steps.rb:1"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 28090238000
+                }
+              },
+              {
+                "keyword": "And ",
+                "name": "In \"Camera Settings\" set \"Video Resolution\" to \"4K 17:9\"",
+                "line": 15,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 4,
+                      "val": "Camera Settings"
+                    },
+                    {
+                      "offset": 26,
+                      "val": "Video Resolution"
+                    },
+                    {
+                      "offset": 48,
+                      "val": "4K 17:9"
+                    }
+                  ],
+                  "location": "features/android/settings_steps.rb:1"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 12328408000
+                }
+              },
+              {
+                "keyword": "And ",
+                "name": "In \"Camera Settings\" set \"Frame Rate\" to \"12 FPS\"",
+                "line": 16,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 4,
+                      "val": "Camera Settings"
+                    },
+                    {
+                      "offset": 26,
+                      "val": "Frame Rate"
+                    },
+                    {
+                      "offset": 42,
+                      "val": "12 FPS"
+                    }
+                  ],
+                  "location": "features/android/settings_steps.rb:1"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 9957150000
+                }
+              },
+              {
+                "keyword": "And ",
+                "name": "In \"Camera Settings\" set \"Field of View\" to \"WIDE\"",
+                "line": 17,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 4,
+                      "val": "Camera Settings"
+                    },
+                    {
+                      "offset": 26,
+                      "val": "Field of View"
+                    },
+                    {
+                      "offset": 45,
+                      "val": "WIDE"
+                    }
+                  ],
+                  "location": "features/android/settings_steps.rb:1"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 10633013000
+                }
+              },
+              {
+                "keyword": "And ",
+                "name": "In \"Capture Settings\" switch \"Spot Meter\" to \"OFF\"",
+                "line": 18,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 4,
+                      "val": "Capture Settings"
+                    },
+                    {
+                      "offset": 30,
+                      "val": "Spot Meter"
+                    },
+                    {
+                      "offset": 46,
+                      "val": "OFF"
+                    }
+                  ],
+                  "location": "features/android/settings_steps.rb:8"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 10850071000
+                }
+              },
+              {
+                "keyword": "And ",
+                "name": "In \"Capture Settings\" switch \"Upside Down\" to \"OFF\"",
+                "line": 19,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 4,
+                      "val": "Capture Settings"
+                    },
+                    {
+                      "offset": 30,
+                      "val": "Upside Down"
+                    },
+                    {
+                      "offset": 47,
+                      "val": "OFF"
+                    }
+                  ],
+                  "location": "features/android/settings_steps.rb:8"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 11228950000
+                }
+              },
+              {
+                "keyword": "Then ",
+                "name": "Verify, that the Mode Label displays \"4K 17:9 / 12 FPS / W °\"",
+                "line": 20,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 38,
+                      "val": "4K 17:9 / 12 FPS / W °"
+                    }
+                  ],
+                  "location": "features/android/preview_steps.rb:1"
+                },
+                "result": {
+                  "status": "failed",
+                  "error_message": "No element found (Selenium::WebDriver::Error::NoSuchElementError)\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/selenium-webdriver-2.44.0/lib/selenium/webdriver/remote/response.rb:52:in `assert_ok'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/selenium-webdriver-2.44.0/lib/selenium/webdriver/remote/response.rb:15:in `initialize'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/selenium-webdriver-2.44.0/lib/selenium/webdriver/remote/http/common.rb:59:in `new'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/selenium-webdriver-2.44.0/lib/selenium/webdriver/remote/http/common.rb:59:in `create_response'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/selenium-webdriver-2.44.0/lib/selenium/webdriver/remote/http/default.rb:66:in `request'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/selenium-webdriver-2.44.0/lib/selenium/webdriver/remote/http/common.rb:40:in `call'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/selenium-webdriver-2.44.0/lib/selenium/webdriver/remote/bridge.rb:640:in `raw_execute'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/selenium-webdriver-2.44.0/lib/selenium/webdriver/remote/bridge.rb:618:in `execute'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/selenium-webdriver-2.44.0/lib/selenium/webdriver/remote/bridge.rb:586:in `find_element_by'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/selenium-webdriver-2.44.0/lib/selenium/webdriver/common/search_context.rb:42:in `find_element'\n/Users/cbillante/dev/gopro-tests-mobile/smarty/lib/views/generic_base_view.rb:12:in `method_missing'\n/Users/cbillante/dev/gopro-tests-mobile/smarty/lib/views/android/preview_view.rb:34:in `block in <class:PreviewView>'\n/Users/cbillante/dev/gopro-tests-mobile/smarty/lib/views/generic_base_view.rb:33:in `block in element'\n/Users/cbillante/dev/gopro-tests-mobile/smarty/lib/views/android/preview_view.rb:35:in `block in <class:PreviewView>'\n/Users/cbillante/dev/gopro-tests-mobile/smarty/lib/views/generic_base_view.rb:33:in `block in element'\n/Users/cbillante/dev/gopro-tests-mobile/smarty/features/android/preview_steps.rb:4:in `block (2 levels) in <top (required)>'\n/Users/cbillante/dev/gopro-tests-mobile/smarty/lib/view_helper.rb:9:in `call'\n/Users/cbillante/dev/gopro-tests-mobile/smarty/lib/view_helper.rb:9:in `on'\n/Users/cbillante/dev/gopro-tests-mobile/smarty/features/android/preview_steps.rb:2:in `block in <top (required)>'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/core_ext/instance_exec.rb:48:in `instance_exec'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/core_ext/instance_exec.rb:48:in `block in cucumber_instance_exec'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/core_ext/instance_exec.rb:69:in `cucumber_run_with_backtrace_filtering'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/core_ext/instance_exec.rb:36:in `cucumber_instance_exec'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/rb_support/rb_step_definition.rb:97:in `invoke'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/step_match.rb:25:in `invoke'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/step_invocation.rb:60:in `invoke'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/step_invocation.rb:38:in `accept'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:106:in `block in visit_step'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:170:in `broadcast'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:105:in `visit_step'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/step_collection.rb:19:in `block in accept'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/step_collection.rb:18:in `each'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/step_collection.rb:18:in `accept'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:100:in `block in visit_steps'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:170:in `broadcast'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:99:in `visit_steps'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:15:in `block in execute'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/runtime.rb:83:in `block (2 levels) in with_hooks'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/runtime.rb:99:in `before_and_after'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/runtime.rb:82:in `block in with_hooks'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/runtime/support_code.rb:120:in `call'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/runtime/support_code.rb:120:in `block (3 levels) in around'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/language_support/language_methods.rb:9:in `block in around'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/language_support/language_methods.rb:97:in `call'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/language_support/language_methods.rb:97:in `execute_around'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/language_support/language_methods.rb:8:in `around'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/runtime/support_code.rb:119:in `block (2 levels) in around'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/runtime/support_code.rb:123:in `call'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/runtime/support_code.rb:123:in `around'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/runtime.rb:94:in `around'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/runtime.rb:81:in `with_hooks'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:13:in `execute'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/scenario.rb:32:in `block in accept'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/scenario.rb:79:in `with_visitor'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/scenario.rb:31:in `accept'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:58:in `block in visit_feature_element'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:170:in `broadcast'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:57:in `visit_feature_element'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/feature.rb:38:in `block in accept'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/feature.rb:37:in `each'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/feature.rb:37:in `accept'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:27:in `block in visit_feature'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:170:in `broadcast'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:26:in `visit_feature'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/features.rb:28:in `block in accept'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/features.rb:17:in `each'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/features.rb:17:in `each'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/features.rb:27:in `accept'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:21:in `block in visit_features'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:170:in `broadcast'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/ast/tree_walker.rb:20:in `visit_features'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/runtime.rb:49:in `run!'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/lib/cucumber/cli/main.rb:47:in `execute!'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/gems/cucumber-1.3.17/bin/cucumber:13:in `<top (required)>'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/bin/cucumber:23:in `load'\n/Users/cbillante/.rvm/gems/ruby-2.1.3/bin/cucumber:23:in `<main>'\nfeatures/attach_cameraios.feature:20:in `Then Verify, that the Mode Label displays \"4K 17:9 / 12 FPS / W °\"'",
+                  "duration": 7637457000
+                }
+              },
+              {
+                "keyword": "And ",
+                "name": "record for \"1\" seconds",
+                "line": 21,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 12,
+                      "val": "1"
+                    }
+                  ],
+                  "location": "features/android/preview_steps.rb:8"
+                },
+                "result": {
+                  "status": "skipped",
+                  "duration": 257000
+                }
+              },
+              {
+                "keyword": "Then ",
+                "name": "verify from the CameraRoll count of thumbnails is \"1\"",
+                "line": 22,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 51,
+                      "val": "1"
+                    }
+                  ],
+                  "location": "features/android/cameraroll_steps.rb:7"
+                },
+                "result": {
+                  "status": "skipped",
+                  "duration": 228000
+                }
+              },
+              {
+                "keyword": "Then ",
+                "name": "select from the CameraRoll the last thumbnail",
+                "line": 23,
+                "match": {
+                  "location": "features/android/cameraroll_steps.rb:15"
+                },
+                "result": {
+                  "status": "skipped",
+                  "duration": 204000
+                }
+              },
+              {
+                "keyword": "Then ",
+                "name": "verify thumbnail is not playable",
+                "line": 24,
+                "match": {
+                  "location": "features/android/cameraroll_screennail_steps.rb:7"
+                },
+                "result": {
+                  "status": "skipped",
+                  "duration": 287000
+                }
+              },
+              {
+                "keyword": "Then ",
+                "name": "verify thumbnail \"High Res\" can download",
+                "line": 25,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 18,
+                      "val": "High Res"
+                    }
+                  ],
+                  "location": "features/android/cameraroll_screennail_steps.rb:14"
+                },
+                "result": {
+                  "status": "skipped",
+                  "duration": 259000
+                }
+              },
+              {
+                "keyword": "Then ",
+                "name": "verify from Album the count of thumbnails is plus \"1\"",
+                "line": 26,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 51,
+                      "val": "1"
+                    }
+                  ],
+                  "location": "features/android/album_steps.rb:1"
+                },
+                "result": {
+                  "status": "skipped",
+                  "duration": 250999
+                }
+              },
+              {
+                "keyword": "Then ",
+                "name": "select from Album the last thumbnail",
+                "line": 27,
+                "match": {
+                  "location": "features/android/album_steps.rb:8"
+                },
+                "result": {
+                  "status": "skipped",
+                  "duration": 246000
+                }
+              },
+              {
+                "keyword": "Then ",
+                "name": "Delete from Album the last thumbnail",
+                "line": 28,
+                "match": {
+                  "location": "features/android/album_steps.rb:44"
+                },
+                "result": {
+                  "status": "skipped",
+                  "duration": 250000
+                }
+              },
+              {
+                "keyword": "And ",
+                "name": "On \"Delete\" set \"Delete all Files from SD Card\" to \"Delete All Files\"",
+                "line": 29,
+                "match": {
+                  "arguments": [
+                    {
+                      "offset": 4,
+                      "val": "Delete"
+                    },
+                    {
+                      "offset": 17,
+                      "val": "Delete all Files from SD Card"
+                    },
+                    {
+                      "offset": 52,
+                      "val": "Delete All Files"
+                    }
+                  ],
+                  "location": "features/android/settings_steps.rb:28"
+                },
+                "result": {
+                  "status": "skipped",
+                  "duration": 2147000
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  ]
+}

@@ -1,0 +1,89 @@
+
+
+
+
+
+
+
+
+Driver: RunSmartyiOSDriver.py:
+    Intialize test properties into Node.js
+        RunID  ---> Node.TestRail.LoadTestRunID
+        Camera
+        iOS Device
+    Loop:
+        Test run status while not "Done"
+        Start:
+            Instruments Test
+    Exit:
+        Done
+
+
+
+Instruments:
+    Start js TestBAWA_SmartySettings.js
+        Get NextTest
+        Eval Test name
+            parse for test functions to run
+        Report Pass Fail
+        Exit
+
+http://127.0.0.1:8888/GoProTestMgr/LoadRunID&9758&bawa
+
+
+Node:
+    Node.GoProTestMgr.LoadTestRunID:
+        requestHandlers.js
+            url: http://127.0.0.1:8888/GoProTestMgr/LoadTestRunID/10563
+
+                goproAppHandlers.js
+                    TestRail = LoadTestRunID(6254)
+                    httpclient.js
+                        TestRail.TestRun json=HTTPRequest.getTestrun(6254)
+                    TestRail obj persists across sessions
+                    Reset Current Test Index
+                    response.write server response code "200"
+                    session response.end
+
+
+http://127.0.0.1:8888/GoProTestMgr/NextTest
+
+    Node.GoProTestMgr.NextTest:
+         requestHandlers.js
+             url: /GoProTestMgr/NextTest
+                 goproAppHandlers.js
+                     NextTest
+                     Test Index++
+                     CurrentTestCase Obj = TestRail.NextTest(Test Index)
+                     response.write Test Name
+                     session response.end
+
+url/runid/caseid/statusid&comment&elapse&ver
+elapse is integer Minutes= 61 =1 hr 1min as view in testrail dashboard
+comments can't have # char
+This works ---> Test_Comment passed.!@$%%5E)(*
+http://127.0.0.1:8888/GoProTestMgr/ReportStatus&9758&289208&1&Test_Comment%20passed&123&Ver26
+http://127.0.0.1:8888/GoProTestMgr/ReportStatus&10563&2197975&1&Test_Comment%20passed&123&Ver26
+http://127.0.0.1:8888/GoProTestMgr/ReportStatus&10563&2197975&5&This%20test%20worked%20fine.&061&Ver26
+
+    Node.GoProTestMgr.TestResult:
+        requestHandlers.js
+            url: /GoProTestMgr/TestResult/Testname&statusid[pass|fail|error]
+                goproAppHandlers.js
+                    TestRail.ReportTestStatus(TestName,statusid)
+                        httpclient.js
+                            HTTPRequest.ReportTestStatus(caseid,statusid)
+                    response.write server response code "200"
+                    session response.end
+
+     Node.GoProTestMgr.TestRunStatus:
+        requestHandlers.js
+            url: /GoProTestMgr/TestRunStatus
+                goproAppHandlers.js
+                    TestRail.TestRunStatus
+                        Is Test Index > Test Cases[].length
+                    TRUE:
+                        response.write "DONE"
+                    FALSE:
+                        response.write Test Index
+                    session response.end

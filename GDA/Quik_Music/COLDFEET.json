@@ -1,0 +1,555 @@
+{
+    "beats_per_minute": 120,
+    "genre": "Electronica",
+    "music_title": {
+        "en": "Cold Feet",
+        "version": 0
+    },
+    "tracks": [
+        {
+            "duration_seconds": 14.999,
+            "marks": [
+                [
+                    {
+                        "music_seconds": 7.23,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.97,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 11.17,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 3.97,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.23,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 11.17,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 1.746,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 3.97,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.23,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 11.17,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 1.746,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 3.97,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 7.23,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 8.997,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 13.34,
+                        "version": 0
+                    }
+                ]
+            ],
+            "music_source_file_short_name": "COLDFEET_15.mp3",
+            "version": 0,
+            "waveform_data_cache_file_short_name": "COLDFEET_15_waveform_cache.dat"
+        },
+        {
+            "duration_seconds": 30.954,
+            "marks": [
+                [
+                    {
+                        "music_seconds": 9.683,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 9.683,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 17.833,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 2.153,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 9.683,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 17.833,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 2.153,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 9.683,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 17.833,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 26.764,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 2.153,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 9.683,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 14.645,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 17.833,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 26.764,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 2.153,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 9.683,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 14.645,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 17.833,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.792,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 26.764,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 2.153,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 9.683,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 14.645,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 17.833,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.792,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 23.155,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 26.764,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 2.153,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 6.381,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 9.683,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 14.645,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 17.833,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 18.792,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 23.155,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 26.764,
+                        "version": 0
+                    }
+                ]
+            ],
+            "music_source_file_short_name": "COLDFEET_30.mp3",
+            "version": 0,
+            "waveform_data_cache_file_short_name": "COLDFEET_30_waveform_cache.dat"
+        },
+        {
+            "duration_seconds": 59.999,
+            "marks": [
+                [
+                    {
+                        "music_seconds": 8.755,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 8.755,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 24.537,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 8.755,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 24.537,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 38.104,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 8.755,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 24.537,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 38.104,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 54.485,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 8.755,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 20.002,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 24.537,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 38.104,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 54.485,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 8.755,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 20.002,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 24.537,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 33.387,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 38.104,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 54.485,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 8.755,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 20.002,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 24.537,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 33.387,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 38.104,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 46.795,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 54.485,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 4,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 8.755,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 20.002,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 24.537,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 33.387,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 38.104,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 46.795,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 54.485,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 4,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 8.755,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 20.002,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 24.537,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 27.397,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 33.387,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 38.104,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 46.795,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 54.485,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 4,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 8.755,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 20.002,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 24.537,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 27.397,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 33.387,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 38.104,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 41.506,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 46.795,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 54.485,
+                        "version": 0
+                    }
+                ],
+                [
+                    {
+                        "music_seconds": 4,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 8.755,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 20.002,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 24.537,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 27.397,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 33.387,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 38.104,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 41.506,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 46.795,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 50.328,
+                        "version": 0
+                    },
+                    {
+                        "music_seconds": 54.485,
+                        "version": 0
+                    }
+                ]
+            ],
+            "music_source_file_short_name": "COLDFEET_60.mp3",
+            "version": 0,
+            "waveform_data_cache_file_short_name": "COLDFEET_60_waveform_cache.dat"
+        }
+    ],
+    "version": 11,
+    "vibes": [
+        "Peaceful",
+        "Reflective"
+    ]
+}

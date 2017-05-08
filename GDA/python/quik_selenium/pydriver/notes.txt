@@ -1,0 +1,134 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import os
+import time
+import base64
+import httplib
+from selenium.webdriver.remote.command import Command
+from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
+from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.common.proxy import Proxy
+
+import unittest
+
+from selenium import webdriver
+
+
+# if __name__ == "__main__":
+#     unittest.main()
+
+print "start"
+dr = os.path.dirname(__file__)
+chrome_driver_path = dr + "/chromedriver"  # win "\chromedriver.exe"
+#chrome_driver_path = "/Applications/GoPro Quik.app/Contents/MacOS/GoPro Quik"
+#chrome_driver_path = "/Users/keithfisher/Qt5.8.0/Examples/Qt-5.8/webengine/build-minimal-Desktop_Qt_5_8_0_clang_64bit-Debug/minimal.app/Contents/MacOS/minimal --remote-debugging-port=9999"
+chrome_app_path = "/Automation/Qt/qtwebengine/examples/webengine/build-quicknanobrowser-Desktop_Qt_5_8_0_clang_64bit-Debug/quicknanobrowser.app/Contents/MacOS/quicknanobrowser" # --remote-debugging-port=9999"
+#chrome_driver_path = "/Automation/gopro-tests-desktop/GDA/quik_webdebug.sh"
+# create a new Chrome session
+chromeOptions = webdriver.ChromeOptions()
+chromeOptions.binary_location=chrome_app_path
+driver = webdriver.Chrome(chrome_options=chromeOptions)
+driver.get("http://www.gopro.com")
+time.sleep(10)
+btn = driver.find_element_by_class_name("homepage-video-cta-container")
+
+if btn:
+    print "Found"
+    btn.click()
+time.sleep(10)
+driver.close()
+
+desired_capabilities = webdriver.DesiredCapabilities.CHROME.copy()
+desired_capabilities={'host':'127.0.0.1','port':9999}
+px=Proxy
+px.http_proxy("127.0.0.1:9999")
+desired_capabilities.__setattr__('proxy',px)
+
+
+chromeOptions.add_extension(desired_capabilities)
+command_executor="127.0.0.1:9999"
+prefs = {"profile.managed_default_content_settings.images":2}
+chromeOptions.add_experimental_option("prefs",prefs)
+"""
+def __init__(self, command_executor='http://127.0.0.1:4444/wd/hub',
+                 desired_capabilities=None, browser_profile=None, proxy=None,
+                 keep_alive=False, file_detector=None):
+        Create a new driver that will issue commands using the wire protocol.
+
+        :Args:
+         - command_executor - Either a string representing URL of the remote server or a custom
+             remote_connection.RemoteConnection object. Defaults to 'http://127.0.0.1:4444/wd/hub'.
+         - desired_capabilities - A dictionary of capabilities to request when
+             starting the browser session. Required parameter.
+         - browser_profile - A selenium.webdriver.firefox.firefox_profile.FirefoxProfile object.
+             Only used if Firefox is requested. Optional.
+         - proxy - A selenium.webdriver.common.proxy.Proxy object. The browser session will
+             be started with given proxy settings, if possible. Optional.
+         - keep_alive - Whether to configure remote_connection.RemoteConnection to use
+             HTTP keep-alive. Defaults to False.
+         - file_detector - Pass custom file detector object during instantiation. If None,
+             then default LocalFileDetector() will be used.
+
+"""
+
+#driver = webdriver.Remote(chrome_driver_path,desired_capabilities,None,None,False,None)
+driver = webdriver.Chrome(chrome_options=chromeOptions)
+
+# print capabilities.items()
+#option=webdriver.ChromeOptions
+
+
+
+#driver = webdriver.Remote(chrome_driver_path)
+print "WAIT"
+#driver.implicitly_wait(60)
+#print driver.title
+#print driver.current_window_handle
+#driver.maximize_window()
+
+# navigate to the application home page
+#driver.get("http://www.google.com")
+time.sleep(10)
+btn = driver.find_element_by_class_name("homepage-video-cta-container")
+
+if btn:
+    print "Found"
+    btn.click()
+
+print "DONE"
+#driver.close()
+
+# options.add_argument('--ignore-certificate-errors')
+# options.add_argument('--ignore-ssl-errors')
+# dir_path = os.path.dirname(os.path.realpath(__file__))
+# chromedriver = dir_path + "/chromedriver"
+# os.environ["webdriver.chrome.driver"] = chromedriver
+# driver = selenium.chromedriver.(chrome_options=options, executable_path=chromedriver)
+# time.sleep(5)
+# driver.close()
+
+
+
+

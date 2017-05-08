@@ -1,0 +1,319 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>gda_view.sikuli</h2> <a href="gda_view.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> gda_utils
+
+<span class="kw">from</span> sikuli <span class="kw">import</span> Sikuli
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> __builtin__ <span class="kw">import</span> True, False
+<span class="kw">import</span> org.sikuli.basics.SikulixForJython
+
+<span class="kw">class</span> GDAView:
+    <span class="kw">def</span> __init__(self):
+        self.auto_launch=False
+        self.auto_download=False
+        self.auto_play=False
+        self.auto_sync=False
+        self.import_location=<span class="str">""</span>
+        self.media_folder=[]
+        self.fails=<span class="str">"\nCloudSettings: REPORT TESTS FAILED"</span>
+        self.passes=<span class="str">"\nCloudSettings: REPORT TESTS PASSED"</span>
+
+    <span class="kw">def</span> evalgdaview(self):
+        p=Pattern(<img src="view_btn_selected.png" />).similar(<span class="dig">0.68</span>).targetOffset(-<span class="dig">6</span>,<span class="dig">0</span>) <span class="cmt"># view_btn_selected</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"TOP"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="view_btn_create-unselected.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># view_btn_create-unselected</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"TOP"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="view_btn_media-selected.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># view_btn_media-selected</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"LEFTPANEL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="view_btn_recent-unselected.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># view_btn_recent-unselected</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"LEFTPANEL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="view_btn_edited-unselected.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># view_btn_edited-unselected</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"LEFTPANEL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="gensettings_btn_feedback-1.png" />).similar(<span class="dig">0.68</span>) <span class="cmt"># gensettings_btn_feedback</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"LEFTPANEL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+
+        p=Pattern(<img src="view_lbl_allmedia.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># view_lbl_allmedia</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"MEDIA_CONTROL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="view_btn_thumbsize-min.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># view_btn_thumbsize-min        </span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"MEDIA_SLIDER_CONTROL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="view_btn_thumbsize-slider.png" />).similar(<span class="dig">0.69</span>).targetOffset(-<span class="dig">2</span>,-<span class="dig">1</span>) <span class="cmt"># view_btn_thumbsize-slider        </span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"MEDIA_SLIDER_CONTROL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+
+        <span class="cmt">#p=Pattern("view_btn_thumbsize-slide-min.png").similar(0.69) # view_btn_thumbsize-slide-min        </span>
+        <span class="cmt">#rsettings=gda_utils.EXISTS3("VIEW","MEDIA_SLIDER_CONTROL",p,5)</span>
+        <span class="cmt">#if not rsettings:</span>
+        <span class="cmt">#    self.fails += "\nFAILED to find: %s" % str(p)</span>
+        <span class="cmt">#else:</span>
+        <span class="cmt">#    self.passes += "\nPASSED: %s" % str(p)</span>
+
+        p=Pattern(<img src="view_btn_thumbsize-max.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># view_btn_thumbsize-max        </span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"MEDIA_SLIDER_CONTROL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1</span>,<span class="dig">10</span>):
+            self.setthumbsliderlarger(i)
+
+
+
+        p=Pattern(<img src="view_btn_filterby-all.png" />).similar(<span class="dig">0.68</span>) <span class="cmt"># view_btn_filterby-all        </span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"MEDIA_CONTROL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+
+        <span class="kw">return</span>
+        p=Pattern(<img src="view_btn_filterby-videos.png" />).similar(<span class="dig">0.68</span>) <span class="cmt"># view_btn_filterby-videos</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"MEDIA_CONTROL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="view_btn_filterby-photos.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># view_btn_filterby-photos</span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"MEDIA_CONTROL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="view_btn_filterby-clips.png" />).similar(<span class="dig">0.68</span>) <span class="cmt"># view_btn_filterby-clips        </span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"MEDIA_CONTROL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+        p=Pattern(<img src="view_btn_filterby-hilights.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># view_btn_filterby-hilights        </span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"MEDIA_CONTROL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+        <span class="kw">else</span>:
+            self.passes += <span class="str">"\nPASSED: %s"</span> % str(p)
+
+    <span class="kw">def</span> setthumbsliderlarger(self,id):
+        <span class="cmt">#p=Pattern("view_btn_thumbsize-min.png").similar(0.69) # view_btn_thumbsize-min</span>
+        rsettings=gda_utils.getregion(<span class="str">"VIEW"</span>,<span class="str">"MEDIA_SLIDER_CONTROL"</span>)
+        rw= rsettings.getW()
+        d=rw/<span class="dig">10</span>
+        w1=rw/<span class="dig">2</span>
+        w2=w1*-<span class="dig">1</span>
+        d1=d*id
+        xx=w2+d1
+
+        <span class="kw">print</span> <span class="str">"##########%d#%d#%d#%d"</span> % (d,w1,d1,xx)
+        <span class="cmt">#p=Pattern("view_btn_selected.png").similar(0.68).targetOffset(-6,0) # view_btn_selected</span>
+        <span class="cmt">#rsettings=gda_utils.EXISTS3("VIEW","MEDIA_SLIDER_CONTROL",p,5)</span>
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+            <span class="kw">return</span> None
+        l=Location(xx,<span class="dig">0</span>)
+        rsettings.<span class="skw">click</span>(l)
+        rsettings(<span class="dig">1</span>)
+
+    <span class="kw">def</span> setthumbslidersmaller(self,id):
+        p=Pattern(<img src="view_btn_thumbsize-max.png" />).similar(<span class="dig">0.69</span>) <span class="cmt"># view_btn_thumbsize-max        </span>
+        rsettings=gda_utils.EXISTS3(<span class="str">"VIEW"</span>,<span class="str">"MEDIA_SLIDER_CONTROL"</span>,p,<span class="dig">5</span>)
+        <span class="kw">if</span> <span class="kw">not</span> rsettings:
+            self.fails += <span class="str">"\nFAILED to find: %s"</span> % str(p)
+            <span class="kw">return</span> None
+        rleft= rsettings.left(id)
+        rleft.<span class="skw">click</span>()
+
+<span class="cmt">######################################</span>
+<span class="cmt"># Assumes automation window size Mac{x35,y35,w1280, h836}</span>
+<span class="cmt"># for windows using Autoit we need to identify the inner region w,h relative to mac and set the win size accordingly</span>
+<span class="cmt"># Win,Mac window container border widths are different</span>
+<span class="cmt"># this is global region list for more accurate image query</span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> set_view_regions(REGION):
+
+    screenregion=<span class="str">"VIEW"</span>
+    subregion=<span class="str">"TOP"</span>
+    rx=REGION.getX()
+    ry=REGION.getY()<span class="cmt">#+REGION.getH()-80</span>
+    rw=REGION.getW()
+    rh=<span class="dig">80</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(1)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+    subregion=<span class="str">"LEFTPANEL"</span>
+    rx=REGION.getX()
+    ry=REGION.getY()+<span class="dig">80</span>
+    rw=<span class="dig">230</span>
+    rh=REGION.getH()-<span class="dig">80</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(1)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+    subregion=<span class="str">"MEDIA_CONTROL"</span>
+    rx=REGION.getX()+<span class="dig">230</span>
+    ry=REGION.getY()+<span class="dig">80</span>
+    rw=REGION.getW()-<span class="dig">230</span>
+    rh=<span class="dig">80</span>
+    r=Region(rx,ry,rw,rh)
+    <span class="cmt">#r.highlight(1)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+    subregion=<span class="str">"MEDIA_AREA"</span>
+    r=r.below(REGION.getH()-<span class="dig">160</span>)
+    <span class="cmt">#r.highlight(5)</span>
+    gda_utils.add_region(screenregion,subregion,r)
+
+
+    subregion=<span class="str">"MEDIA_SLIDER_CONTROL"</span>
+    rx=REGION.getX()+REGION.getW() -<span class="dig">200</span>
+    ry=REGION.getY()+<span class="dig">100</span>
+    rw=<span class="dig">190</span>
+    rh=<span class="dig">30</span>
+    r=Region(rx,ry,rw,rh)
+    r.highlight(<span class="dig">1</span>)
+    gda_utils.add_region(screenregion,subregion,r)
+
+
+<span class="cmt">######################################</span>
+<span class="cmt"># for debugging in sikuli ide</span>
+<span class="cmt"># </span>
+<span class="cmt"># </span>
+<span class="cmt">######################################</span>
+<span class="kw">def</span> test_module():
+    gda_utils.GetEnvInfo()
+    gpa,gpr=gda_utils.AppStart(<span class="str">"GoPro"</span>)
+    set_view_regions(gpr)
+    g=GDAView()
+    <span class="kw">if</span> <span class="kw">not</span> g:
+        <span class="kw">print</span> <span class="str">"Error: failed to create GDAView class"</span>
+        <span class="kw">return</span>
+    g.evalgdaview()
+    <span class="kw">print</span> g.passes
+    <span class="kw">print</span> g.fails
+
+<span class="cmt">######################################</span>
+<span class="cmt"># for debugging in sikuli ide</span>
+<span class="cmt"># </span>
+<span class="cmt"># KEEP THIS COMMENTED when checking in to GIT</span>
+<span class="cmt">######################################    </span>
+test_module()
+</pre>
+</body>
+</html>

@@ -1,0 +1,54 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+//$background-color:  #ec663c;
+//
+//$title-color:       rgba(255, 255, 255, 0.7);
+//$moreinfo-color:    rgba(255, 255, 255, 0.7);
+
+// ----------------------------------------------------------------------------
+// Widget-text styles
+// ----------------------------------------------------------------------------
+.widget-text {
+
+  background-color: deepskyblue;
+  .title {
+    font-size: 12;
+    margin-bottom: 1px;
+    background-color: none;
+    color: darkblue;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .text {
+    font-size: 9;
+    margin-bottom: 1px;
+    background-color: none;
+    color: white;
+    text-align: left;
+  }
+
+  .more-info {
+    padding-left: 5px;
+    font-size: 6;
+    color: lightblue;
+    margin-bottom: 1px;
+    background-color: none;
+    text-align: left;
+  }
+
+  .updated-at {
+    padding-left: 5px;
+    font-size: 6;
+    color: blue;
+    margin-bottom: 1px;
+    background-color: none;
+    text-align: left;
+  }
+
+
+//  &.large h3 {
+//    font-size: 12px;
+//  }
+}

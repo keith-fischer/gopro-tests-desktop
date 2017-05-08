@@ -1,0 +1,1491 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>gda.sikuli</h2> <a href="gda.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> java.lang.System
+<span class="kw">import</span> java
+<span class="kw">import</span> sys
+<span class="kw">import</span> os
+<span class="kw">import</span> shutil
+<span class="cmt">#import math</span>
+<span class="cmt">#import ast</span>
+<span class="kw">import</span> json
+<span class="kw">from</span> time <span class="kw">import</span> strftime
+<span class="kw">from</span> sikuli <span class="kw">import</span> Sikuli
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> __builtin__ <span class="kw">import</span> True, False
+<span class="kw">import</span> org.sikuli.basics.SikulixForJython
+<span class="kw">import</span> org.sikuli.script.ImagePath
+<span class="cmt">#import results</span>
+setShowActions(True)
+Debug.setDebugLevel(<span class="dig">3</span>)
+<span class="cmt">#autogda00@gmail.com</span>
+<span class="cmt">#access4auto=gmail.com</span>
+<span class="cmt">#autogda00 = gopro account</span>
+<span class="cmt">#import HelperLib</span>
+<span class="cmt">#from guide import *</span>
+failcount=<span class="dig">0</span>
+failexit=<span class="dig">3</span>
+testcount = <span class="dig">0</span>
+d_gda_settings={}
+d_similarity={}
+startupcnt=<span class="dig">0</span>
+jenkins = <span class="str">"C:\\Win_GDA-Studio_3a_BAT\\"</span>
+screen_seq = <span class="dig">0</span>
+
+<span class="kw">def</span> DirExists(dpath):
+    <span class="kw">return</span> os.path.isdir(dpath)
+<span class="kw">def</span> FileExists(fpath):
+    <span class="kw">return</span> os.path.exists(fpath)
+
+<span class="cmt">####################################################</span>
+<span class="cmt">### getDatetime</span>
+<span class="cmt">####################################################</span>
+<span class="kw">def</span> getDatetime():
+    <span class="kw">return</span> strftime(<span class="str">"%Y%m%d_%H%M%S"</span>)
+<span class="kw">def</span> getDate():
+    <span class="kw">return</span> strftime(<span class="str">"%Y%m%d"</span>)
+<span class="kw">def</span> getTime():
+    <span class="kw">return</span> strftime(<span class="str">"%H%M%S"</span>)
+
+<span class="kw">def</span> set_results_folder():
+    <span class="kw">global</span> d_gda_settings
+
+
+
+<span class="cmt">####################################################</span>
+<span class="cmt">### get_extension</span>
+<span class="cmt">####################################################</span>
+<span class="kw">def</span> get_extension(filename):
+    <span class="cmt">#print filename</span>
+    <span class="kw">if</span> <span class="str">'.'</span> <span class="kw">in</span> filename:
+        ext = str(filename).split(<span class="str">'.'</span>, <span class="dig">1</span>)
+        <span class="kw">if</span> len(ext)&gt;<span class="dig">0</span>:
+            <span class="kw">return</span> <span class="str">'.'</span> + ext[<span class="dig">1</span>].lower()
+
+    <span class="kw">return</span> <span class="str">''</span>
+<span class="cmt">##########################################</span>
+<span class="cmt">#ScreenShot</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> ScreenShot(imgRegion, FileName, info=<span class="str">""</span>):
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">global</span> screen_seq
+    <span class="kw">print</span> <span class="str">"Screenshot&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    <span class="kw">if</span> <span class="kw">not</span> imgRegion:
+        <span class="kw">print</span> <span class="str">"region not defined"</span>
+        <span class="kw">print</span> <span class="str">"Screenshot&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+        <span class="kw">return</span>
+    <span class="kw">if</span> <span class="kw">not</span> FileName <span class="kw">or</span> len(FileName)==<span class="dig">0</span>:
+        fname = <img src="screenshot.png" />
+    <span class="kw">else</span>:
+        fname = os.path.basename(FileName)
+    <span class="kw">print</span> getRegionInfo(imgRegion)
+    <span class="cmt">#d = d_gda_settings["path_del"]</span>
+    ext = get_extension(fname)
+    <span class="kw">if</span> len(ext) != <span class="dig">0</span>:
+        <span class="kw">print</span> ext
+        fname = fname.replace(ext,<span class="str">""</span>)
+        <span class="kw">print</span> fname
+    <span class="kw">else</span>:
+        ext = <span class="str">'.png'</span>
+    screen_seq += <span class="dig">1</span>
+    _info=<span class="str">"_"</span>
+    <span class="kw">if</span> len(info)&gt;<span class="dig">0</span>:
+        _info = <span class="str">"_"</span> + info + <span class="str">"_"</span>
+    trimfname = <span class="str">"srn_"</span> + str(screen_seq) + _info + fname
+    resultsPath = d_gda_settings[<span class="str">"RESULTS"</span>]
+    newfname = trimfname+ext
+    newpath = os.path.join(resultsPath,newfname)
+    <span class="kw">print</span> newpath
+    <span class="cmt">#print os.path.join(ResultsPath,newfname)</span>
+    <span class="kw">if</span> FileExists(newpath):
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1</span>,<span class="dig">99</span>,<span class="dig">1</span>): <span class="cmt">#index a new file name</span>
+            newfname = trimfname+str(i)+ext
+            newpath = os.path.join(resultsPath,newfname)
+            <span class="kw">print</span> newpath
+            <span class="kw">if</span> <span class="kw">not</span> FileExists(newpath):
+                <span class="kw">break</span>
+
+    <span class="kw">print</span> newpath
+    <span class="cmt">#imgRegion.highlight(2)</span>
+    srnfile = <span class="skw">capture</span>(imgRegion) <span class="cmt">#return temp path to png file</span>
+    <span class="cmt">#wait(1)</span>
+    <span class="cmt">#Log("ScreenShot:path - " + fullpath)</span>
+    shutil.move(str(srnfile),newpath) <span class="cmt">#file copy and delete src</span>
+    <span class="cmt">#Log("ScreenShot:Moved - " + FileName)</span>
+    <span class="kw">print</span> <span class="str">"Screenshot&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+<span class="cmt">####################################################</span>
+<span class="cmt">### getRegionInfo</span>
+<span class="cmt">####################################################</span>
+<span class="kw">def</span> getRegionInfo(thisRegion):
+    rc = <span class="str">""</span>
+    <span class="kw">if</span> <span class="kw">not</span> thisRegion:
+        <span class="kw">return</span> rc
+
+    rc += <span class="str">"X="</span> + str(thisRegion.getX()) + <span class="str">","</span>
+    rc += <span class="str">"Y="</span> + str(thisRegion.getY()) + <span class="str">","</span>
+    rc += <span class="str">"W="</span> + str(thisRegion.getW()) + <span class="str">","</span>
+    rc += <span class="str">"H="</span> + str(thisRegion.getH()) + <span class="str">","</span>
+    rc+= <span class="str">"CX="</span> + str(thisRegion.getCenter().getX())+<span class="str">","</span>
+    rc+= <span class="str">"CY="</span> + str(thisRegion.getCenter().getY())+<span class="str">","</span>
+
+    <span class="kw">return</span> rc
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> getdatetime():
+    <span class="kw">return</span> strftime(<span class="str">"%Y%m%d_%H%M%S"</span>)
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> gettime():
+    <span class="kw">return</span> strftime(<span class="str">"%H:%M:%S"</span>)
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> log(info):
+    <span class="kw">print</span>(getdatetime()+<span class="str">" "</span>+info)
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># fmode w|a</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> filewrite(fpath,txt,fmode=<span class="str">'w'</span>):
+    f = None
+    rc = False
+    <span class="kw">try</span>:
+        f=open(fpath, fmode)
+        f.write(txt)
+        rc=True
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"***Failed: filewrite - "</span>+str(fmode)+<span class="str">"-"</span>+fpath
+    <span class="kw">finally</span>:
+        <span class="kw">if</span> f:
+            f.close()
+    <span class="kw">return</span> rc
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> fileread(fpath):
+    txt = None
+    f = None
+    <span class="kw">try</span>:
+        f=open(fpath)
+        txt=f.read()
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"***Failed: fileread - "</span>+fpath
+    <span class="kw">finally</span>:
+        <span class="kw">if</span> f:
+            f.close()
+
+    <span class="kw">return</span> txt
+
+<span class="kw">def</span> getDictFromFile():
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">print</span> <span class="str">"getDictFromFile&gt;&gt;&gt;&gt;"</span>
+    _dict ={}
+
+    fpath = d_gda_settings[<span class="str">"SIMILARITY"</span>]
+<span class="cmt">#    if d_gda_settings["isWindows"]:</span>
+<span class="cmt">#        fpath = d_gda_settings["HOME"]+"\\workspace\\d_similarity.json"</span>
+<span class="cmt">#        print "win d_similarity="+fpath</span>
+<span class="cmt">#    else:</span>
+<span class="cmt">#        print "mac d_similarity="+fpath</span>
+    <span class="kw">print</span> fpath
+    _json=fileread(fpath)
+    <span class="kw">if</span> _json <span class="kw">and</span> len(_json)&gt;<span class="dig">0</span>:
+        _dict = json.loads(_json)
+        <span class="kw">if</span> _dict:
+            <span class="kw">return</span> _dict
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"Error: Failed to set Dict"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"Error: Failed to set JSON"</span>
+    <span class="kw">print</span> <span class="str">"getDictFromFile&lt;&lt;&lt;"</span>
+    <span class="kw">return</span> _dict
+
+<span class="kw">def</span> putDictToFile(_dict):
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">if</span> _dict <span class="kw">and</span> len(_dict)&gt;<span class="dig">0</span>:
+        s_dict=json.dumps(_dict)
+        fpath = d_gda_settings[<span class="str">"SIMILARITY"</span>]
+        <span class="kw">print</span> <span class="str">"putDictToFile:d_similarity="</span>+fpath
+        <span class="kw">if</span> <span class="kw">not</span> filewrite(fpath,s_dict,<span class="str">'w'</span>):
+            <span class="kw">print</span> <span class="str">"FAILED: putDictToFile similarity index file save"</span>
+            <span class="kw">print</span> <span class="str">"Automation needs to save these values for subsequent test runs for faster run times"</span>
+            exit(<span class="dig">1</span>)
+        <span class="kw">return</span> True
+    <span class="kw">else</span>:
+        <span class="kw">return</span> False
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># passfail 1=fail, 0=pass,-1 error, status</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> reportstatus(passfail,testinfo,gpr = None,imgName = None):
+    <span class="kw">global</span> failcount
+    <span class="kw">global</span> failexit
+    <span class="kw">global</span> testcount
+    <span class="kw">if</span> passfail==<span class="dig">0</span>:
+        testcount+=<span class="dig">1</span>
+        <span class="kw">print</span> <span class="str">"=========================================="</span>
+        <span class="kw">print</span> <span class="str">"Test Number: "</span> +str(testcount)
+        log( <span class="str">"PASSED: "</span> + testinfo)
+        <span class="kw">print</span> <span class="str">"=========================================="</span>
+        failcount = <span class="dig">0</span>
+        <span class="kw">if</span> gpr <span class="kw">and</span> imgName:
+            ScreenShot(gpr,imgName,<span class="str">"T"</span>+str(testcount)+<span class="str">"PASS"</span>)
+    <span class="kw">elif</span> passfail==<span class="dig">1</span>:
+        testcount+=<span class="dig">1</span>
+        <span class="kw">print</span> <span class="str">"******************************************"</span>
+        <span class="kw">print</span> <span class="str">"Test Number: "</span> +str(testcount)
+        log( <span class="str">"FAILED: "</span> + testinfo)
+        <span class="kw">print</span> <span class="str">"******************************************"</span>
+        failcount += <span class="dig">1</span>
+        <span class="kw">if</span> gpr <span class="kw">and</span> imgName:
+            ScreenShot(gpr,imgName,<span class="str">"T"</span>+str(testcount)+<span class="str">"FAIL"</span>)
+    <span class="kw">elif</span> passfail==<span class="dig">2</span>:
+        <span class="kw">print</span> <span class="str">"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"</span>
+        <span class="kw">print</span> <span class="str">"Test Number: "</span> +str(testcount)
+        log( <span class="str">"WARNING: "</span> + testinfo)
+        <span class="kw">print</span> <span class="str">"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"</span>
+        <span class="kw">if</span> gpr <span class="kw">and</span> imgName:
+            ScreenShot(gpr,imgNamee,<span class="str">"T"</span>+str(testcount)+<span class="str">"WARN"</span>)
+    <span class="kw">elif</span> passfail==-<span class="dig">1</span>:
+        <span class="kw">print</span> <span class="str">"###########################################"</span>
+        <span class="kw">print</span> <span class="str">"Test Number: "</span> +str(testcount)
+        log( <span class="str">"ERROR: "</span> + testinfo)
+        <span class="kw">print</span> <span class="str">"###########################################"</span>
+        failcount += <span class="dig">1</span>
+        <span class="kw">if</span> gpr <span class="kw">and</span> imgName:
+            ScreenShot(gpr,imgNamee,<span class="str">"T"</span>+str(testcount)+<span class="str">"ERROR"</span>)
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"------------------------------------------"</span>
+        log(<span class="str">"STATUS: "</span> + testinfo)
+        <span class="cmt">#print "STATUS: " + testinfo</span>
+        <span class="kw">print</span> <span class="str">"------------------------------------------"</span>
+    <span class="kw">if</span> failcount&gt;failexit: <span class="cmt"># cuts BAT tests short when too many fails</span>
+        <span class="kw">print</span> <span class="str">"###########################################"</span>
+        log( <span class="str">"Aborting Test Run: Too many subsequent fails"</span>)
+        <span class="kw">print</span> <span class="str">"###########################################"</span>
+        printreport()
+        exit(<span class="dig">1</span>)
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> printreport():
+    <span class="kw">global</span> d_similarity
+    <span class="kw">print</span> <span class="str">"=============================================="</span>
+    <span class="kw">print</span> <span class="str">"Test Report =================================="</span>
+    p=<span class="dig">0</span>
+    f=<span class="dig">0</span>
+    e=<span class="dig">0</span>
+    l=<span class="dig">0</span>
+    <span class="kw">for</span> png, region <span class="kw">in</span> d_similarity.iteritems():
+        <span class="cmt">#print png</span>
+        <span class="kw">if</span> <span class="str">"failed"</span> <span class="kw">in</span> region <span class="kw">and</span> region[<span class="str">"failed"</span>]&gt;<span class="dig">0</span>:
+            f+=<span class="dig">1</span>
+            <span class="kw">print</span> <span class="str">"FAILED: "</span> +png
+        <span class="kw">else</span>:
+            p+=<span class="dig">1</span>
+        <span class="kw">if</span> <span class="str">"location"</span> <span class="kw">in</span> region <span class="kw">and</span> region[<span class="str">"location"</span>]&gt;<span class="dig">0</span>:
+            l+=<span class="dig">1</span>
+            <span class="kw">print</span> <span class="str">"LOCATION: "</span> +png
+            <span class="kw">print</span> region[<span class="str">"location_mismatch"</span>]
+        <span class="kw">if</span> <span class="str">"error"</span> <span class="kw">in</span> region <span class="kw">and</span> region[<span class="str">"error"</span>]&gt;<span class="dig">0</span>:
+            e+=<span class="dig">1</span>
+            <span class="kw">print</span> <span class="str">"ERROR: "</span> +png
+            <span class="kw">print</span> <span class="str">"msg: "</span> +str(region[<span class="str">"errmsg"</span>])
+        <span class="kw">else</span>:
+            p+=<span class="dig">1</span>
+    passcount = testcount - failcount
+    <span class="kw">print</span> <span class="str">"Summary Report =================================="</span>
+    <span class="kw">print</span> <span class="str">"PNG Mismatches:"</span>+str(l)
+    <span class="kw">print</span> <span class="str">"PASSED:"</span>+str(passcount)
+    <span class="kw">print</span> <span class="str">"FAILED:"</span>+str(failcount)
+    <span class="kw">print</span> <span class="str">"----------------------------------------------"</span>
+    <span class="kw">print</span> <span class="str">"TOTAL:"</span>+str(passcount+failcount)
+
+    <span class="kw">if</span> failcount==<span class="dig">0</span>:
+        <span class="kw">print</span> <span class="str">"BAT TEST PASSED"</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"BAT TEST FAILED"</span>
+        exit(<span class="dig">1</span>)  <span class="cmt"># fail process exit so jenkins detects as failed bat</span>
+    <span class="kw">print</span> <span class="str">"=============================================="</span>
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> PATTERN(image):
+<span class="cmt">#    SmartyLib.Log("SmartyLib.PATTERN:"+str(image) )</span>
+    <span class="kw">return</span> Pattern(image).similar(Pattern_Similar_Value)
+
+<span class="kw">def</span> evaltolerance(oldnum,newnum,tolerance):
+    <span class="kw">print</span> <span class="str">"evaltolerance"</span>+str(oldnum)+<span class="str">":"</span>+str(newnum)
+    <span class="kw">if</span> oldnum == newnum: <span class="kw">return</span> <span class="dig">0</span>
+    v = abs(oldnum - newnum)
+    <span class="kw">print</span> str(tolerance)+<span class="str">":"</span>+str(v)
+    <span class="kw">if</span> v&gt;tolerance:
+        <span class="kw">print</span> str(v)
+        <span class="kw">return</span> v
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="dig">0</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># orig_match is a dict</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> compare_match(new_match,orig_match, tolerance):
+    <span class="kw">print</span> <span class="str">"compare_match:tolerance="</span>+str(tolerance)
+    matchreport=<span class="str">""</span>
+    mc=<span class="dig">0</span>
+    <span class="kw">if</span> <span class="kw">not</span> new_match:
+        <span class="kw">return</span>
+    x=new_match.getX()
+    _x=orig_match[<span class="str">"X"</span>]
+    <span class="kw">if</span> evaltolerance(_x,x,tolerance)&gt;<span class="dig">0</span>:
+        matchreport+= <span class="str">"\ncompare_match:Failed X-"</span>+str(_x)+<span class="str">":"</span>+str(x)
+        mc+=<span class="dig">1</span>
+    y=new_match.getY()
+    _y=orig_match[<span class="str">"Y"</span>]
+    <span class="kw">if</span> evaltolerance(_y,y,tolerance)&gt;<span class="dig">0</span>:
+        matchreport+= <span class="str">"\ncompare_match:Failed Y-"</span>+str(_y)+<span class="str">":"</span>+str(y)
+        mc+=<span class="dig">1</span>
+    w=new_match.getW()
+    _w=orig_match[<span class="str">"W"</span>]
+    <span class="kw">if</span> evaltolerance(_w,w,tolerance)&gt;<span class="dig">0</span>:
+        matchreport+= <span class="str">"\ncompare_match:Failed W-"</span>+str(_w)+<span class="str">":"</span>+str(w)
+        mc+=<span class="dig">1</span>
+    h=new_match.getH()
+    _h=orig_match[<span class="str">"H"</span>]
+    <span class="kw">if</span> evaltolerance(_h,h,tolerance)&gt;<span class="dig">0</span>:
+        matchreport+= <span class="str">"\ncompare_match:Failed H-"</span>+str(_h)+<span class="str">":"</span>+str(h)
+        mc+=<span class="dig">1</span>
+
+    sim = <span class="str">"%.2f"</span> % new_match.getScore()
+    _sim = float(_dict[<span class="str">"similarity"</span>])
+    <span class="kw">if</span> evaltolerance((_sim*<span class="dig">100</span>),(sim*<span class="dig">100</span>),(tolerance+<span class="dig">5</span>))&gt;<span class="dig">0</span>:
+        matchreport+= <span class="str">"\ncompare_match:Failed similarity-"</span>+str(_sim)+<span class="str">":"</span>+str(sim)
+        mc+=<span class="dig">1</span>
+
+    <span class="kw">if</span> mc&gt;<span class="dig">0</span>:
+        <span class="cmt">#matchreport = "Match location Failed *****************************"+matchreport</span>
+        <span class="kw">return</span> matchreport
+    <span class="kw">return</span> <span class="str">""</span>
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># FIND_Similarity</span>
+<span class="cmt"># We always want the image template similarity highest possible like 99% (0-1)</span>
+<span class="cmt"># images not found, the similarity search is reset to 100 &amp; decremented by 5.</span>
+<span class="cmt"># newley </span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> FIND_Similarity(REGION,PATTERN,min = <span class="dig">50</span>):
+    <span class="kw">print</span> <span class="str">"FIND_Similarity&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    <span class="cmt">#Pattern("signout_tool.png").similar(0.90).targetOffset(14,2)</span>
+    <span class="kw">global</span> d_similarity
+    newpattern = None
+    failed = <span class="dig">0</span>
+    error=<span class="dig">0</span>
+    errmsg=<span class="str">""</span>
+    location = <span class="dig">0</span>
+    cm = <span class="str">""</span>
+    <span class="cmt">#print PATTERN.getFilename()</span>
+    <span class="kw">if</span> PATTERN.getFilename() <span class="kw">in</span> d_similarity:
+        <span class="kw">print</span> <span class="str">"Found dict similarity "</span>+str(d_similarity[PATTERN.getFilename()])
+        _dict = d_similarity[PATTERN.getFilename()]
+        <span class="kw">if</span> <span class="str">"similarity"</span> <span class="kw">in</span> _dict:
+            f = float(_dict[<span class="str">"similarity"</span>])
+            <span class="kw">print</span> str(f)
+            newpattern = PATTERN.similar(f)
+            <span class="cmt">#MATCH = REGION.find(newpattern)</span>
+            <span class="kw">try</span>:
+                MATCH = REGION.<span class="skw">find</span>(newpattern)
+                <span class="kw">if</span> MATCH:
+                    newf=MATCH.getScore()
+                    newf=<span class="str">"%.2f"</span> % newf
+                    <span class="kw">if</span> newf&gt;f: <span class="cmt">#keep highest found similarity index</span>
+                        d_similarity[PATTERN.getFilename()]=_dict
+                    <span class="kw">print</span> <span class="str">"similarity:"</span>+str(f)+<span class="str">"&gt;"</span>+str(newf)+<span class="str">" Found from dict"</span>
+                    _dict[<span class="str">"similarity"</span>]=str(newf)
+                    cm = compare_match(MATCH,_dict, <span class="dig">10</span>)
+                    <span class="cmt">#MATCH.highlight(1)        </span>
+                    <span class="cmt">#d_similarity[PATTERN.getFilename()]=str(f)</span>
+                    <span class="kw">if</span> len(cm)==<span class="dig">0</span>: <span class="cmt"># no mismatch</span>
+                        location+=<span class="dig">1</span>
+                        _dict[<span class="str">"location_mismatch"</span>]=cm
+                        _dict[<span class="str">"failed"</span>]=<span class="dig">0</span>
+                        _dict[<span class="str">"location"</span>]=<span class="dig">0</span>
+                        d_similarity[PATTERN.getFilename()]=_dict
+
+                        <span class="kw">print</span> <span class="str">"FIND_Similarity&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+
+                        <span class="kw">return</span> MATCH
+                    location=<span class="dig">1</span>
+                    <span class="kw">print</span> cm
+                <span class="kw">else</span>:
+                    <span class="kw">print</span> str(f)+<span class="str">"Match Not Found"</span>
+                    failed = <span class="dig">1</span>
+            <span class="kw">except</span>: <span class="cmt"># Exception, e:</span>
+                e = sys.exc_info()[<span class="dig">0</span>]
+                errmsg = str(f)+<span class="str">" Error Not Found in Dict"</span> +str(e)
+                error=<span class="dig">1</span>
+                <span class="cmt">#failed re-identify the similarity index</span>
+    f = <span class="dig">0.90</span>
+    <span class="kw">print</span> <span class="str">"Learning new similarity threshold"</span>
+
+    <span class="kw">for</span> s <span class="kw">in</span> range(<span class="dig">99</span>, <span class="dig">50</span>, -<span class="dig">5</span>):
+        f = float(s)*(<span class="dig">.01</span>)
+        newpattern = PATTERN.similar(f)
+        <span class="cmt">#REGION.highlight(1)</span>
+        ftrim = <span class="str">"0.90"</span>
+        <span class="kw">try</span>:
+            <span class="kw">print</span> <span class="str">"search "</span>+ str(f)
+            MATCH = REGION.<span class="skw">find</span>(newpattern)
+            <span class="kw">if</span> MATCH:
+                <span class="kw">print</span> str(f)+<span class="str">" Found"</span>
+                <span class="cmt">#MATCH.highlight(1)</span>
+                region ={}
+                newf=MATCH.getScore()
+                ftrim = <span class="str">"%.2f"</span> % f
+                <span class="kw">print</span> <span class="str">"similarity:"</span>+str(ftrim)+<span class="str">"&gt;"</span>+str(newf)+<span class="str">" Found from dict"</span>
+                region[<span class="str">"similarity"</span>]=str(newf-<span class="dig">5</span>) <span class="cmt">#decreament by 5 to remove near threshold values which would force repeat of the similarity search</span>
+                <span class="cmt">#region["similarity"]=ftrim</span>
+                region[<span class="str">"X"</span>]=MATCH.getX()
+                region[<span class="str">"Y"</span>]=MATCH.getY()
+                region[<span class="str">"H"</span>]=MATCH.getH()
+                region[<span class="str">"W"</span>]=MATCH.getW()
+                failed = <span class="dig">0</span>
+                region[<span class="str">"failed"</span>]=failed <span class="cmt">#1= failed orginal similarity and had to relearn a new similarity</span>
+                region[<span class="str">"location"</span>]=location <span class="cmt">#1= location mismatch</span>
+                region[<span class="str">"location_mismatch"</span>]=cm
+                error = <span class="dig">0</span>
+                region[<span class="str">"error"</span>]=error
+                region[<span class="str">"errmsg"</span>]=errmsg
+                d_similarity[PATTERN.getFilename()]=region
+                <span class="kw">print</span> <span class="str">"FIND_Similarity&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+                <span class="kw">return</span> MATCH
+            <span class="kw">else</span>:
+                <span class="kw">print</span> str(f)+<span class="str">"Match Not Found"</span>
+
+        <span class="kw">except</span>:
+            failed+=<span class="dig">1</span>
+            region={}
+            e = sys.exc_info()[<span class="dig">0</span>]
+            errmsg+= <span class="str">"similarity:"</span>+str(f)+<span class="str">" Error:"</span> + str(e)
+            <span class="kw">print</span> <span class="str">"ERROR Match Not Found: "</span> + errmsg
+            <span class="kw">if</span> PATTERN.getFilename() <span class="kw">in</span> d_similarity:
+                region = d_similarity[ PATTERN.getFilename()]
+                region[<span class="str">"error"</span>]=error
+                region[<span class="str">"errmsg"</span>]=errmsg
+            <span class="kw">else</span>:
+                region[<span class="str">"X"</span>]=<span class="dig">0</span>
+                region[<span class="str">"Y"</span>]=<span class="dig">0</span>
+                region[<span class="str">"H"</span>]=<span class="dig">0</span>
+                region[<span class="str">"W"</span>]=<span class="dig">0</span>
+                region[<span class="str">"location"</span>]=location <span class="cmt">#1= location mismatch</span>
+                region[<span class="str">"location_mismatch"</span>]=cm
+                region[<span class="str">"error"</span>]=error
+                region[<span class="str">"errmsg"</span>]=errmsg
+            d_similarity[PATTERN.getFilename()]=region
+    <span class="kw">print</span> <span class="str">"FAILED No match found return None"</span>
+    <span class="kw">print</span> <span class="str">"FIND_Similarity&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> refreshregion(GP):
+    <span class="kw">global</span> d_gda_settings
+    ap = d_gda_settings[<span class="str">"app_path"</span>]
+    switchApp(ap)
+    <span class="kw">if</span> <span class="kw">not</span> GP:
+        <span class="kw">print</span> <span class="str">"Failed: App not found"</span>
+        <span class="kw">return</span>
+    GP.focus()
+    r0 = GP.focusedWindow()
+    <span class="kw">if</span> <span class="kw">not</span> r0:
+        <span class="kw">print</span> <span class="str">"Failed: Window region not found"</span>
+        <span class="kw">return</span>
+    <span class="kw">else</span>:
+        r0.highlight(<span class="dig">1</span>)
+        <span class="kw">return</span> r0
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> setsettings(name,data,dtype = <span class="str">""</span>):
+    <span class="kw">if</span> <span class="kw">not</span> data:
+        <span class="kw">print</span> <span class="str">" No data"</span>
+
+    <span class="kw">else</span>:
+        d_gda_settings[name]=data
+        <span class="kw">if</span> dtype==<span class="str">"array"</span>:
+            <span class="kw">print</span> name+<span class="str">"="</span>
+            arr = d_gda_settings[name]
+            <span class="kw">for</span> item <span class="kw">in</span> arr:
+                <span class="kw">print</span> <span class="str">"--&gt;"</span>+str(item)
+        <span class="kw">else</span>:
+            <span class="kw">print</span> name + <span class="str">"="</span> + d_gda_settings[name]
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># Need to add args for build number info</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> GetEnvInfo():
+    <span class="kw">global</span> d_gda_settings
+    setsettings(<span class="str">"isMac"</span>,str(Env.isMac()))
+    setsettings(<span class="str">"isWindows"</span>,str(Env.isWindows()))
+    dd = getDate()
+    tt = getTime()
+    dt = dd+<span class="str">"_"</span>+tt
+    <span class="kw">if</span> d_gda_settings[<span class="str">"isWindows"</span>]==<span class="str">"True"</span>:
+        <span class="kw">print</span> <span class="str">"GetEnvInfo&gt;isWindows"</span>
+        setsettings(<span class="str">"JENKINS"</span>,<span class="str">"C:\\Win_GDA-Studio_3a_BAT"</span>)
+        setsettings(<span class="str">"JOBNAME"</span>,<span class="str">"C:\\Win_GDA-Studio_3a_BAT"</span>)
+        setsettings(<span class="str">"HOME"</span>, <span class="str">"C:\\Users\\"</span> + os.getenv(<span class="str">"USERNAME"</span>))
+        setsettings(<span class="str">"RESULTS"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"\\Results\\"</span> +dd+<span class="str">"\\"</span>+tt)
+        setsettings(<span class="str">"SIMILARITY"</span>,d_gda_settings[<span class="str">"JENKINS"</span>]+<span class="str">"\\d_similarity.json"</span>)
+        setsettings(<span class="str">"AUTOMATION"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"\\Automation"</span>)
+        setsettings(<span class="str">"TEMP"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"\\temp"</span>)
+        setsettings(<span class="str">"ARTIFACTS"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"\\temp\\artifacts"</span>)
+
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"RESULTS"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"RESULTS"</span>])
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"AUTOMATION"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"AUTOMATION"</span>])
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"ARTIFACTS"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"ARTIFACTS"</span>])
+    <span class="kw">elif</span> d_gda_settings[<span class="str">"isMac"</span>]==<span class="str">"True"</span>:
+        <span class="kw">print</span> <span class="str">"GetEnvInfo&gt;isMac"</span>
+        setsettings(<span class="str">"HOME"</span>,os.getenv(<span class="str">"HOME"</span>))
+        setsettings(<span class="str">"RESULTS"</span>,d_gda_settings[<span class="str">"HOME"</span>] + <span class="str">"/workspace/Results/"</span> + dd + <span class="str">"/"</span> + tt)
+        setsettings(<span class="str">"JENKINS"</span>,d_gda_settings[<span class="str">"HOME"</span>] + <span class="str">"/workspace"</span>)
+        setsettings(<span class="str">"SIMILARITY"</span>,d_gda_settings[<span class="str">"JENKINS"</span>]+<span class="str">"/d_similarity.json"</span>)
+        setsettings(<span class="str">"JOBNAME"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"/Mac_GDA-Studio_3a_BAT"</span>)
+        setsettings(<span class="str">"AUTOMATION"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"/Mac_GDA-Studio_3a_BAT/Automation"</span>)
+        setsettings(<span class="str">"TEMP"</span>,d_gda_settings[<span class="str">"JENKINS"</span>] + <span class="str">"/Mac_GDA-Studio_3a_BAT/Automation/temp"</span>)
+        setsettings(<span class="str">"ARTIFACTS"</span>,d_gda_settings[<span class="str">"TEMP"</span>] + <span class="str">"/temp/artifacts"</span>)
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"RESULTS"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"RESULTS"</span>])
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"AUTOMATION"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"AUTOMATION"</span>])
+        <span class="kw">if</span> <span class="kw">not</span> os.path.exists(d_gda_settings[<span class="str">"ARTIFACTS"</span>]):
+            os.makedirs(d_gda_settings[<span class="str">"ARTIFACTS"</span>])
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"Error: Invalid platform, not Mac or Win"</span>
+        exit(<span class="dig">1</span>)
+    <span class="kw">if</span> <span class="kw">not</span> os.path.isdir(d_gda_settings[<span class="str">"HOME"</span>]):
+        <span class="kw">print</span> <span class="str">"Invalid HOME directory: Test cant continue"</span>
+        exit(<span class="dig">1</span>)
+    setsettings(<span class="str">"junitxml"</span>,d_gda_settings[<span class="str">"ARTIFACTS"</span>] + os.path.sep + <span class="str">"junit-results_"</span>+dt+<span class="str">".xml"</span>)
+    setsettings(<span class="str">"SikuliVersion"</span>,Env.getSikuliVersion())
+    setsettings(<span class="str">"SikuliDataPath"</span>,Env.getSikuliDataPath())
+    <span class="cmt">#java.lang.System.getProperty('os.name')</span>
+    setsettings(<span class="str">"BundleFolder"</span>,getBundleFolder())
+    setsettings(<span class="str">"ParentPath"</span>,getParentPath())
+    setsettings(<span class="str">"OS"</span>,str(Settings.getOS()))
+    setsettings(<span class="str">"OSVersion"</span>,str(Settings.getOSVersion()))
+    setsettings(<span class="str">"ImagePath"</span>,getImagePath(),<span class="str">"array"</span>)
+    <span class="kw">print</span> <span class="str">"&lt;GetEnvInfo"</span>
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> getmactitle():
+    <span class="kw">print</span> <span class="str">"getmactitle"</span>
+    cmd = <span class="str">"""
+    tell application "Finder"
+            activate
+        
+            delay 1
+        get title of front window
+    end tell
+    """</span>
+    txt = runScript(cmd)
+    <span class="kw">return</span> txt
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># http://sikulix-2014.readthedocs.org/en/latest/appclass.html#App.App</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> waitforappstartup(apppath,appname,retry=<span class="dig">3</span>):
+    <span class="kw">print</span> <span class="str">"waitforappstartup&gt;:"</span>+apppath+ appname
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+    ap = App(appname)
+    <span class="cmt">#ap.open(30)</span>
+    <span class="skw">wait</span>(<span class="dig">15</span>)
+
+    <span class="kw">if</span> <span class="kw">not</span> ap <span class="kw">or</span> <span class="kw">not</span> ap.window():
+        <span class="kw">print</span> <span class="str">"App not found: Sikuli starting GDA"</span>
+        <span class="kw">if</span> d_gda_settings[<span class="str">"isMac"</span>]==<span class="str">"True"</span>:
+            App.open(appname+<span class="str">".app"</span>)
+        <span class="kw">else</span>: <span class="cmt">#assume win</span>
+            App.open(apppath+appname)
+
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1</span>,retry,<span class="dig">1</span>):
+        <span class="kw">print</span> <span class="str">"wait for appstartup:"</span>+str(i)
+        <span class="kw">if</span> ap:
+            <span class="kw">for</span> ii <span class="kw">in</span> range(<span class="dig">1</span>,<span class="dig">10</span>,<span class="dig">1</span>):
+                <span class="kw">print</span> <span class="str">"wait for app isRunning:"</span>+str(ii)
+                <span class="kw">if</span> ap.isRunning():
+                    <span class="kw">print</span> <span class="str">"App Started:"</span>
+                    <span class="kw">if</span> ap.window():
+                        <span class="kw">print</span> <span class="str">"Window found"</span>
+                        ap.focus()
+                    <span class="kw">else</span>:
+                        <span class="kw">print</span> <span class="str">"No windows found"</span>
+                    <span class="kw">print</span> <span class="str">"&lt;waitforappstartup"</span>
+                    <span class="kw">return</span> ap
+                <span class="kw">else</span>:
+                    <span class="kw">print</span> <span class="str">"App not running"</span>
+                <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="cmt">#ap = open(apppath+appname)</span>
+    <span class="kw">print</span> <span class="str">"App NOT Started:"</span>
+    <span class="kw">print</span> <span class="str">"&lt;waitforappstartup"</span>
+    <span class="kw">return</span>
+
+
+<span class="kw">def</span> centerwindow():
+    scn=Screen(<span class="dig">0</span>)
+    <span class="kw">if</span> <span class="kw">not</span> scn:
+        <span class="kw">print</span> <span class="str">"ERROR centerwindow: screen(0) object not created"</span>
+        exit(<span class="dig">1</span>)
+    <span class="kw">print</span> str(scn)
+    scnrect=scn.getBounds()
+    tw=<span class="dig">1296</span>
+    th=<span class="dig">759</span>
+    <span class="kw">if</span> scnrect: <span class="kw">print</span> str(scnrect)
+    srnx = (scnrect.width-tw)/<span class="dig">2</span>
+    <span class="kw">print</span> <span class="str">"X="</span>+str(srnx)
+    srny = (scnrect.height-th)/<span class="dig">2</span>
+    <span class="kw">print</span> <span class="str">"Y="</span>+str(srny)
+    <span class="kw">return</span> srnx,srny
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> AppStart(appname):
+    <span class="kw">global</span> d_gda_settings
+    <span class="kw">print</span> <span class="str">"openApp&gt;"</span>
+    ext=<span class="str">""</span>
+    ap=None
+    apprun=appname
+
+    <span class="kw">if</span> d_gda_settings[<span class="str">"isWindows"</span>]==<span class="str">"True"</span>:
+        ext=<span class="str">".exe"</span>
+        reportstatus(-<span class="dig">2</span>,<span class="str">"WINDOWS:"</span>+d_gda_settings[<span class="str">"OSVersion"</span>])
+        fname=appname+ext
+        fpath=<span class="str">"C:\\Program Files\\GoPro\\GoPro Desktop App\\"</span>
+        apprun = fpath+fname
+        d_gda_settings[<span class="str">"app_path"</span>]=apprun
+
+        <span class="kw">print</span> <span class="str">"GDASetAppWindow.exe"</span>
+        <span class="skw">wait</span>(<span class="dig">5</span>)
+        <span class="cmt">#run("C:\\Automation\\gopro-tests-desktop\\GDA\\GDASetAppWindow64.bat")</span>
+        ap = waitforappstartup(fpath,fname,<span class="dig">3</span>)
+        <span class="cmt">#wait(15)</span>
+        <span class="kw">if</span> <span class="kw">not</span> ap:
+            <span class="kw">print</span> <span class="str">"App "</span> + appname + <span class="str">" failed to startup"</span>
+            exit(<span class="dig">1</span>)
+        <span class="cmt">#ap.focus()</span>
+
+        <span class="kw">if</span> ap.hasWindow()==False:
+            <span class="kw">print</span> <span class="str">"Failed: App has no main window"</span>
+            exit(<span class="dig">1</span>)
+        <span class="cmt">#ap.focus()</span>
+
+        title = ap.getWindow()
+        <span class="kw">if</span> title != appname:
+            <span class="kw">print</span> <span class="str">"Failed: Window title not found:"</span>+appname+<span class="str">"&lt;&gt;"</span>+title
+            exit(<span class="dig">1</span>)
+        <span class="kw">print</span> <span class="str">"window title:"</span>+title
+<span class="cmt">#        ap.focus()</span>
+        <span class="cmt">#ap.focus("GoPro")</span>
+<span class="cmt">#        wait(5)</span>
+<span class="cmt">#        r0 = ap.window(0)</span>
+<span class="cmt">#        r0 = ap.window(0)</span>
+<span class="cmt">#        print str(r0.getScreen())+"Main:"+str(r0.x) + ":" + str(r0.y)+":"+str(r0.w) + ":" + str(r0.h)</span>
+        ap.focus()
+        r0=App.focusedWindow()
+
+        id=-<span class="dig">1</span>
+        <span class="kw">if</span> <span class="kw">not</span> r0:
+            cx,cy = centerwindow()
+            <span class="kw">if</span> <span class="kw">not</span> cx <span class="kw">or</span> <span class="kw">not</span> cy:
+                <span class="kw">print</span> <span class="str">"FAILED: Center window location X, Y values"</span>
+                exit(<span class="dig">1</span>)
+            <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">100</span>):
+                ap.focus()
+                r0 = ap.window(i)
+                <span class="kw">if</span> <span class="kw">not</span> r0: <span class="kw">break</span>
+                r0.highlight(<span class="dig">1</span>)
+                <span class="kw">print</span> str(i)+<span class="str">". "</span> + str(r0.getScreen()) + <span class="str">"&gt;"</span> + str(i) + <span class="str">":"</span> + str(r0.x) + <span class="str">":"</span> + str(r0.y) + <span class="str">":"</span> + str(r0.w) + <span class="str">":"</span> + str(r0.h)
+                <span class="kw">if</span> r0.w &gt;= <span class="dig">1290</span> <span class="kw">and</span> r0.w &lt; <span class="dig">1440</span> <span class="kw">and</span> r0.h &gt;= <span class="dig">750</span> <span class="kw">and</span> r0.h &lt; <span class="dig">767</span>: <span class="cmt">#and r0.x &gt;= cx and r0.y &gt;= cy:</span>
+                    <span class="kw">print</span> <span class="str">"found window id="</span>+str(i)
+
+                    <span class="kw">if</span> id&gt;=<span class="dig">0</span>:
+                        <span class="kw">print</span> <span class="str">"old id="</span> + str(id)
+                    id=i
+                    <span class="kw">break</span>
+            <span class="kw">print</span> <span class="str">"============"</span>
+    <span class="cmt">#        for i in range(100):</span>
+    <span class="cmt">#            r0 = ap.window(i)</span>
+    <span class="cmt">#            if not r0: break</span>
+    <span class="cmt">#            print str(r0.getScreen())+"&gt;"+str(i)+":"+str(r0.x) + ":" + str(r0.y)+":"+str(r0.w) + ":" + str(r0.h)</span>
+    <span class="cmt">#            r0.highlight(1) </span>
+                <span class="cmt">#wait(1)</span>
+
+    <span class="cmt">#            r0.highlight(2)</span>
+    <span class="cmt">#            if r0.w==1296: break</span>
+            <span class="kw">if</span>(id&lt;<span class="dig">0</span>):
+                <span class="kw">print</span> <span class="str">"FAILED to find target window"</span>
+            r0 = ap.window(id)
+
+        <span class="kw">if</span> <span class="kw">not</span> r0:
+            <span class="kw">print</span> <span class="str">"Failed: Window region not found"</span>
+            exit(<span class="dig">1</span>)
+        <span class="kw">if</span> r0.w&lt;<span class="dig">1200</span>:
+            <span class="kw">print</span> <span class="str">"Failed: Window region width not correct main window:"</span> + str(r0.w) + <span class="str">"&lt;900"</span>
+            exit(<span class="dig">1</span>)
+        ap.focus()
+        switchApp(d_gda_settings[<span class="str">"app_path"</span>])
+        r0.highlight(<span class="dig">3</span>)
+
+        <span class="kw">print</span> str(r0.getScreen())+<span class="str">"Main:"</span>+str(r0.x) + <span class="str">":"</span> + str(r0.y)+<span class="str">":"</span>+str(r0.w) + <span class="str">":"</span> + str(r0.h)
+        setsettings(<span class="str">"getWindow"</span>,title)
+        setsettings(<span class="str">"PID"</span>,str(ap.getPID()))
+        setsettings(<span class="str">"getName"</span>,ap.getName())
+        ap.focus()
+        r0.highlight(<span class="dig">3</span>)
+        <span class="kw">print</span> <span class="str">"&lt;openApp"</span>
+        <span class="cmt">#ap.close()</span>
+        <span class="kw">return</span> ap, r0
+    <span class="kw">elif</span> d_gda_settings[<span class="str">"isMac"</span>]==<span class="str">"True"</span>:
+        ext=<span class="str">".app"</span>
+        reportstatus(-<span class="dig">2</span>,<span class="str">"MAC:"</span>+d_gda_settings[<span class="str">"OSVersion"</span>])
+        apprun = appname+ext
+        d_gda_settings[<span class="str">"app_path"</span>]=apprun
+        <span class="cmt">#ap = openApp(apprun)</span>
+        ap = waitforappstartup(<span class="str">""</span>,appname,<span class="dig">3</span>)
+        <span class="kw">if</span> <span class="kw">not</span> ap:
+            <span class="kw">print</span> <span class="str">"App "</span> + appname + <span class="str">" failed to startup"</span>
+            exit(<span class="dig">1</span>)
+        ap.focus()
+        r0 = ap.focusedWindow()
+        <span class="kw">if</span> <span class="kw">not</span> r0:
+            <span class="kw">print</span> <span class="str">"Failed: Window region not found"</span>
+            exit(<span class="dig">1</span>)
+
+        <span class="kw">if</span> r0.w&lt;<span class="dig">1200</span>: <span class="cmt">#1200</span>
+            <span class="kw">print</span> <span class="str">"Failed: Window region width not correct main window:"</span> + str(r0.w) + <span class="str">"&lt;1200"</span>
+            <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">100</span>):
+                ap.focus()
+                rn = ap.window(i)
+                <span class="kw">if</span> rn:
+                    rn.highlight(<span class="dig">1</span>)
+                    <span class="kw">print</span> str(rn.w) + <span class="str">"x"</span>+str(rn.h)
+                <span class="kw">else</span>:
+                    r0=rn
+                    <span class="kw">break</span>
+
+            exit(<span class="dig">1</span>)
+        r0.highlight(<span class="dig">3</span>)
+        switchApp(d_gda_settings[<span class="str">"app_path"</span>])
+        r0.highlight(<span class="dig">3</span>)
+        <span class="kw">print</span> str(r0.getScreen())+<span class="str">"Main:"</span>+str(r0.x) + <span class="str">":"</span> + str(r0.y)+<span class="str">":"</span>+str(r0.w) + <span class="str">":"</span> + str(r0.h)
+        title = ap.getWindow()
+
+        setsettings(<span class="str">"getWindow"</span>,title)
+        setsettings(<span class="str">"PID"</span>,str(ap.getPID()))
+        setsettings(<span class="str">"getName"</span>,ap.getName())
+        <span class="kw">print</span> <span class="str">"&lt;openApp"</span>
+
+        <span class="kw">return</span> ap, r0
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"No platform info [mac|win]"</span>
+        <span class="kw">return</span>
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> AppStartRetry(appname, retry):
+    <span class="cmt">#gp,gpr=AppStartRetry("GoPro",3)</span>
+    <span class="kw">for</span> x <span class="kw">in</span> range(<span class="dig">1</span>, retry):
+        <span class="kw">try</span>:
+            gp,gpr = AppStart(appname)
+            <span class="kw">if</span> gp <span class="kw">and</span> gpr:
+                <span class="kw">return</span> gp,gpr
+        <span class="kw">except</span>:
+            <span class="kw">print</span> str(x) + <span class="str">" retry: gp, gpr"</span>
+    <span class="kw">print</span> <span class="str">"FAILED to start "</span> +appname + <span class="str">" *****************************"</span>
+    exit(<span class="dig">1</span>)
+    <span class="kw">return</span>
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> Test_Welcome(r0):
+    <span class="cmt">#wait("GoProDesktopApp_GPLogo.png").find("Welcome_GDA_Title.png")</span>
+    r1 = r0.<span class="skw">find</span>(<img src="Welcome_getstarted.png" />)
+    r1.<span class="skw">find</span>(<img src="GoproLogo.png" />)
+
+    r1.<span class="skw">find</span>(<img src="Welcome GDA.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Manage.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Edit.png" />)
+    r1.<span class="skw">find</span>(<img src="Welcome_Share.png" />)
+
+    r2 = r1.<span class="skw">find</span>(Pattern(<img src="Welcome_AutoLaunch.png" />).similar(<span class="dig">0.80</span>))
+    <span class="cmt"># enable</span>
+    r2.<span class="skw">find</span>(Pattern(<img src="Welcome_UnChecked_AutoLaunch.png" />).similar(<span class="dig">0.90</span>)).<span class="skw">click</span>(<img src="Welcome_Unchecked_btn.png" />)
+
+    <span class="cmt"># disable</span>
+    r2.<span class="skw">find</span>(Pattern(<img src="Welcome_UnChecked_AutoLaunch.png" />).similar(<span class="dig">0.90</span>)).<span class="skw">click</span>(<img src="Welcome_Checked_btn.png" />)
+
+    r1.<span class="skw">click</span>(<img src="Welcome_GetStarted_btn.png" />)
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> ChangePatternsimilarity(MATCH,PATTERN):
+    <span class="kw">if</span> MATCH <span class="kw">and</span> PATTERN:
+        newpat = PATTERN.similar(MATCH.getScore())
+        <span class="kw">return</span> newpat
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> CLICK(REGION, PATTERN,sleeep=<span class="dig">1</span>):
+    <span class="kw">print</span> <span class="str">"CLICK: &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    MATCH = FIND_Similarity(REGION,PATTERN,<span class="dig">40</span>)
+
+    <span class="kw">if</span> MATCH:
+        newPATTERN = ChangePatternsimilarity(MATCH, PATTERN)
+        MATCH.highlight(<span class="dig">1</span>)
+        <span class="kw">if</span> REGION.<span class="skw">click</span>(newPATTERN)&gt;<span class="dig">0</span>:
+            reportstatus(<span class="dig">0</span>,<span class="str">"CLICK:"</span>+<span class="str">" similar:"</span>+str((<span class="str">"%.2f"</span> % MATCH.getScore()))+<span class="str">"-"</span>+newPATTERN.getFilename(),REGION,newPATTERN.getFilename())
+        <span class="kw">else</span>:
+            reportstatus(<span class="dig">1</span>,<span class="str">"CLICK:"</span>+PATTERN.getFilename(),REGION,newPATTERN.getFilename())
+    <span class="kw">else</span>:
+        reportstatus(<span class="dig">1</span>,<span class="str">"CLICK:"</span>+PATTERN.getFilename(),REGION,PATTERN.getFilename())
+
+    <span class="skw">wait</span>(sleeep)
+    <span class="kw">print</span> <span class="str">"CLICK: &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> Click_Verify(REGION, PATTERN1,PATTERN2,timeout=<span class="dig">10</span>,sleeep=<span class="dig">1</span>):
+    CLICK(REGION,PATTERN1)
+    <span class="skw">wait</span>(sleeep)
+    WAIT(REGION,PATTERN2,timeout)
+    <span class="skw">wait</span>(sleeep)
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> FIND(REGION,PATTERN,sleeep=<span class="dig">1</span>):
+    <span class="kw">print</span> <span class="str">"WAIT: &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+
+    <span class="cmt">#Pattern("startupCreateAcct_title.png").similar(0.91)</span>
+    <span class="cmt">#if REGION.find(PATTERN).highlight(1):</span>
+    MATCH = FIND_Similarity(REGION,PATTERN,<span class="dig">40</span>)
+    <span class="kw">if</span> MATCH:
+        MATCH.highlight(<span class="dig">1</span>)
+        reportstatus(<span class="dig">0</span>,<span class="str">"FIND:"</span>+str((<span class="str">"%.2f"</span> % MATCH.getScore()))+<span class="str">"-"</span>+PATTERN.getFilename(),REGION,PATTERN.getFilename())
+    <span class="kw">else</span>:
+        reportstatus(<span class="dig">1</span>,<span class="str">"FIND:"</span>+PATTERN.getFilename(),REGION,PATTERN.getFilename())
+    <span class="skw">wait</span>(sleeep)
+    <span class="kw">print</span> <span class="str">"FIND: &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> WAIT(REGION,PATTERN,timeout=<span class="dig">10</span>,sleeep=<span class="dig">1</span>):
+    <span class="kw">print</span> <span class="str">"WAIT: &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+    MATCH = None
+    <span class="kw">try</span>:
+        MATCH = REGION.<span class="skw">wait</span>(PATTERN,timeout)
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"WAIT: not found"</span>
+    MATCH = FIND_Similarity(REGION,PATTERN,<span class="dig">40</span>)
+    <span class="kw">if</span> MATCH:
+        MATCH.highlight(<span class="dig">1</span>)
+        reportstatus(<span class="dig">0</span>,<span class="str">"WAIT:"</span>+str((<span class="str">"%.2f"</span> % MATCH.getScore()))+<span class="str">"-"</span>+PATTERN.getFilename(),REGION,PATTERN.getFilename())
+    <span class="kw">else</span>:
+        reportstatus(<span class="dig">1</span>,<span class="str">"WAIT:"</span>+PATTERN.getFilename(),REGION,PATTERN.getFilename())
+
+    <span class="skw">wait</span>(sleeep)
+    <span class="kw">print</span> <span class="str">"WAIT: &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> TYPE(REGION,PATTERN,txt,sleeep=<span class="dig">1</span>):
+    <span class="kw">print</span> <span class="str">"TYPE: &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>
+
+    <span class="kw">if</span> txt:
+        MATCH = FIND_Similarity(REGION,PATTERN,<span class="dig">40</span>)
+        <span class="kw">if</span> MATCH:
+            MATCH.highlight(<span class="dig">1</span>)
+            newPATTERN = ChangePatternsimilarity(MATCH, PATTERN)
+            <span class="kw">if</span> REGION.<span class="skw">type</span>(newPATTERN,txt)&gt;<span class="dig">0</span>:
+                reportstatus(<span class="dig">0</span>,<span class="str">"TYPE:"</span>+txt+<span class="str">" similar:"</span>+str((<span class="str">"%.2f"</span> % MATCH.getScore()))+<span class="str">"-"</span>+newPATTERN.getFilename(),REGION,newPATTERN.getFilename())
+            <span class="kw">else</span>:
+                reportstatus(<span class="dig">1</span>,<span class="str">"TYPE:"</span>+txt+<span class="str">" similar:"</span>+str((<span class="str">"%.2f"</span> % MATCH.getScore()))+<span class="str">"-"</span>+newPATTERN.getFilename(),REGION,newPATTERN.getFilename())
+        <span class="kw">else</span>:
+            reportstatus(<span class="dig">1</span>,<span class="str">"TYPE:"</span>+txt+<span class="str">" -"</span>+newPATTERN.getFilename(),REGION,PATTERN.getFilename(),<span class="str">"FAIL"</span>)
+    <span class="kw">else</span>:
+        reportstatus(<span class="dig">1</span>,<span class="str">"TYPE: No Text -"</span>+newPATTERN.getFilename(),REGION,PATTERN.getFilename())
+        <span class="skw">wait</span>(sleeep)
+    <span class="kw">print</span> <span class="str">"WAIT: &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> signout(region):
+
+    <span class="kw">try</span>:
+        CLICK(region,Pattern(<img src="signout_tool.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">14</span>,<span class="dig">2</span>))
+        CLICK(region,Pattern(<img src="signout_signout.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">24</span>,-<span class="dig">8</span>))
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"Sign Out not found"</span>
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> create_your_acct(REGION,willfail=True,fname=<span class="str">"john"</span>,lname=<span class="str">"doe"</span>,email=<span class="str">"jdoe@jdoe.zzz"</span>,pw=<span class="str">"1234567890"</span>):
+    WAIT(REGION,Pattern(<img src="createacct_txt_title.png" />).exact()) <span class="cmt">#createacct_txt_title.png</span>
+
+    FIND(REGION,Pattern(<img src="createacct_txt_subtitle.png" />).similar(<span class="dig">0.90</span>)) <span class="cmt">#createacct_txt_subtitle.png</span>
+
+    TYPE(REGION,Pattern(<img src="createacct_txtbox_email.png" />).exact().targetOffset(-<span class="dig">232</span>,<span class="dig">23</span>),fname) <span class="cmt">#createacct_txtbox_email.png</span>
+    TYPE(REGION,Pattern(<img src="createacct_txtbox_email.png" />).exact().targetOffset(<span class="dig">51</span>,<span class="dig">26</span>),lname) <span class="cmt">#createacct_txtbox_email.png</span>
+    TYPE(REGION,Pattern(<img src="createacct_txtbox_email.png" />).exact().targetOffset(-<span class="dig">245</span>,-<span class="dig">32</span>),email) <span class="cmt">#createacct_txtbox_email.png</span>
+    TYPE(REGION,Pattern(<img src="createacct_txtbox_password.png" />).exact().targetOffset(-<span class="dig">216</span>,-<span class="dig">29</span>),pw) <span class="cmt">#createacct_txtbox_password.png</span>
+    TYPE(REGION,Pattern(<img src="createacct_txtbox_password.png" />).exact().targetOffset(-<span class="dig">247</span>,<span class="dig">28</span>),pw) <span class="cmt">#createacct_txtbox_password.png</span>
+    CLICK(REGION,Pattern(<img src="createacct_unchecked_getnews.png" />).similar(<span class="dig">0.96</span>).targetOffset(-<span class="dig">147</span>,<span class="dig">2</span>)) <span class="cmt">#createacct_unchecked_getnews.png</span>
+    FIND(REGION,Pattern(<img src="createacct_checked_getnews.png" />).similar(<span class="dig">0.91</span>).targetOffset(-<span class="dig">145</span>,<span class="dig">2</span>)) <span class="cmt">#createacct_checked_getnews.png</span>
+    <span class="cmt">#CLICK(REGION,Pattern("createacct_unchecked_getnews.png").similar(0.96).targetOffset(-147,2)) #createacct_unchecked_getnews.png</span>
+    CLICK(REGION,Pattern(<img src="createacct_unchecked_iacknowledge.png" />).similar(<span class="dig">0.98</span>).targetOffset(-<span class="dig">275</span>,-<span class="dig">7</span>)) <span class="cmt">#createacct_unchecked_iacknowledge.png</span>
+    FIND(REGION,Pattern(<img src="createacct_checked_iacknowledge.png" />).similar(<span class="dig">0.91</span>).targetOffset(-<span class="dig">277</span>,-<span class="dig">12</span>)) <span class="cmt">#createacct_checked_iacknowledge.png</span>
+    <span class="cmt">#CLICK(REGION,Pattern("createacct_unchecked_iacknowledge.png").similar(0.98).targetOffset(-275,-7)) #createacct_unchecked_iacknowledge.png</span>
+    CLICK(REGION, Pattern(<img src="createacct_btn_getacct.png" />).similar(<span class="dig">0.98</span>)) <span class="cmt">#createacct_btn_getacct.png</span>
+    <span class="skw">wait</span>(<span class="dig">15</span>) <span class="cmt"># wait for message</span>
+    <span class="cmt">#invalid acct info</span>
+    <span class="kw">if</span> willfail==True:
+        WAIT(REGION,Pattern(<img src="createacct_txt_invalidemail.png" />).exact(),<span class="dig">30</span>)
+
+        CLICK(REGION,Pattern(<img src="createacct_btn_signin.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#createacct_btn_signin.png</span>
+    <span class="kw">else</span>:
+        CLICK(REGION,Pattern(<img src="createacct_btn_signin.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#createacct_btn_signin.png</span>
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> signin_test(REGION,willfail=True,email=<span class="str">"dog@breath.mut"</span>,pw=<span class="str">"hatecats"</span>):
+    <span class="cmt">#FIND_Similarity(REGION,PATTERN,min = 50):</span>
+    WAIT(REGION,Pattern(<img src="signin_txt_title.png" />).similar(<span class="dig">0.90</span>),<span class="dig">30</span>)
+
+    FIND(REGION,Pattern(<img src="signin_img_logo.png" />).similar(<span class="dig">0.90</span>))
+
+    TYPE(REGION,Pattern(<img src="signin_txtbox_emailpw.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">185</span>,-<span class="dig">38</span>),email)
+    TYPE(REGION,Pattern(<img src="signin_txtbox_emailpw.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">211</span>,<span class="dig">22</span>),pw)
+
+
+    FIND(REGION,Pattern(<img src="signin_btn_forgot.png" />).similar(<span class="dig">0.90</span>))
+
+
+    FIND(REGION,Pattern(<img src="signin_btn_resendemail.png" />).similar(<span class="dig">0.90</span>))
+
+    CLICK(REGION,Pattern(<img src="signin_btn_signin.png" />).similar(<span class="dig">0.90</span>))
+    <span class="cmt">#test invalid acct</span>
+    <span class="kw">if</span> willfail==True:
+
+        WAIT(REGION,Pattern(<img src="signin_txt_invalidemail.png" />).similar(<span class="dig">0.92</span>),<span class="dig">30</span>) <span class="cmt">#signin_txt_invalidemail.png</span>
+
+        FIND(REGION,Pattern(<img src="signin_txtbox_emailpw_blankpw.png" />).similar(<span class="dig">0.91</span>))
+        cleanfld=Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE+Key.BACKSPACE
+        TYPE(REGION,Pattern(<img src="signin_txtbox_emailpw.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">210</span>,-<span class="dig">38</span>),cleanfld)
+
+        <span class="cmt">#CLICK(REGION,Pattern("signin_btn_needacct.png").similar(0.90).targetOffset(67,9))</span>
+        <span class="cmt">#WAIT(REGION,Pattern("createacct_txt_title.png").similar(0.90)) #createacct_txt_title.png</span>
+        <span class="cmt">#CLICK(REGION,Pattern("createacct_btn_signin.png").similar(0.91)) #createacct_btn_signin.png</span>
+
+        <span class="cmt">#WAIT(REGION,Pattern("signin_txt_title.png").similar(0.90),30)</span>
+
+
+    <span class="cmt">#else: #is valid acct</span>
+        <span class="cmt">#CLICK(REGION,Pattern("signin_btn_needacct.png").similar(0.90).targetOffset(67,9))</span>
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> signin_validate(region):
+    <span class="kw">try</span>:
+        WAIT(region,Pattern(<img src="signin_logo.png" />).similar(<span class="dig">0.90</span>),<span class="dig">10</span>)
+    <span class="kw">except</span>:
+        <span class="kw">print</span> <span class="str">"sign in not found"</span>
+        signout(region)
+
+    WAIT(region,Pattern(<img src="signin_logo.png" />).similar(<span class="dig">0.90</span>),<span class="dig">30</span>)
+
+    FIND(region,Pattern(<img src="signin_form.png" />).similar(<span class="dig">0.90</span>))
+
+    FIND(region,Pattern(<img src="signin_email.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">169</span>,<span class="dig">29</span>))
+
+    FIND(region,Pattern(<img src="signin_pw.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">199</span>,-<span class="dig">39</span>))
+
+    FIND(region,Pattern(<img src="signin_needAccountJoinNow.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">63</span>,<span class="dig">2</span>))
+
+    FIND(region,Pattern(<img src="signin_forgotpw.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">1</span>,<span class="dig">19</span>))
+
+    FIND(region,Pattern(<img src="signin_resendConfirmation.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">3</span>,<span class="dig">14</span>))
+
+    FIND(region,Pattern(<img src="signin_signin.png" />).similar(<span class="dig">0.90</span>))
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> signin_Login(region,login,pw):
+
+    TYPE(region,Pattern(<img src="signin_email.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">169</span>,<span class="dig">29</span>),login)
+
+    TYPE(region,Pattern(<img src="signin_pw.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">199</span>,-<span class="dig">39</span>),pw)
+
+    CLICK(region,Pattern(<img src="signin_signin.png" />).similar(<span class="dig">0.90</span>))
+
+    WAIT(region,Pattern(<img src="getstarted_getstartedWithGP.png" />).similar(<span class="dig">0.90</span>),<span class="dig">15</span>)
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> getstarted_gopro(REGION):
+    WAIT(REGION,Pattern(<img src="media_txt_title.png" />).similar(<span class="dig">0.91</span>),<span class="dig">30</span>) <span class="cmt">#media_txt_title.png</span>
+
+    FIND(REGION,Pattern(<img src="media_btn_choosefolder.png" />).similar(<span class="dig">0.92</span>).targetOffset(<span class="dig">0</span>,<span class="dig">86</span>)) <span class="cmt">#media_btn_choosefolder.png</span>
+    FIND(REGION,Pattern(<img src="media_btn_connectcam.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">2</span>,<span class="dig">85</span>)) <span class="cmt">#media_btn_connectcam.png</span>
+    <span class="cmt">#if d_gda_settings["isMac"]=="True": #no popup in win</span>
+    <span class="cmt">#    CLICK(REGION,Pattern("popup_btn_indexinfo.png").similar(0.91).targetOffset(143,-2)) #popup_btn_indexinfo.png</span>
+
+
+    FIND(REGION,Pattern(<img src="media_selected_media.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#media_selected_media.png</span>
+    FIND(REGION,Pattern(<img src="media_unselected_recentlyadd.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#media_unselected_recentlyadd.png</span>
+
+    FIND(REGION,Pattern(<img src="media_unselected_edits.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#media_unselected_edits.png</span>
+    FIND(REGION,Pattern(<img src="media_img_addmedia.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#media_img_addmedia.png</span>
+
+    FIND(REGION,Pattern(<img src="media_btn_settings.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#media_btn_settings.png</span>
+
+    FIND(REGION,Pattern(<img src="media_txt_autogdasignin.png" />).exact())  <span class="cmt">#media_txt_autogdasignin.png</span>
+
+    CLICK(REGION,Pattern(<img src="media_txt_media-editor.png" />).exact().targetOffset(<span class="dig">46</span>,<span class="dig">1</span>)) <span class="cmt">#media_txt_media-editor</span>
+
+    WAIT(REGION,Pattern(<img src="popup_txt_pleasechoosevideos.png" />).exact(),<span class="dig">10</span>) <span class="cmt">#popup_txt_pleasechoosevideos.png</span>
+
+    FIND(REGION,Pattern(<img src="popup_txt_theeditorcanonlyopenvideos.png" />).exact()) <span class="cmt">#popup_txt_theeditorcanonlyopenvideos.png</span>
+
+    CLICK(REGION,Pattern(<img src="popup_btn_choosevideos-OK.png" />).exact()) <span class="cmt">#popup_btn_choosevideos-OK</span>
+
+    WAIT(REGION,Pattern(<img src="media_txt_title.png" />).similar(<span class="dig">0.91</span>),<span class="dig">10</span>) <span class="cmt">#media_txt_title.png</span>
+
+    FIND(REGION,Pattern(<img src="media_txt_media-editor.png" />).exact().targetOffset(-<span class="dig">38</span>,-<span class="dig">1</span>)) <span class="cmt">#media_txt_media-editor</span>
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> addmedia_validate(region):
+    CLICK(region,Pattern(<img src="getstarted_choosefolder.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">0</span>,<span class="dig">96</span>))
+
+    WAIT(region,Pattern(<img src="dialogFindGPMedia_Title.png" />).similar(<span class="dig">0.90</span>),<span class="dig">10</span>)
+
+    FIND(region,Pattern(<img src="dialogFindGPMedia_ChooseFolders.png" />).similar(<span class="dig">0.90</span>))
+
+    CLICK(region,Pattern(<img src="dialogFindGPMedia_Addfolder.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">6</span>,-<span class="dig">19</span>))
+
+    <span class="cmt">#assume the dialog pops up over the GoPro region</span>
+    <span class="cmt">#WAIT(region,Pattern("osxdialog_filedialog.png").similar(0.90).targetOffset(40,2))</span>
+    <span class="cmt">#wait(1)    </span>
+    <span class="cmt">#region.waitVanish(Pattern("osxdialog_filedialog.png").similar(0.90).targetOffset(40,2),5)</span>
+    <span class="skw">type</span>(Key.ENTER)
+
+    <span class="skw">wait</span>(<span class="dig">1</span>)
+
+    CLICK(region,Pattern(<img src="dialogFindGPMedia_Addfolder.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">0</span>,<span class="dig">37</span>))
+
+
+    CLICK(region,Pattern(<img src="GPSettings_seconditem.png" />).similar(<span class="dig">0.90</span>).targetOffset(<span class="dig">43</span>,<span class="dig">17</span>))
+
+    CLICK(region,Pattern(<img src="dialogYsure_Remove.png" />).similar(<span class="dig">0.90</span>))
+
+
+    CLICK(region,Pattern(<img src="GPSettings_BackToMedia.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">29</span>,-<span class="dig">30</span>))
+
+    <span class="cmt"># region.click(Pattern("dialogFindGPMedia_Cancel.png").similar(0.90).targetOffset(-15,7))</span>
+<span class="kw">def</span> test_getGDAVersion(REGION):
+
+    FIND(REGION, Pattern(<img src="popup_txt_version200.png" />).exact()) <span class="cmt">#popup_txt_version200</span>
+
+    FIND(REGION, Pattern(<img src="popup_txt_versiongdainfo.png" />).exact()) <span class="cmt">#popup_txt_versiongdainfo</span>
+    m=FIND(REGION, Pattern(<img src="popup_txt_version_ocr.png" />).exact()) <span class="cmt">#popup_txt_version_ocr</span>
+    <span class="kw">if</span> m:
+        <span class="kw">print</span> m.text()
+
+<span class="kw">def</span> startup(region):
+
+    <span class="cmt">#######################################</span>
+    <span class="cmt">###  firststartup    </span>
+    <span class="cmt">#</span>
+    WAIT(region,Pattern(<img src="startup_txt_title.png" />).exact(),<span class="dig">10</span>)
+
+    FIND(region,Pattern(<img src="startup_img_logo.png" />).similar(<span class="dig">0.91</span>))
+
+    CLICK(region,Pattern(<img src="startup_checked_autolaunchcam.png" />).similar(<span class="dig">0.91</span>).targetOffset(-<span class="dig">190</span>,<span class="dig">0</span>))
+
+    CLICK(region,Pattern(<img src="startup_unchecked_autolaunchcam.png" />).similar(<span class="dig">0.91</span>).targetOffset(-<span class="dig">190</span>,<span class="dig">0</span>))
+
+    FIND(region,Pattern(<img src="startup_img_camhappy.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#startup_img_camhappy.png</span>
+
+    FIND(region,Pattern(<img src="startup_img_findmoments.png" />).similar(<span class="dig">0.92</span>)) <span class="cmt">#startup_img_findmoments.png</span>
+
+    FIND(region,Pattern(<img src="startup_img_importmedia.png" />).similar(<span class="dig">0.91</span>)) <span class="cmt">#startup_img_importmedia.png</span>
+
+    CLICK(region,Pattern(<img src="startup_btn_continue.png" />).similar(<span class="dig">0.90</span>)) <span class="cmt">#startup_btn_continue.png</span>
+
+    <span class="cmt">#CLICK(region,Pattern("startup_autoLaunchCamOnGP.png").similar(0.90))</span>
+
+    <span class="cmt">#CLICK(region,Pattern("startup_unslectedAutoLaunchGP.png").similar(0.91))</span>
+
+
+    <span class="cmt">#CLICK(region,Pattern("startup_continue.png").similar(0.90))</span>
+
+<span class="kw">def</span> startup_newAcct(region):
+    WAIT(region,Pattern(<img src="startupCreateAcct_title.png" />).similar(<span class="dig">0.91</span>))
+
+    FIND(region,Pattern(<img src="startupCreateAcct_form1.png" />).similar(<span class="dig">0.90</span>))
+
+    FIND(region,Pattern(<img src="startupCreateAcct_form2.png" />).similar(<span class="dig">0.91</span>))
+
+    FIND(region,Pattern(<img src="startupCreateAcct_form3.png" />).similar(<span class="dig">0.90</span>))
+
+    CLICK(region,Pattern(<img src="startupCreateAcct.png" />).similar(<span class="dig">0.90</span>))
+
+
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt">#</span>
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> imagerepo():
+    <span class="cmt">#sorted png name order below</span>
+
+    <span class="skw">find</span>(<img src="camsettings_btn_h4blacksettings.png" />) <span class="cmt">#camsettings_btn_h4blacksettings.png</span>
+    <span class="skw">find</span>(<img src="camsettings_btn_h4sessionsettings.png" />) <span class="cmt">#camsettings_btn_h4sessionsettings.png</span>
+    <span class="skw">find</span>(<img src="camsettings_btn_h4silversettings.png" />) <span class="cmt">#camsettings_btn_h4silversettings.png</span>
+    <span class="skw">find</span>(<img src="camsettings_img_h4black.png" />) <span class="cmt">#camsettings_img_h4black.png</span>
+    <span class="skw">find</span>(<img src="camsettings_img_h4session.png" />) <span class="cmt">#camsettings_img_h4session.png</span>
+    <span class="skw">find</span>(<img src="camsettings_img_h4silver.png" />) <span class="cmt">#camsettings_img_h4silver.png</span>
+    <span class="skw">find</span>(<img src="camsettings_txt_title.png" />) <span class="cmt">#camsettings_txt_title.png</span>
+    <span class="skw">find</span>(<img src="conncam_btn_getsupport.png" />) <span class="cmt">#conncam_btn_getsupport.png</span>
+    <span class="skw">find</span>(<img src="conncam_btn_gotit.png" />) <span class="cmt">#conncam_btn_gotit.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_camon.png" />) <span class="cmt">#conncam_txt_camon.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_plugcam.png" />) <span class="cmt">#conncam_txt_plugcam.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_selectimport.png" />) <span class="cmt">#conncam_txt_selectimport.png</span>
+    <span class="skw">find</span>(<img src="conncam_txt_title.png" />) <span class="cmt">#conncam_txt_title.png</span>
+    <span class="skw">find</span>(<img src="createacct_btn_getacct.png" />) <span class="cmt">#createacct_btn_getacct.png</span>
+    <span class="skw">find</span>(<img src="createacct_btn_signin.png" />) <span class="cmt">#createacct_btn_signin.png</span>
+    <span class="skw">find</span>(<img src="createacct_checked_getnews.png" />) <span class="cmt">#createacct_checked_getnews.png</span>
+    <span class="skw">find</span>(<img src="createacct_checked_iacknowledge.png" />) <span class="cmt">#createacct_checked_iacknowledge.png</span>
+    <span class="skw">find</span>(<img src="createacct_txt_invalidemail.png" />) <span class="cmt">#createacct_txt_invalidemail.png</span>
+    <span class="skw">find</span>(<img src="createacct_txt_subtitle.png" />) <span class="cmt">#createacct_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="createacct_txt_title.png" />) <span class="cmt">#createacct_txt_title.png</span>
+    <span class="skw">find</span>(<img src="createacct_txtbox_email.png" />) <span class="cmt">#createacct_txtbox_email.png</span>
+    <span class="skw">find</span>(<img src="createacct_txtbox_password.png" />) <span class="cmt">#createacct_txtbox_password.png</span>
+    <span class="skw">find</span>(<img src="createacct_unchecked_getnews.png" />) <span class="cmt">#createacct_unchecked_getnews.png</span>
+    <span class="skw">find</span>(<img src="createacct_unchecked_iacknowledge.png" />) <span class="cmt">#createacct_unchecked_iacknowledge.png</span>
+    <span class="skw">find</span>(<img src="edits_btn_createedit.png" />) <span class="cmt">#edits_btn_createedit.png</span>
+    <span class="skw">find</span>(<img src="edits_img_edits.png" />) <span class="cmt">#edits_img_edits.png</span>
+    <span class="skw">find</span>(<img src="edits_txt_info.png" />) <span class="cmt">#edits_txt_info.png</span>
+    <span class="skw">find</span>(<img src="edits_txt_noedits.png" />) <span class="cmt">#edits_txt_noedits.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_addfolder.png" />) <span class="cmt">#findmedia_btn_addfolder.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_cancel.png" />) <span class="cmt">#findmedia_btn_cancel.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_close.png" />) <span class="cmt">#findmedia_btn_close.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_managefoldersettings.png" />) <span class="cmt">#findmedia_btn_managefoldersettings.png</span>
+    <span class="skw">find</span>(<img src="findmedia_btn_save.png" />) <span class="cmt">#findmedia_btn_save.png</span>
+    <span class="skw">find</span>(<img src="findmedia_txt_subtitle.png" />) <span class="cmt">#findmedia_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="findmedia_txt_title.png" />) <span class="cmt">#findmedia_txt_title.png</span>
+    <span class="skw">find</span>(<img src="gensettings_btn_addnew.png" />) <span class="cmt">#gensettings_btn_addnew.png</span>
+    <span class="skw">find</span>(<img src="gensettings_btn_importlocation.png" />) <span class="cmt">#gensettings_btn_importlocation.png</span>
+    <span class="skw">find</span>(<img src="gensettings_btn_mediafoldersscan.png" />) <span class="cmt">#gensettings_btn_mediafoldersscan.png</span>
+    <span class="skw">find</span>(<img src="gensettings_selected_autodownload.png" />) <span class="cmt">#gensettings_selected_autodownload.png</span>
+    <span class="skw">find</span>(<img src="gensettings_selected_autolaunchapp.png" />) <span class="cmt">#gensettings_selected_autolaunchapp.png</span>
+    <span class="skw">find</span>(<img src="gensettings_selected_autoplay.png" />) <span class="cmt">#gensettings_selected_autoplay.png</span>
+    <span class="skw">find</span>(<img src="gensettings_selected_autosync.png" />) <span class="cmt">#gensettings_selected_autosync.png</span>
+    <span class="skw">find</span>(<img src="gensettings_txt_importlocation.png" />) <span class="cmt">#gensettings_txt_importlocation.png</span>
+    <span class="skw">find</span>(<img src="gensettings_txt_mediafolders.png" />) <span class="cmt">#gensettings_txt_mediafolders.png</span>
+    <span class="skw">find</span>(<img src="gensettings_txt_title.png" />) <span class="cmt">#gensettings_txt_title.png</span>
+    <span class="skw">find</span>(<img src="gensettings_unseleted_autodownload.png" />) <span class="cmt">#gensettings_unseleted_autodownload.png</span>
+    <span class="skw">find</span>(<img src="gensettings_unseleted_autolaunchapp.png" />) <span class="cmt">#gensettings_unseleted_autolaunchapp.png</span>
+    <span class="skw">find</span>(<img src="gensettings_unseleted_autoplay.png" />) <span class="cmt">#gensettings_unseleted_autoplay.png</span>
+    <span class="skw">find</span>(<img src="gensettings_unseleted_autosync.png" />) <span class="cmt">#gensettings_unseleted_autosync.png</span>
+    <span class="skw">find</span>(<img src="media_btn_choosefolder.png" />) <span class="cmt">#media_btn_choosefolder.png</span>
+    <span class="skw">find</span>(<img src="media_btn_connectcam.png" />) <span class="cmt">#media_btn_connectcam.png</span>
+    <span class="skw">find</span>(<img src="media_btn_settings.png" />) <span class="cmt">#media_btn_settings.png</span>
+    <span class="skw">find</span>(<img src="media_img_addmedia.png" />) <span class="cmt">#media_img_addmedia.png</span>
+    <span class="skw">find</span>(<img src="media_img_alerts.png" />) <span class="cmt">#media_img_alerts.png</span>
+    <span class="skw">find</span>(<img src="media_selected_edits.png" />) <span class="cmt">#media_selected_edits.png</span>
+    <span class="skw">find</span>(<img src="media_selected_hero4black.png" />) <span class="cmt">#media_selected_hero4black.png</span>
+    <span class="skw">find</span>(<img src="media_selected_hero4session.png" />) <span class="cmt">#media_selected_hero4session.png</span>
+    <span class="skw">find</span>(<img src="media_selected_hero4silver.png" />) <span class="cmt">#media_selected_hero4silver.png</span>
+    <span class="skw">find</span>(<img src="media_selected_media.png" />) <span class="cmt">#media_selected_media.png</span>
+    <span class="skw">find</span>(<img src="media_selected_recentlyadd.png" />) <span class="cmt">#media_selected_recentlyadd.png</span>
+    <span class="skw">find</span>(<img src="media_txt_title.png" />) <span class="cmt">#media_txt_title.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_edits.png" />) <span class="cmt">#media_unselected_edits.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_hero4black.png" />) <span class="cmt">#media_unselected_hero4black.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_hero4session.png" />) <span class="cmt">#media_unselected_hero4session.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_hero4silver.png" />) <span class="cmt">#media_unselected_hero4silver.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_media.png" />) <span class="cmt">#media_unselected_media.png</span>
+    <span class="skw">find</span>(<img src="media_unselected_recentlyadd.png" />) <span class="cmt">#media_unselected_recentlyadd.png</span>
+    <span class="skw">find</span>(<img src="mediacam_btn_importfiles.png" />) <span class="cmt">#mediacam_btn_importfiles.png</span>
+    <span class="skw">find</span>(<img src="mediacam_txt_spaceused.png" />) <span class="cmt">#mediacam_txt_spaceused.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_btn_cancel.png" />) <span class="cmt">#mediacamsettings_btn_cancel.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_btn_close.png" />) <span class="cmt">#mediacamsettings_btn_close.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_btn_save.png" />) <span class="cmt">#mediacamsettings_btn_save.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_checked_autodelete.png" />) <span class="cmt">#mediacamsettings_checked_autodelete.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_checked_autoimport.png" />) <span class="cmt">#mediacamsettings_checked_autoimport.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_unchecked_autodelete.png" />) <span class="cmt">#mediacamsettings_unchecked_autodelete.png</span>
+    <span class="skw">find</span>(<img src="mediacamsettings_unchecked_autoimport.png" />) <span class="cmt">#mediacamsettings_unchecked_autoimport.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_img_logo.png" />) <span class="cmt">#mediah4black_img_logo.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_available.png" />) <span class="cmt">#mediah4black_txt_available.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_capacity.png" />) <span class="cmt">#mediah4black_txt_capacity.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_subtitle.png" />) <span class="cmt">#mediah4black_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_title.png" />) <span class="cmt">#mediah4black_txt_title.png</span>
+    <span class="skw">find</span>(<img src="mediah4black_txt_used.png" />) <span class="cmt">#mediah4black_txt_used.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_img_logo.png" />) <span class="cmt">#mediah4session_img_logo.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_available.png" />) <span class="cmt">#mediah4session_txt_available.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_capacity.png" />) <span class="cmt">#mediah4session_txt_capacity.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_subtitle.png" />) <span class="cmt">#mediah4session_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_title.png" />) <span class="cmt">#mediah4session_txt_title.png</span>
+    <span class="skw">find</span>(<img src="mediah4session_txt_used.png" />) <span class="cmt">#mediah4session_txt_used.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_img_logo.png" />) <span class="cmt">#mediah4silver_img_logo.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_available.png" />) <span class="cmt">#mediah4silver_txt_available.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_capacity.png" />) <span class="cmt">#mediah4silver_txt_capacity.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_subtitle.png" />) <span class="cmt">#mediah4silver_txt_subtitle.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_title.png" />) <span class="cmt">#mediah4silver_txt_title.png</span>
+    <span class="skw">find</span>(<img src="mediah4silver_txt_used.png" />) <span class="cmt">#mediah4silver_txt_used.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4black_txt_cammodel.png" />) <span class="cmt">#mediasettingsh4black_txt_cammodel.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4black_txtbox_camfolder.png" />) <span class="cmt">#mediasettingsh4black_txtbox_camfolder.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4session_txt_cammodel.png" />) <span class="cmt">#mediasettingsh4session_txt_cammodel.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4session_txtbox_camfolder.png" />) <span class="cmt">#mediasettingsh4session_txtbox_camfolder.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4silver_txt_cammodel.png" />) <span class="cmt">#mediasettingsh4silver_txt_cammodel.png</span>
+    <span class="skw">find</span>(<img src="mediasettingsh4silver_txtbox_camfolder.png" />) <span class="cmt">#mediasettingsh4silver_txtbox_camfolder.png</span>
+    <span class="skw">find</span>(<img src="popup_btn_indexinfo.png" />) <span class="cmt">#popup_btn_indexinfo.png</span>
+    <span class="skw">find</span>(<img src="recentlyadd_btn_addmedia.png" />) <span class="cmt">#recentlyadd_btn_addmedia.png</span>
+    <span class="skw">find</span>(<img src="recentlyadd_btn_connectcam.png" />) <span class="cmt">#recentlyadd_btn_connectcam.png</span>
+    <span class="skw">find</span>(<img src="recentlyadd_txt_title.png" />) <span class="cmt">#recentlyadd_txt_title.png</span>
+    <span class="skw">find</span>(<img src="settings_btn_backtomedia.png" />) <span class="cmt">#settings_btn_backtomedia.png</span>
+    <span class="skw">find</span>(<img src="settings_selected_camsettings.png" />) <span class="cmt">#settings_selected_camsettings.png</span>
+    <span class="skw">find</span>(<img src="settings_selected_gensettings.png" />) <span class="cmt">#settings_selected_gensettings.png</span>
+    <span class="skw">find</span>(<img src="settings_unselected_camsettings.png" />) <span class="cmt">#settings_unselected_camsettings.png</span>
+    <span class="skw">find</span>(<img src="settings_unselected_gensettings.png" />) <span class="cmt">#settings_unselected_gensettings.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_forgot.png" />) <span class="cmt">#signin_btn_forgot.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_needacct.png" />) <span class="cmt">#signin_btn_needacct.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_resendemail.png" />) <span class="cmt">#signin_btn_resendemail.png</span>
+    <span class="skw">find</span>(<img src="signin_btn_signin.png" />) <span class="cmt">#signin_btn_signin.png</span>
+    <span class="skw">find</span>(<img src="signin_img_logo.png" />) <span class="cmt">#signin_img_logo.png</span>
+    <span class="skw">find</span>(<img src="signin_txt_invalidemail.png" />) <span class="cmt">#signin_txt_invalidemail.png</span>
+    <span class="skw">find</span>(<img src="signin_txt_title.png" />) <span class="cmt">#signin_txt_title.png</span>
+    <span class="skw">find</span>(<img src="signin_txtbox_emailpw_blankpw.png" />) <span class="cmt">#signin_txtbox_emailpw_blankpw.png</span>
+    <span class="skw">find</span>(<img src="signin_txtbox_emailpw.png" />) <span class="cmt">#signin_txtbox_emailpw.png</span>
+    <span class="skw">find</span>(<img src="startup_btn_continue.png" />) <span class="cmt">#startup_btn_continue.png</span>
+    <span class="skw">find</span>(<img src="startup_checked_autolaunchcam.png" />) <span class="cmt">#startup_checked_autolaunchcam.png</span>
+    <span class="skw">find</span>(<img src="startup_img_camhappy.png" />) <span class="cmt">#startup_img_camhappy.png</span>
+    <span class="skw">find</span>(<img src="startup_img_findmoments.png" />) <span class="cmt">#startup_img_findmoments.png</span>
+    <span class="skw">find</span>(<img src="startup_img_importmedia.png" />) <span class="cmt">#startup_img_importmedia.png</span>
+    <span class="skw">find</span>(<img src="startup_img_logo.png" />) <span class="cmt">#startup_img_logo.png</span>
+    <span class="skw">find</span>(<img src="startup_txt_title.png" />) <span class="cmt">#startup_txt_title.png</span>
+    <span class="skw">find</span>(<img src="startup_unchecked_autolaunchcam.png" />) <span class="cmt">#startup_unchecked_autolaunchcam.png</span>
+    <span class="skw">find</span>(<img src="user_btn_select.png" />) <span class="cmt">#user_btn_select.png</span>
+    <span class="skw">find</span>(<img src="user_btn_signoff.png" />) <span class="cmt">#user_btn_signoff.png</span>
+    <span class="skw">find</span>(<img src="media_txt_autogdasignin.png" />)
+    <span class="skw">find</span>(<img src="media_txt_media-editor.png" />)  <span class="cmt">#media_txt_media-editor</span>
+
+    <span class="skw">find</span>(<img src="popup_txt_pleasechoosevideos.png" />) <span class="cmt">#popup_txt_pleasechoosevideos.png</span>
+
+    <span class="skw">find</span>(<img src="popup_txt_theeditorcanonlyopenvideos.png" />) <span class="cmt">#popup_txt_theeditorcanonlyopenvideos.png</span>
+
+    <span class="skw">find</span>(<img src="popup_btn_choosevideos-OK.png" />) <span class="cmt">#popup_btn_choosevideos-OK</span>
+
+    <span class="skw">find</span>(<img src="popup_txt_version200.png" />) <span class="cmt">#popup_txt_version200</span>
+
+    <span class="skw">find</span>(<img src="popup_txt_versiongdainfo.png" />) <span class="cmt">#popup_txt_versiongdainfo</span>
+    <span class="skw">find</span>(<img src="popup_txt_version_ocr.png" />) <span class="cmt">#popup_txt_version_ocr</span>
+
+<span class="cmt">##########################################</span>
+
+
+<span class="cmt">##########################################</span>
+<span class="kw">def</span> BAT(gpa, gpr):
+    <span class="kw">global</span> startup
+    <span class="kw">global</span> d_similarity
+
+    gpr=refreshregion(gpa)
+    startup(gpr)
+    <span class="kw">if</span> <span class="kw">not</span> putDictToFile(d_similarity):
+        exit(<span class="dig">1</span>)
+    gpr=refreshregion(gpa)
+    create_your_acct(gpr) <span class="cmt">#fail</span>
+    <span class="kw">if</span> <span class="kw">not</span> putDictToFile(d_similarity):
+        exit(<span class="dig">1</span>)
+
+    gpr=refreshregion(gpa)
+    signin_test(gpr) <span class="cmt">#fail</span>
+    <span class="kw">if</span> <span class="kw">not</span> putDictToFile(d_similarity):
+        exit(<span class="dig">1</span>)
+
+    gpr=refreshregion(gpa)
+    signin_test(gpr,False,<span class="str">"autogda00@gmail.com"</span>,<span class="str">"access4auto"</span>) <span class="cmt">#login</span>
+    <span class="kw">if</span> <span class="kw">not</span> putDictToFile(d_similarity):
+        exit(<span class="dig">1</span>)
+
+    gpr=refreshregion(gpa)
+    getstarted_gopro(gpr) <span class="cmt">#media screen</span>
+    <span class="kw">if</span> <span class="kw">not</span> putDictToFile(d_similarity):
+        exit(<span class="dig">1</span>)
+
+    <span class="cmt">#gpr=refreshregion(gp)</span>
+    <span class="cmt">#signin_test(gpr)                </span>
+    <span class="cmt">#if startupcnt == 0:</span>
+    <span class="cmt">#startup(gpr)</span>
+    <span class="cmt">#gpr=refreshregion(gp)</span>
+    <span class="cmt">#startup_newAcct(gpr)</span>
+    <span class="cmt">#startup=1</span>
+    <span class="cmt">#gpr=refreshregion(gp)    </span>
+    <span class="cmt">#signin_validate(gpr)    </span>
+    <span class="cmt">#gpr=refreshregion(gp)</span>
+    <span class="cmt">#signin_Login(gpr,"autogda00@gmail.com","autogda00")</span>
+    <span class="cmt">#gpr=refreshregion(gp)</span>
+    <span class="cmt">#startup=1</span>
+    <span class="cmt">#getstarted_validate(gpr)</span>
+    <span class="cmt">#gpr=refreshregion(gp)</span>
+    <span class="cmt">#addmedia_validate(gpr)</span>
+    <span class="cmt">#signout(gpr) </span>
+
+
+<span class="kw">def</span> DEBUG(gpa, gpr):
+    gpr=refreshregion(gpa)
+    test_getGDAVersion(gpr)
+    <span class="kw">if</span> <span class="kw">not</span> putDictToFile(d_similarity):
+        exit(<span class="dig">1</span>)
+
+
+<span class="cmt">##########################################</span>
+<span class="cmt"># main script</span>
+<span class="cmt">##########################################</span>
+
+GetEnvInfo()
+<span class="cmt">#gp,gpr=AppStartRetry("GoPro",3)</span>
+gpa,gpr=AppStart(<span class="str">"GoPro"</span>)
+
+<span class="kw">if</span> <span class="kw">not</span> gpa:
+    <span class="kw">print</span> <span class="str">"App Start Failed"</span>
+    exit(<span class="dig">1</span>)
+<span class="kw">if</span> <span class="kw">not</span> gpr:
+    <span class="kw">print</span> <span class="str">"App Window Region not found"</span>
+    <span class="kw">if</span> gpa:
+        gpa.close()
+    exit(<span class="dig">1</span>)
+<span class="kw">print</span> gpr.w
+<span class="kw">print</span> gpr.h
+d_similarity=getDictFromFile()
+<span class="kw">if</span> d_similarity:
+    <span class="kw">print</span> <span class="str">"JSON ====================="</span>
+    <span class="kw">print</span> json.dumps(d_similarity)
+    <span class="kw">print</span> <span class="str">"=========================="</span>
+<span class="kw">else</span>:
+    <span class="kw">print</span> <span class="str">"JSON ====================="</span>
+    <span class="kw">print</span> <span class="str">"FAILED TO Load JSON: No file found"</span>
+    <span class="kw">print</span> <span class="str">"=========================="</span>
+ScreenShot(gpr,<span class="str">"startup"</span>)
+
+BAT(gpa,gpr)
+<span class="cmt">#DEBUG(gpa,gpr)</span>
+printreport()
+<span class="cmt">#gpa.close()</span>
+
+</pre>
+</body>
+</html>

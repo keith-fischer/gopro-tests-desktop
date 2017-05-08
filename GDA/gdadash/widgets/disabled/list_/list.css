@@ -1,0 +1,33 @@
+.widget-list {
+  background-color: #c0f1f5;
+  vertical-align: top; }
+  .widget-list .title {
+    color: rgba(0, 0, 0, 0.7);
+    text-align: left;
+    vertical-align: top; }
+  .widget-list ol, .widget-list ul {
+    margin: 0 15px;
+    text-align: left;
+    color: rgba(0, 0, 0, 0.7); }
+  .widget-list ol {
+    list-style-position: inside; }
+  .widget-list li {
+    margin-bottom: 5px; }
+  .widget-list .list-nostyle {
+    list-style: none; }
+  .widget-list .label {
+    color: rgba(0, 0, 0, 0.7);
+    vertical-align: top;
+    text-align: left; }
+  .widget-list .value {
+    float: right;
+    margin-left: 12px;
+    font-weight: 600;
+    color: black;
+    vertical-align: top; }
+  .widget-list .updated-at {
+    color: rgba(0, 0, 0, 0.3); }
+  .widget-list .more-info {
+    color: rgba(0, 0, 0, 0.7);
+    vertical-align: bottom;
+    text-align: left; }
