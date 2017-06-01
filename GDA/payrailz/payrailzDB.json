@@ -1,0 +1,50 @@
+{
+  "enum_payment_recursion": [
+    "monthly",
+    "bimonthly",
+    "weekly"
+  ],
+  "Bank_template": {
+    "BankName": "",
+    "billpay": []
+  },
+  "ACH_template": {
+    "payee_name": "electric power",
+    "payee_address1": "",
+    "payee_address2": "",
+    "payee_city": "",
+    "payee_state": "",
+    "payee_zip": "00000",
+    "payee_phone": "000-000-0000",
+    "payee_accttype": "checking",
+    "payee_acctnum": "000000000000",
+    "payee_routingnum": "0000000000",
+    "payee_bankname": "bankaboo",
+    "payment_group": "utilities",
+    "paymentAcctNum": "000000000",
+    "payAmount": 0.01,
+    "fromAcctname": "mychecking",
+    "fromAccount": "0000000000",
+    "memo": "comment",
+    "paydate": "5/25/2017",
+    "recurring": true,
+    "recure_type": "monthly",
+    "enabled": false
+  },
+  "billpay_template": {
+    "firstname": "",
+    "lastname": "",
+    "accounts": [
+      {
+        "mychecking": "01234561111"
+      },
+      {
+        "mysavings": "01234562222"
+      }
+    ],
+    "ACH": []
+  },
+  "payrailzDB": {
+    "Banks": []
+  }
+}

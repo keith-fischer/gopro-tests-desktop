@@ -1,0 +1,81 @@
+{
+  "enum_payment_recursion": [
+    "monthly",
+    "bimonthly",
+    "weekly"
+  ],
+  "Bank_template": {
+    "BankName": "",
+    "billpay": []
+  },
+  "ACH_template": {
+    "payee_name": "electric power",
+    "payee_address1": "",
+    "payee_address2": "",
+    "payee_city": "",
+    "payee_state": "",
+    "payee_zip": "00000",
+    "payee_phone": "000-000-0000",
+    "payee_accttype": "checking",
+    "payee_acctnum": "000000000000",
+    "payee_routingnum": "0000000000",
+    "payee_bankname": "bankaboo",
+    "payment_group": "utilities",
+    "paymentAcctNum": "000000000",
+    "payAmount": 0.01,
+    "fromAcctname": "mychecking",
+    "fromAccount": "0000000000",
+    "memo": "comment",
+    "paydate": "5/25/2017",
+    "recurring": true,
+    "recure_type": "monthly",
+    "enabled": false
+  },
+  "billpay_template": {
+    "firstname": "",
+    "lastname": "",
+    "accounts": [
+      {
+        "mychecking": "01234561111"
+      },
+      {
+        "mysavings": "01234562222"
+      }
+    ],
+    "ACH": []
+  },
+  "api_list":[
+    {"service":"payee","api":"Add_Payee","params":[{"name":"electric_utils","routingnum":"11111","acct":"1111111"}]},
+    {"service":"payee","api":"Add_Payee","params":[{"name":"visa","routingnum":"22222","acct":"2222222"}]},
+    {"service":"payee","api":"Add_Payee","params":[{"name":"car","routingnum":"33333","acct":"3333333"}]},
+    {"service":"payee","api":"Add_Payee","params":[{"name":"insurance","routingnum":"44444","acct":"4444444"}]},
+    {"service":"payee","api":"Add_Payee","params":[{"name":"mortgage","routingnum":"55555","acct":"5555555"}]},
+    {"service":"payee","api":"Add_Payee","params":[{"name":"mybill","routingnum":"66666","acct":"6666666"}]},
+    ],
+  "api_call_template":{
+    "api_service":"",
+    "api_method":"",
+    "api_type","post",
+
+  }
+  "test_template":{
+    "test_name":"",
+    "API_calls":[],
+  },
+  "test_suite_template":{
+    "suite_name":"",
+    "avg_run_time_sec":0.0,
+    "moving_avg":10,
+    "avg_runs":[],
+    "tests":[]
+  },
+  "regression_suite": {
+    "test_suites": [{
+    "suite_name":"",
+    "avg_run_time_sec":0.0,
+    "moving_avg":10,
+    "avg_runs":[],
+    "tests":[]
+  }]
+  }
+}
